@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Data.SQLite;
 
 namespace TestDB
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            DbTester dbTester = new DbTester();
+            dbTester.GenerateData();
+            dbTester.ReadData();
+
+
+            Console.ReadKey();
         }
     }
 }
