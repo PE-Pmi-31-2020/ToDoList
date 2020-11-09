@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Database.EF;
 using ToDoList.Database.Entities;
@@ -47,12 +48,8 @@ namespace ToDoList.Database.Repositories
 
         public void Update(Task item)
         {
-            //item.User = db.Users.Find(item.UserId);
-            //db.Tasks.Find(item.Id).TaskStatus=item.TaskStatus;
-            
-            //db.Tasks.Add(item);
+            db.Tasks.Update(item);
             db.SaveChanges();
-            //db.Entry(item).State = EntityState.Modified;
         }
     }
 }

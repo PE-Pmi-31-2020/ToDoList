@@ -11,7 +11,7 @@ namespace ToDoList.Database.Repositories
         private DataBase db;
         private TaskRepository taskRepository;
         private UserRepository userRepository;
-        private 
+        private EventRepository eventRepository;
         public EFUnitOfWork(DbContextOptions<DataBase> options)
         {
             db = new DataBase(options);
@@ -41,11 +41,12 @@ namespace ToDoList.Database.Repositories
         {
             get
             {
-                if (taskRepository == null)
-                    taskRepository = new TaskRepository(db);
-                return taskRepository;
+                if (eventRepository == null)
+                    eventRepository = new EventRepository(db);
+                return eventRepository;
             }
         }
+
         public void Save()
         {
             db.SaveChanges();

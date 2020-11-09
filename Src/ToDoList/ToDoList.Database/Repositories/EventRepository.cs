@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ToDoList.Database.EF;
 using ToDoList.Database.Entities;
@@ -17,32 +19,37 @@ namespace ToDoList.Database.Repositories
 
         public void Create(Event item)
         {
-            throw new NotImplementedException();
+            db.Events.Add(item);
+            db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Event toDelete = db.Events.Find(id);
+            if (toDelete != null)
+                db.Events.Remove(toDelete);
+            db.SaveChanges();
         }
 
         public IEnumerable<Event> Find(Func<Event, bool> predicate)
         {
-            throw new NotImplementedException();
+            return db.Events.Include(t => t.User).Where(predicate).ToList();
         }
 
         public Event Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Events.Find(id);
         }
 
         public IEnumerable<Event> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Events.Include(t => t.User).AsNoTracking().ToList();
         }
 
         public void Update(Event item)
         {
-            throw new NotImplementedException();
+            db.Events.Update(item);
+            db.SaveChanges();
         }
     }
 }
