@@ -9,9 +9,9 @@ namespace ToDoList.Database.Entities
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Password { get; set; }
-        [InverseProperty("User")]
+        //[InverseProperty("User")]
         public List<Task> Tasks { get; set; }
-        [InverseProperty("Event")]
+        //[InverseProperty("Event")]
         public List<Event> Events { get; set; }
     }
 }

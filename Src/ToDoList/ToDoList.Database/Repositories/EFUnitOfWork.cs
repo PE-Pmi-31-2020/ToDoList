@@ -12,9 +12,9 @@ namespace ToDoList.Database.Repositories
         private TaskRepository taskRepository;
         private UserRepository userRepository;
         private EventRepository eventRepository;
-        public EFUnitOfWork(DbContextOptions<DataBase> options)
+        public EFUnitOfWork()
         {
-            db = new DataBase(options);
+            db = new DataBase();
         }
 
         public IRepository<Task> Tasks

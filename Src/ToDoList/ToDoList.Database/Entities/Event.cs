@@ -13,7 +13,7 @@ namespace ToDoList.Database.Entities
         public DateTime Time { get; set; }
         public int UserId { get; set; }
         [ForeignKey("UserId")]
-        [InverseProperty("Tasks")]
+        //[InverseProperty("Events")]
         public User User { get; set; }
     }
 }
