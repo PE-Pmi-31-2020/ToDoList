@@ -9,6 +9,7 @@ namespace TestDB
         static void Main(string[] args)
         {
             DbTester dbTester = new DbTester();
+            dbTester.CreateDataBase();
             dbTester.GenerateData();
             dbTester.ReadData();
 
