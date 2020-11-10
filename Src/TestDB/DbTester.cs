@@ -41,7 +41,7 @@ namespace TestDB
 
             for (int i = 1; i <= 30; i++)
             {
-                cmd.CommandText = $"INSERT INTO 'Users'(UserName, FullName, Password) VALUES('user{i}','Name{i} Surname{i}', '{i}{i}{i}{i}')";
+                cmd.CommandText = $"INSERT INTO 'Users'(UserName, FullName, Pasword) VALUES('user{i}','Name{i} Surname{i}', '{i}{i}{i}{i}')";
                 cmd.ExecuteNonQuery();
             }
         }
@@ -108,26 +108,6 @@ namespace TestDB
                 Console.WriteLine($"{rdr3.GetInt32(0)} {rdr3.GetString(1)} {rdr3.GetString(2)} {rdr3.GetInt32(3)}");
             }
             con.Close();
-        }
-
-        public void CreateDataBase()
-        {
-            SQLiteConnection.CreateFile($"../../../../DataBase.db");
-
-            SQLiteConnection newDb = new SQLiteConnection($"Data Source=../../../../DataBase.db;Version=3;");
-            newDb.Open();
-
-            using var cmd = new SQLiteCommand(newDb);
-            
-            cmd.CommandText = @"CREATE TABLE Users (Id INTEGER PRIMARY KEY, UserName TEXT NOT NULL UNIQUE, FullName TEXT, Password TEXT);";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = @"CREATE TABLE Events (Id INTEGER PRIMARY KEY, Name TEXT NOT NULL, Description TEXT, Time DATETIME, UserID INTEGER REFERENCES Users(Id) NOT NULL);";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = @"CREATE TABLE Tasks (Id INTEGER PRIMARY KEY, Name TEXT NOT NULL, Deadline DATETIME, UserID INTEGER REFERENCES Users(Id) NOT NULL);";
-            cmd.ExecuteNonQuery();
-
-
-            newDb.Close();
         }
     }
 }
