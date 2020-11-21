@@ -25,7 +25,6 @@ class StartViewModel : INotifyPropertyChanged
         if (window != null)
         {
             window.Close();
-           
         }
 
     }
@@ -38,7 +37,6 @@ class StartViewModel : INotifyPropertyChanged
         if (window != null)
         {
             window.Close();
-
         }
     }
 }
