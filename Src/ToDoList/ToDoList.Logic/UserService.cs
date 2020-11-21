@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ToDoList.Database.Entities;
 using ToDoList.Database.Repositories;
+using ToDoList.Database.EF;
 
 namespace ToDoList.Logic
 {
@@ -12,6 +13,12 @@ namespace ToDoList.Logic
     {
         private static string EncryptionKey = "dsadasdsadas43";
         private UserRepository userRepository;
+
+        public UserService()
+        {
+            DataBase db = new DataBase();
+            userRepository = new UserRepository(db);
+        }
 
         public void CreateUser(String userName, String password1, String password2)
         {

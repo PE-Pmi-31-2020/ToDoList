@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
@@ -10,6 +11,7 @@ namespace ToDoList.Views
         public SignUpWindow()
         {
             InitializeComponent();
+            DataContext = new SignUpViewModel();
         }
     }
 }
