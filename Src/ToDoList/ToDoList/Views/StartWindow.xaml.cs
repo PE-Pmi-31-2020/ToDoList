@@ -9,7 +9,9 @@ namespace ToDoList.Views
     {
         public StartWindow()
         {
+            
             InitializeComponent();
+            DataContext = new StartViewModel();
         }
     }
 }
