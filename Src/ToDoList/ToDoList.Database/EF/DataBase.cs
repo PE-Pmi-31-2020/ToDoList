@@ -17,7 +17,7 @@ namespace ToDoList.Database.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlite(ConfigurationManager.ConnectionStrings["ConnectionStrings"].ConnectionString);
-            optionsBuilder.UseSqlite("Data Source=../../../../../../DataBase.db");
+            optionsBuilder.UseSqlite("Data Source=../../../../../DataBase.db");
 
         }
     }
