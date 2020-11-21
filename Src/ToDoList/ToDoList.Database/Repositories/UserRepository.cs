@@ -38,6 +38,11 @@ namespace ToDoList.Database.Repositories
             return db.Users.Find(id);
         }
 
+        public User Get(string userName)
+        {
+            return db.Users.Where(u => u.UserName == userName).First();
+        }
+
         public IEnumerable<User> GetAll()
         {
             return db.Users.Include(t => t.Tasks).ToList();
