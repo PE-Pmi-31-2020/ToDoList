@@ -95,6 +95,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -120,12 +124,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\AddEventViewModel.cs" />
+    <Compile Include="ViewModels\AddTaskViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\StartViewModel.cs" />
     <Compile Include="Views\AddEvent.xaml.cs">
       <DependentUpon>AddEvent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddTask.xaml.cs">
+      <DependentUpon>AddTask.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -176,6 +184,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ToDoList.Database\ToDoList.Database.csproj">
+      <Project>{8B938E21-7664-47AC-863E-37246C1F7D84}</Project>
+      <Name>ToDoList.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToDoList.Logic\ToDoList.Logic.csproj">
       <Project>{950506d6-26fd-44aa-9d46-6c1cd1a379ad}</Project>
       <Name>ToDoList.Logic</Name>
