@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
+using Windows.UI.Xaml;
+using ToDoList.Database.Repositories;
+using ToDoList.Logic.Interfaces;
+
+namespace ToDoList.Logic.Services
+{
+    public class NotificationService: INotificationService
+    {
+        private EFUnitOfWork _database;
+
+        public NotificationService()
+        {
+            _database = new EFUnitOfWork();
+        }
+        public void ShowNotification(string description)
+        {
+            string xml = $@"<toast>
+                      <visual>
+                        <binding template='ToastGeneric'>
+                          <text>Notification</text>
+                          <text>Description: {description} </text>
+                        </binding>
+                      </visual>
+                    </toast>";
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            ToastNotification toast = new ToastNotification(doc);
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+        }
+
+        public void RunNotificationKernel()
+        {
+            Task task = Task.Run(Check);
+        }
+
+        private void Check()
+        {
+            while (true)
+            {
+                var tasks = _database.Events.GetAll().Where(t => t.RemindTime == DateTime.Now.TimeOfDay).ToList();
+                foreach (var e in tasks)
+                {
+                    NotificationService notificationService = new NotificationService();
+                    notificationService.ShowNotification($"Deadline of {e.Name} horyt");
+                }
+                
+            }
+            
+
+        }
+    }
+}
