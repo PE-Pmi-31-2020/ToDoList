@@ -47,13 +47,19 @@ namespace ToDoList.Logic.Services
         {
             while (true)
             {
-                var tasks = _database.Events.GetAll().Where(t => t.RemindTime == DateTime.Now.TimeOfDay).ToList();
-                foreach (var e in tasks)
+                var events = _database.Events.GetAll().Where(t => t.RemindTime == DateTime.Now.TimeOfDay).ToList();
+                var tasks = _database.Tasks.GetAll().Where(t => t.Deadline == DateTime.Now.TimeOfDay).ToList();
+                foreach (var e in events)
                 {
                     NotificationService notificationService = new NotificationService();
                     notificationService.ShowNotification($"Deadline of {e.Name} horyt");
                 }
-                
+                foreach (var t in tasks)
+                {
+                    NotificationService notificationService = new NotificationService();
+                    notificationService.ShowNotification($"Deadline of {t.Name} horyt");
+                }
+
             }
             
 
