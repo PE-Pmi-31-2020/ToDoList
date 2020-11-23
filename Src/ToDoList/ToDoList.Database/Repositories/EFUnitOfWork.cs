@@ -51,6 +51,10 @@ namespace ToDoList.Database.Repositories
         {
             db.SaveChanges();
         }
+        public async System.Threading.Tasks.Task SaveAsync()
+        {
+           await db.SaveChangesAsync();
+        }
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
