@@ -11,13 +11,13 @@ namespace ToDoList.ViewModels
     class SignUpViewModel : INotifyPropertyChanged
     {
         private UserService userService;
-        private INotificationService _notificationService;
+        //private INotificationService _notificationService;
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand<Window> SubmitCommand { get; private set; }
         public SignUpViewModel()
         {
             userService = new UserService();
-            _notificationService = new NotificationService();
+            //_notificationService = new NotificationService();
             SubmitCommand = new RelayCommand<Window>(RegisterUser);
             
         }
@@ -66,7 +66,7 @@ namespace ToDoList.ViewModels
             try
             {
                 userService.CreateUser(UserName, Password1, Password2);
-                _notificationService.RunNotificationKernel();
+                //_notificationService.RunNotificationKernel();
                 if (window != null)
                 {
                     window.Close();

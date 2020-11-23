@@ -25,9 +25,9 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Name: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBlock Text="Reminder: " Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
+            <TextBlock Text="Reminder: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
             <TextBox Grid.Column="1" Grid.Row="0" Margin="10" Text="{Binding Name}"/>
-            <mah:TimePicker  Grid.Column="1" Grid.Row="1" Margin="35,35,0,35" SelectedDateTime="{Binding RemindTime}" HorizontalAlignment="Left" Width="255" mah:TextBoxHelper.Watermark="Select time"/>s
+            <mah:TimePicker  Grid.Column="1" Grid.Row="1" Margin="35,35,0,35" SelectedDateTime="{Binding RemindTime}" HorizontalAlignment="Left" Width="255" mah:TextBoxHelper.Watermark="Select time"/>
         </Grid>
 
         <Grid Row="1">
