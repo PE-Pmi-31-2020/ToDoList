@@ -20,12 +20,12 @@ namespace ToDoList.Logic.Services
         {
             _database = new EFUnitOfWork();
         }
-        public void ShowNotification(string description)
+        public void ShowNotification(string description, string title = "Notification")
         {
             string xml = $@"<toast>
                       <visual>
                         <binding template='ToastGeneric'>
-                          <text>Notification</text>
+                          <text>{title}</text>
                           <text>Description: {description} </text>
                         </binding>
                       </visual>
