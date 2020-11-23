@@ -56,7 +56,7 @@ namespace TestDB
         private static void GenerateTasks(DataBase dataBase)
         {
             Random rnd = new Random();
-            DateTime dateTime = new DateTime();
+            TimeSpan dateTime = TimeSpan.Zero;
 
             for (int i = 1; i <= 30; i++)
             {
