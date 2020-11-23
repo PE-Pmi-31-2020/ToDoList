@@ -20,12 +20,12 @@ namespace ToDoList.Logic.Services
         {
             _database = new EFUnitOfWork();
         }
-        public void ShowNotification(string description)
+        public void ShowNotification(string description, string title = "Notification")
         {
             string xml = $@"<toast>
                       <visual>
                         <binding template='ToastGeneric'>
-                          <text>Notification</text>
+                          <text>{title}</text>
                           <text>Description: {description} </text>
                         </binding>
                       </visual>
@@ -51,13 +51,11 @@ namespace ToDoList.Logic.Services
                 var tasks = _database.Tasks.GetAll().Where(t => t.Deadline == DateTime.Now.TimeOfDay).ToList();
                 foreach (var e in events)
                 {
-                    NotificationService notificationService = new NotificationService();
-                    notificationService.ShowNotification($"Deadline of {e.Name} horyt");
+                   ShowNotification($"Deadline of {e.Name} horyt");
                 }
                 foreach (var t in tasks)
                 {
-                    NotificationService notificationService = new NotificationService();
-                    notificationService.ShowNotification($"Deadline of {t.Name} horyt");
+                    ShowNotification($"Deadline of {t.Name} horyt");
                 }
 
             }

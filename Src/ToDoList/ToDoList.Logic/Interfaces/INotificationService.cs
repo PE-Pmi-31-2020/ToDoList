@@ -6,7 +6,7 @@ namespace ToDoList.Logic.Interfaces
 {
     public interface INotificationService
     {
-        void ShowNotification(string description);
+        void ShowNotification(string description, string title = "Notification");
         void RunNotificationKernel();
     }
 }
