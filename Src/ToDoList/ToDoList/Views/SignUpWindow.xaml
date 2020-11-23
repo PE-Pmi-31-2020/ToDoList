@@ -10,13 +10,18 @@
         Background="{StaticResource MaterialDesignDarkBackground}"
         Foreground="White">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="32*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -26,15 +31,17 @@
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Login: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBlock Text="Password: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBlock Text="Repeat Password: " Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="10" Text="{Binding UserName}"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Margin="10" Text="{Binding Password1}"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Margin="10" Text="{Binding Password2}"/>
+            <TextBlock Text="Full Name: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
+            <TextBlock Text="Login: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
+            <TextBlock Text="Password: " Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
+            <TextBlock Text="Repeat Password: " Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Margin="10" Text="{Binding FullName}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Margin="10" Text="{Binding UserName}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Margin="10" Text="{Binding Password1}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Margin="10" Text="{Binding Password2}"/>
         </Grid>
 
-        <Grid Row="1">
+        <Grid Row="1" Grid.ColumnSpan="2">
             <Button Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Sign Up"></Button>
         </Grid>
 
