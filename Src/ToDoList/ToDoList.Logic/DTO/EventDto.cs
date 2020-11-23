@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ToDoList.Database.Entities
+namespace ToDoList.Logic.DTO
 {
-    public class Event
+    public class EventDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,8 +14,6 @@ namespace ToDoList.Database.Entities
         public TimeSpan To { get; set; }
         public TimeSpan RemindTime { get; set; }
         public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        //[InverseProperty("Events")]
-        public User User { get; set; }
+        public UserDto User { get; set; }
     }
 }

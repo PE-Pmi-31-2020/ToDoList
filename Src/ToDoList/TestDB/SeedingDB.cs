@@ -42,12 +42,12 @@ namespace TestDB
         {
 
             Random rnd = new Random();
-            DateTime dateTime = new DateTime();
+            TimeSpan dateTime = TimeSpan.Zero;
 
             for (int i = 1; i <= 30; i++)
             {
                 dataBase.Events.Add(new Event()
-                    {Name = $"Name{i}", Description = $"Description{i}", Time = dateTime, UserId = rnd.Next(1, 30)});
+                    {Name = $"Name{i}", Description = $"Description{i}", From = dateTime, To = dateTime, RemindTime = dateTime, UserId = rnd.Next(1, 30)});
             }
             dataBase.SaveChanges();
 
@@ -81,7 +81,7 @@ namespace TestDB
             var events = dataBase.Events.AsNoTracking().ToList();
             foreach (var eveent in events)
             {
-                Console.WriteLine($"{eveent.Id} {eveent.Name} {eveent.Description} {eveent.Time} {eveent.UserId}");
+                Console.WriteLine($"{eveent.Id} {eveent.Name} {eveent.Description} {eveent.From} {eveent.To} {eveent.RemindTime} {eveent.UserId}");
             }
 
             Console.WriteLine("----------TASKS----------");
