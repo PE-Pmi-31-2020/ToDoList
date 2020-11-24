@@ -1,61 +1,68 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using GalaSoft.MvvmLight.Command;
 using ToDoList.BLL.Services;
 
 namespace ToDoList.ViewModels
 {
-    class SignUpViewModel : INotifyPropertyChanged
+    internal class SignUpViewModel : INotifyPropertyChanged
     {
         private UserService userService;
-        //private INotificationService _notificationService;
+
+        // private INotificationService _notificationService;
         public event PropertyChangedEventHandler PropertyChanged;
+
         public RelayCommand<Window> SubmitCommand { get; private set; }
+
         public SignUpViewModel()
         {
-            userService = new UserService();
-            //_notificationService = new NotificationService();
-            SubmitCommand = new RelayCommand<Window>(RegisterUser);
-            
+            this.userService = new UserService();
+
+            // _notificationService = new NotificationService();
+            this.SubmitCommand = new RelayCommand<Window>(this.RegisterUser);
         }
-        private string _userName;
+
+        private string userName;
+
         public string UserName
         {
-            get => _userName;
+            get => this.userName;
             set
             {
                 // Implement with property changed handling for INotifyPropertyChanged
-                if (!string.Equals(this._userName, value))
+                if (!string.Equals(this.userName, value))
                 {
-                    this._userName = value;
+                    this.userName = value;
                 }
             }
         }
 
-        private string _password1;
+        private string password1;
+
         public string Password1
         {
-            get => _password1;
+            get => this.password1;
             set
             {
-                if(!string.Equals(_password1, value))
+                if (!string.Equals(this.password1, value))
                 {
-                    _password1 = value;
+                    this.password1 = value;
                 }
             }
         }
 
-        private string _password2;
+        private string password2;
+
         public string Password2
         {
-            get => _password2;
+            get => this.password2;
             set
             {
-                if (!string.Equals(_password2, value))
+                if (!string.Equals(this.password2, value))
                 {
-                    _password2 = value;
+                    this.password2 = value;
                 }
             }
         }
@@ -64,11 +71,12 @@ namespace ToDoList.ViewModels
         {
             try
             {
-                userService.CreateUser(UserName, Password1, Password2);
-                //_notificationService.RunNotificationKernel();
-                window?.Close();
+                this.userService.CreateUser(this.UserName, this.Password1, this.Password2);
 
-            }catch (Exception e)
+                // _notificationService.RunNotificationKernel();
+                window?.Close();
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 switch (e.Message)

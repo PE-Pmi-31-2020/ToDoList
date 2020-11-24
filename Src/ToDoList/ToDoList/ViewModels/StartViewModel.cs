@@ -5,17 +5,18 @@ using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    class StartViewModel : INotifyPropertyChanged
+    internal class StartViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         public RelayCommand<Window> SignInCommand { get; private set; }
 
         public RelayCommand<Window> SignUpCommand { get; private set; }
 
         public StartViewModel()
         {
-            SignInCommand = new RelayCommand<Window>(ShowSignIn);
-            SignUpCommand = new RelayCommand<Window>(ShowSignUp);
+            this.SignInCommand = new RelayCommand<Window>(this.ShowSignIn);
+            this.SignUpCommand = new RelayCommand<Window>(this.ShowSignUp);
         }
 
         private void ShowSignIn(Window window)
@@ -24,7 +25,6 @@ namespace ToDoList.ViewModels
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
             window?.Close();
-
         }
 
         private void ShowSignUp(Window window)

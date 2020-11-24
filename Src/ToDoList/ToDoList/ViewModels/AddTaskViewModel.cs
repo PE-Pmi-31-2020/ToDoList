@@ -1,7 +1,7 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using GalaSoft.MvvmLight.Command;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
@@ -9,70 +9,74 @@ using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    class AddTaskViewModel : INotifyPropertyChanged
+    internal class AddTaskViewModel : INotifyPropertyChanged
     {
-        private readonly ITaskService _taskService;
+        private readonly ITaskService taskService;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public RelayCommand<Window> SubmitCommand { get; private set; }
+
         public AddTaskViewModel()
         {
-            SubmitCommand = new RelayCommand<Window>(Submit);
-            _taskService = new TaskService();
+            this.SubmitCommand = new RelayCommand<Window>(this.Submit);
+            this.taskService = new TaskService();
         }
 
-        private string _name;
+        private string name;
+
         public string Name
         {
-            get => _name;
+            get => this.name;
             set
             {
-                if (!string.Equals(this._name, value))
+                if (!string.Equals(this.name, value))
                 {
-                    this._name = value;
-                }
-            }
-        }
-        
-        private TimeSpan _deadline;
-        public TimeSpan Deadline
-        {
-            get => _deadline;
-            set
-            {
-                if (!string.Equals(this._deadline, value))
-                {
-                    this._deadline = value;
-                }
-            }
-        }
-        
-        private int _userId;
-        public int UserId
-        {
-            get => _userId;
-            set
-            {
-                if (!string.Equals(this._userId, value))
-                {
-                    this._userId = value;
+                    this.name = value;
                 }
             }
         }
 
+        private TimeSpan deadline;
+
+        public TimeSpan Deadline
+        {
+            get => this.deadline;
+            set
+            {
+                if (!string.Equals(this.deadline, value))
+                {
+                    this.deadline = value;
+                }
+            }
+        }
+
+        private int userId;
+
+        public int UserId
+        {
+            get => this.userId;
+            set
+            {
+                if (!string.Equals(this.userId, value))
+                {
+                    this.userId = value;
+                }
+            }
+        }
 
         private void Submit(Window window)
         {
-            _taskService.CreateTaskAsync(new TaskDto()
-            {                
+            this.taskService.CreateTaskAsync(new TaskDto()
+            {
                 Name = this.Name,
                 Deadline = this.Deadline,
-                UserId = this.UserId
+                UserId = this.UserId,
             });
             var newWindow = new MainWindow();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
             window?.Close();
-
         }
     }
 }

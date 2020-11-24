@@ -15,13 +15,13 @@ using System.Windows.Shapes;
 namespace ToDoList.Views
 {
     /// <summary>
-    /// Interaction logic for AddTask.xaml
+    /// Interaction logic for AddTask.xaml.
     /// </summary>
     public partial class AddTask : Window
     {
         public AddTask()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

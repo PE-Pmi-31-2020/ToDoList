@@ -11,96 +11,112 @@ namespace ToDoList.ViewModels
 {
     internal class AddEventViewModel : INotifyPropertyChanged
     {
-        private readonly IEventService _eventService;
+        private readonly IEventService eventService;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public RelayCommand<Window> SubmitCommand { get; private set; }
+
         public AddEventViewModel()
         {
-            SubmitCommand = new RelayCommand<Window>(Submit);
-            _eventService = new EventService();
+            this.SubmitCommand = new RelayCommand<Window>(this.Submit);
+            this.eventService = new EventService();
         }
 
-        private string _name;
-        public string Name {
-            get => _name;
+        private string name;
+
+        public string Name
+        {
+            get => this.name;
             set
             {
-                if (!string.Equals(this._name, value))
+                if (!string.Equals(this.name, value))
                 {
-                    this._name = value;
+                    this.name = value;
                 }
             }
         }
-        private string _description;
-        public string Description {
-            get => _description;
+
+        private string description;
+
+        public string Description
+        {
+            get => this.description;
             set
             {
-                if (!string.Equals(this._description, value))
+                if (!string.Equals(this.description, value))
                 {
-                    this._description = value;
+                    this.description = value;
                 }
             }
         }
-        private TimeSpan _fromTime;
+
+        private TimeSpan fromTime;
+
         public TimeSpan FromTime
         {
-            get => _fromTime;
+            get => this.fromTime;
             set
             {
-                if (!string.Equals(this._fromTime, value))
+                if (!string.Equals(this.fromTime, value))
                 {
-                    this._fromTime = value;
-                }
-            }
-        }
-        private TimeSpan _toTime;
-        public TimeSpan ToTime
-        {
-            get => _toTime;
-            set
-            {
-                if (!string.Equals(this._toTime, value))
-                {
-                    this._toTime = value;
-                }
-            }
-        }
-        private TimeSpan _remindTime;
-        public TimeSpan RemindTime
-        {
-            get => _remindTime;
-            set
-            {
-                if (!string.Equals(this._remindTime, value))
-                {
-                    this._remindTime = value;
-                }
-            }
-        }
-        private int _userId;
-        public int UserId {
-            get => _userId;
-            set
-            {
-                if (!string.Equals(this._userId, value))
-                {
-                    this._userId = value;
+                    this.fromTime = value;
                 }
             }
         }
 
+        private TimeSpan toTime;
+
+        public TimeSpan ToTime
+        {
+            get => this.toTime;
+            set
+            {
+                if (!string.Equals(this.toTime, value))
+                {
+                    this.toTime = value;
+                }
+            }
+        }
+
+        private TimeSpan remindTime;
+
+        public TimeSpan RemindTime
+        {
+            get => this.remindTime;
+            set
+            {
+                if (!string.Equals(this.remindTime, value))
+                {
+                    this.remindTime = value;
+                }
+            }
+        }
+
+        private int userId;
+
+        public int UserId
+        {
+            get => this.userId;
+            set
+            {
+                if (!string.Equals(this.userId, value))
+                {
+                    this.userId = value;
+                }
+            }
+        }
 
         private void Submit(Window window)
         {
-            _eventService.CreateEventAsync(new EventDto()
+            this.eventService.CreateEventAsync(new EventDto()
             {
                 Name = this.Name,
                 Description = this.Description,
-                From=this.FromTime,
+                From = this.FromTime,
                 To = this.ToTime,
                 RemindTime = this.RemindTime,
-                UserId = this.UserId
+                UserId = this.UserId,
             });
             var newWindow = new MainWindow();
             Application.Current.MainWindow = newWindow;
