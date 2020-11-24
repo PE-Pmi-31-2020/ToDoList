@@ -1,54 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using ToDoList.Database.Entities;
-using ToDoList.Database.Repositories;
-using ToDoList.Database.EF;
+using ToDoList.DAL.Entities;
+using ToDoList.DAL.Repositories;
 
-namespace ToDoList.Logic
+namespace ToDoList.BLL.Services
 {
     public class UserService
     {
-        private static string EncryptionKey = "dsadasdsadas43";
-        private EFUnitOfWork ef;
+        private const string EncryptionKey = "dsadasdsadas43";
+        private readonly EFUnitOfWork _ef;
 
         public UserService()
         {
-            ef = new EFUnitOfWork();
+            _ef = new EFUnitOfWork();
         }
 
-        public void CreateUser(String userName, String password1, String password2)
+        public void CreateUser(string userName, string password1, string password2)
         {
             if (password1 != password2)
             {
                 throw new Exception("PasswordError");
             }
-            User existingUser = ((UserRepository)ef.Users).Get(userName);
+            var existingUser = ((UserRepository)_ef.Users).Get(userName);
             if (existingUser != null)
             {
                 throw new Exception("UserExistsError");
             }
 
-            User user = new User();
-            user.Password = Encrypt(password1);
-            user.UserName = userName;
-            ((UserRepository)ef.Users).Create(user);
+            var user = new User {Password = Encrypt(password1), UserName = userName};
+            ((UserRepository)_ef.Users).Create(user);
             //var l = ef.Users.GetAll().ToList();
-            ef.Save();
+            _ef.Save();
         }
 
 
         public User LoginUser(string login, string password)
         {
-            User user = ((UserRepository)ef.Users).Get(login);
+            var user = ((UserRepository)_ef.Users).Get(login);
             if(user == null)
             {
                 throw new Exception("AuthError");
             }
-            string decryptedPassword = Decrypt(user.Password);
+            var decryptedPassword = Decrypt(user.Password);
             if (!decryptedPassword.Equals(password))
             {
                 throw new Exception("AuthError");
@@ -58,19 +53,23 @@ namespace ToDoList.Logic
 
         private static string Encrypt(string clearText)
         {
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (Aes encryptor = Aes.Create())
+            var clearBytes = Encoding.Unicode.GetBytes(clearText);
+            using (var encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                var pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                
+                if (encryptor == null) return clearText;
+               
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(clearBytes, 0, clearBytes.Length);
                         cs.Close();
                     }
+
                     clearText = Convert.ToBase64String(ms.ToArray());
                 }
             }
@@ -79,19 +78,23 @@ namespace ToDoList.Logic
 
         private static string Decrypt(string cipherText)
         {
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-            using (Aes encryptor = Aes.Create())
+            var cipherBytes = Convert.FromBase64String(cipherText);
+            using (var encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                var pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                
+                if (encryptor == null) return cipherText;
+
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(cipherBytes, 0, cipherBytes.Length);
                         cs.Close();
                     }
+
                     cipherText = Encoding.Unicode.GetString(ms.ToArray());
                 }
             }

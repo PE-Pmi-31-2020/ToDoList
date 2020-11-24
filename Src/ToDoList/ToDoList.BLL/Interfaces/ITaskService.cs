@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ToDoList.Database.Entities;
-using ToDoList.Logic.DTO;
+﻿using ToDoList.BLL.DTO;
 
-namespace ToDoList.Logic.Interfaces
+namespace ToDoList.BLL.Interfaces
 {
     public interface ITaskService
     {

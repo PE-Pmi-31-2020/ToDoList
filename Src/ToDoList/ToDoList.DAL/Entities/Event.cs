@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace ToDoList.Database.Entities
+namespace ToDoList.DAL.Entities
 {
     public class Event
     {

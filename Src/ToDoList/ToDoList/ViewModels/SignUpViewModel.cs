@@ -1,10 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
-using ToDoList.Logic;
-using ToDoList.Logic.Interfaces;
-using ToDoList.Logic.Services;
+using ToDoList.BLL.Services;
 
 namespace ToDoList.ViewModels
 {
@@ -21,42 +20,42 @@ namespace ToDoList.ViewModels
             SubmitCommand = new RelayCommand<Window>(RegisterUser);
             
         }
-        private string userName;
+        private string _userName;
         public string UserName
         {
-            get { return userName; }
+            get => _userName;
             set
             {
                 // Implement with property changed handling for INotifyPropertyChanged
-                if (!string.Equals(this.userName, value))
+                if (!string.Equals(this._userName, value))
                 {
-                    this.userName = value;
+                    this._userName = value;
                 }
             }
         }
 
-        private string password1;
+        private string _password1;
         public string Password1
         {
-            get { return password1; }
+            get => _password1;
             set
             {
-                if(!string.Equals(password1, value))
+                if(!string.Equals(_password1, value))
                 {
-                    password1 = value;
+                    _password1 = value;
                 }
             }
         }
 
-        private string password2;
+        private string _password2;
         public string Password2
         {
-            get { return password2; }
+            get => _password2;
             set
             {
-                if (!string.Equals(password2, value))
+                if (!string.Equals(_password2, value))
                 {
-                    password2 = value;
+                    _password2 = value;
                 }
             }
         }
@@ -67,21 +66,19 @@ namespace ToDoList.ViewModels
             {
                 userService.CreateUser(UserName, Password1, Password2);
                 //_notificationService.RunNotificationKernel();
-                if (window != null)
-                {
-                    window.Close();
-                }
-                
+                window?.Close();
+
             }catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                if(e.Message == "UserExistsError")
+                switch (e.Message)
                 {
-                    Console.WriteLine("User with username exists");
-                }
-                else if(e.Message == "PasswordsError")
-                {
-                    Console.WriteLine("Passwords do not match");
+                    case "UserExistsError":
+                        Debug.WriteLine("User with username exists");
+                        break;
+                    case "PasswordsError":
+                        Debug.WriteLine("Passwords do not match");
+                        break;
                 }
             }
         }

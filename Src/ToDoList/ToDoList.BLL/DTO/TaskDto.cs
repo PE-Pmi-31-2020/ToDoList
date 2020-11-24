@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ToDoList.Logic.DTO
+namespace ToDoList.BLL.DTO
 {
     public class TaskDto
     {

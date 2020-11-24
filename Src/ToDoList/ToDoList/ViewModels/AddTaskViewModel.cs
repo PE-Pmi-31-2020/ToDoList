@@ -1,21 +1,17 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using ToDoList.Logic.DTO;
-using ToDoList.Logic.Interfaces;
-using ToDoList.Logic.Services;
+using ToDoList.BLL.DTO;
+using ToDoList.BLL.Interfaces;
+using ToDoList.BLL.Services;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
     class AddTaskViewModel : INotifyPropertyChanged
     {
-        private ITaskService _taskService;
+        private readonly ITaskService _taskService;
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand<Window> SubmitCommand { get; private set; }
         public AddTaskViewModel()
@@ -24,41 +20,41 @@ namespace ToDoList.ViewModels
             _taskService = new TaskService();
         }
 
-        private string name;
+        private string _name;
         public string Name
         {
-            get { return name; }
+            get => _name;
             set
             {
-                if (!string.Equals(this.name, value))
+                if (!string.Equals(this._name, value))
                 {
-                    this.name = value;
+                    this._name = value;
                 }
             }
         }
         
-        private TimeSpan deadline;
+        private TimeSpan _deadline;
         public TimeSpan Deadline
         {
-            get { return deadline; }
+            get => _deadline;
             set
             {
-                if (!string.Equals(this.deadline, value))
+                if (!string.Equals(this._deadline, value))
                 {
-                    this.deadline = value;
+                    this._deadline = value;
                 }
             }
         }
         
-        private int userId;
+        private int _userId;
         public int UserId
         {
-            get { return userId; }
+            get => _userId;
             set
             {
-                if (!string.Equals(this.userId, value))
+                if (!string.Equals(this._userId, value))
                 {
-                    this.userId = value;
+                    this._userId = value;
                 }
             }
         }
@@ -72,13 +68,10 @@ namespace ToDoList.ViewModels
                 Deadline = this.Deadline,
                 UserId = this.UserId
             });
-            MainWindow newWindow = new MainWindow();
+            var newWindow = new MainWindow();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
-            if (window != null)
-            {
-                window.Close();
-            }
+            window?.Close();
 
         }
     }

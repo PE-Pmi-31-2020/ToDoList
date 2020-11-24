@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ToDoList.Database.Entities;
-using ToDoList.Database.Repositories;
-using ToDoList.Logic.DTO;
-using ToDoList.Logic.Interfaces;
+﻿using ToDoList.BLL.DTO;
+using ToDoList.BLL.Interfaces;
+using ToDoList.DAL.Entities;
+using ToDoList.DAL.Repositories;
 
-namespace ToDoList.Logic.Services
+namespace ToDoList.BLL.Services
 {
     public class TaskService : ITaskService
     {
-        private EFUnitOfWork _database;
+        private readonly EFUnitOfWork _database;
 
         public TaskService()
         {
@@ -19,7 +16,7 @@ namespace ToDoList.Logic.Services
 
         public async System.Threading.Tasks.Task CreateTaskAsync(TaskDto task)
         {
-            _database.Tasks.Create(new Database.Entities.Task()
+            _database.Tasks.Create(new Task()
             { 
                 Id = task.Id,
                 Name = task.Name,
@@ -31,7 +28,7 @@ namespace ToDoList.Logic.Services
 
         public async System.Threading.Tasks.Task EditTaskAsync(TaskDto task)
         {
-            _database.Tasks.Update(new Database.Entities.Task()
+            _database.Tasks.Update(new Task()
             {
                 Id = task.Id,
                 Name = task.Name,

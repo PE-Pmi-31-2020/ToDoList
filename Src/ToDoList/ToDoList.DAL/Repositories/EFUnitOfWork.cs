@@ -1,71 +1,46 @@
 ﻿using System;
-using ToDoList.Database.EF;
-using ToDoList.Database.Entities;
-using ToDoList.Database.Interfaces;
+using ToDoList.DAL.EF;
+using ToDoList.DAL.Entities;
+using ToDoList.DAL.Interfaces;
 
-namespace ToDoList.Database.Repositories
+namespace ToDoList.DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private DataBase db;
-        private TaskRepository taskRepository;
-        private UserRepository userRepository;
-        private EventRepository eventRepository;
+        private readonly DataBase _db;
+        private TaskRepository _taskRepository;
+        private UserRepository _userRepository;
+        private EventRepository _eventRepository;
         public EFUnitOfWork()
         {
-            db = new DataBase();
+            _db = new DataBase();
         }
 
-        public IRepository<Task> Tasks
-        {
-            get
-            {
-                if (taskRepository == null)
-                    taskRepository = new TaskRepository(db);
-                return taskRepository;
-            }
-        }
+        public IRepository<Task> Tasks => _taskRepository ?? (_taskRepository = new TaskRepository(_db));
 
-        public IRepository<User> Users
-        {
-            get
-            {
-                if (userRepository == null)
-                    userRepository = new UserRepository(db);
-                return userRepository;
-            }
-        }
+        public IRepository<User> Users => _userRepository ?? (_userRepository = new UserRepository(_db));
 
-        public IRepository<Event> Events
-        {
-            get
-            {
-                if (eventRepository == null)
-                    eventRepository = new EventRepository(db);
-                return eventRepository;
-            }
-        }
+        public IRepository<Event> Events => _eventRepository ?? (_eventRepository = new EventRepository(_db));
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
         public async System.Threading.Tasks.Task SaveAsync()
         {
-           await db.SaveChangesAsync();
+           await _db.SaveChangesAsync();
         }
-        private bool disposed = false;
+        private bool _disposed;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (this._disposed) return;
+
+            if (disposing)
             {
-                if (disposing)
-                {
-                    db.Dispose();
-                }
-                this.disposed = true;
+                _db.Dispose();
             }
+            this._disposed = true;
         }
 
         public void Dispose()

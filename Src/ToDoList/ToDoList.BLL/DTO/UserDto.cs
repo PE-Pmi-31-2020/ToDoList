@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ToDoList.Logic.DTO
+namespace ToDoList.BLL.DTO
 {
     public class UserDto
     {

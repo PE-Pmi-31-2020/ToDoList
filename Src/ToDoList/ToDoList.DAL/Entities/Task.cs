@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ToDoList.Database.Entities
+namespace ToDoList.DAL.Entities
 {
     public class Task
     {
