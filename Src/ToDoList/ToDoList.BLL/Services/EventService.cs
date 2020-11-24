@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ToDoList.Database.Entities;
-using ToDoList.Database.Repositories;
-using ToDoList.Logic.DTO;
-using ToDoList.Logic.Interfaces;
-using Task = System.Threading.Tasks.Task;
+﻿using ToDoList.BLL.DTO;
+using ToDoList.BLL.Interfaces;
+using ToDoList.DAL.Entities;
+using ToDoList.DAL.Repositories;
 
-namespace ToDoList.Logic.Services
+namespace ToDoList.BLL.Services
 {
     public class EventService: IEventService
     {
-        private EFUnitOfWork _database;
+        private readonly EFUnitOfWork _database;
 
         public EventService()
         {
             _database = new EFUnitOfWork();
         }
 
-        public async Task CreateEventAsync(EventDto eventt)
+        public async System.Threading.Tasks.Task CreateEventAsync(EventDto eventt)
         {
             _database.Events.Create(new Event()
             {
@@ -33,7 +29,7 @@ namespace ToDoList.Logic.Services
             await _database.SaveAsync();
         }
 
-        public async Task EditEventAsync(EventDto eventt)
+        public async System.Threading.Tasks.Task EditEventAsync(EventDto eventt)
         {
             _database.Events.Update(new Event()
             {
@@ -47,7 +43,7 @@ namespace ToDoList.Logic.Services
             });
             await _database.SaveAsync();
         }
-        public async Task DeleteEventAsync(EventDto eventt)
+        public async System.Threading.Tasks.Task DeleteEventAsync(EventDto eventt)
         {
             _database.Events.Delete(eventt.Id);
             await _database.SaveAsync();

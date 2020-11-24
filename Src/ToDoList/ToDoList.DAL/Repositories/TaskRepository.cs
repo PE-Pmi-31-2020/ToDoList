@@ -1,59 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using ToDoList.Database.EF;
-using ToDoList.Database.Entities;
-using ToDoList.Database.Interfaces;
 using System.Data.Entity;
+using System.Linq;
+using ToDoList.DAL.EF;
+using ToDoList.DAL.Entities;
+using ToDoList.DAL.Interfaces;
 
-namespace ToDoList.Database.Repositories
+namespace ToDoList.DAL.Repositories
 {
     public class TaskRepository : IRepository<Task>
     {
-        private DataBase db;
+        private readonly DataBase _db;
 
         public TaskRepository(DataBase dataBase)
         {
-            db = dataBase;
+            _db = dataBase;
         }
         public void Create(Task item)
         {
-            db.Tasks.Add(item);
-            db.SaveChanges();
+            _db.Tasks.Add(item);
+            _db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            Task toDelete = db.Tasks.Find(id);
+            var toDelete = _db.Tasks.Find(id);
             if(toDelete!=null)
-                db.Tasks.Remove(toDelete);
-            db.SaveChanges();
+                _db.Tasks.Remove(toDelete);
+            _db.SaveChanges();
         }
 
         public IEnumerable<Task> Find(Func<Task, bool> predicate)
         {
-            return db.Tasks.Include(t => t.User).Where(predicate).ToList();
+            return _db.Tasks.Include(t => t.User).AsEnumerable().Where(predicate).ToList();
         }
 
         public Task Get(int id)
         {
-            return db.Tasks.Find(id);
+            return _db.Tasks.Find(id);
         }
 
         public IEnumerable<Task> GetAll()
         {
-            return db.Tasks.Include(t=>t.User).AsNoTracking().ToList();
+            return _db.Tasks.Include(t=>t.User).AsNoTracking().ToList();
         }
 
         public void Update(Task item)
         {
-            var taskToUpdate = db.Tasks.SingleOrDefault(t => t.Id == item.Id);
+            var taskToUpdate = _db.Tasks.SingleOrDefault(t => t.Id == item.Id);
             taskToUpdate.Deadline = item.Deadline;
             taskToUpdate.UserId = item.UserId;
             taskToUpdate.User = item.User;
             taskToUpdate.Name = item.Name;
-            db.SaveChanges();
+            _db.SaveChanges();
         }
     }
 }

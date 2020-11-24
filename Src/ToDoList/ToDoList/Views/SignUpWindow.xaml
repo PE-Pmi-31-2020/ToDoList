@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
         mc:Ignorable="d"
-        Title="SignUpWindow" Height="240" Width="300"
+        Title="SignUpWindow" Height="300" Width="300"
         Background="{StaticResource MaterialDesignDarkBackground}"
         Foreground="White">
     <Grid>

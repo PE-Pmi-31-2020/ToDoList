@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ToDoList.Database.Entities;
-using ToDoList.Logic.DTO;
-using Task = System.Threading.Tasks.Task;
-namespace ToDoList.Logic.Interfaces
+﻿using ToDoList.BLL.DTO;
+
+namespace ToDoList.BLL.Interfaces
 {
     public interface IEventService
     {
-        Task CreateEventAsync(EventDto eventt);
-        Task EditEventAsync(EventDto eventt);
-        Task DeleteEventAsync(EventDto eventt);
+        System.Threading.Tasks.Task CreateEventAsync(EventDto eventt);
+        System.Threading.Tasks.Task EditEventAsync(EventDto eventt);
+        System.Threading.Tasks.Task DeleteEventAsync(EventDto eventt);
     }
 }

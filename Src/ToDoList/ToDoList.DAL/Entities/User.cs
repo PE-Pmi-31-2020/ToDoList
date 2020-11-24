@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ToDoList.Database.Entities
+namespace ToDoList.DAL.Entities
 {
     public class User
     {

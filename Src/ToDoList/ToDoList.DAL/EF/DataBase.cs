@@ -1,9 +1,7 @@
-﻿using System;
-using ToDoList.Database.Entities;
-using System.Configuration;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using ToDoList.DAL.Entities;
 
-namespace ToDoList.Database.EF
+namespace ToDoList.DAL.EF
 {
     public class DataBase : DbContext
     {

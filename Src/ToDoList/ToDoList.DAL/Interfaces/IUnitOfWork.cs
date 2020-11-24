@@ -1,6 +1,6 @@
-﻿using ToDoList.Database.Entities;
+﻿using ToDoList.DAL.Entities;
 
-namespace ToDoList.Database.Interfaces
+namespace ToDoList.DAL.Interfaces
 {
     public interface IUnitOfWork
     {

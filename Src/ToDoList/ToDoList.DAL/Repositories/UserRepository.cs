@@ -2,61 +2,61 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using ToDoList.Database.EF;
-using ToDoList.Database.Entities;
-using ToDoList.Database.Interfaces;
+using ToDoList.DAL.EF;
+using ToDoList.DAL.Entities;
+using ToDoList.DAL.Interfaces;
 
-namespace ToDoList.Database.Repositories
+namespace ToDoList.DAL.Repositories
 {
     public class UserRepository:IRepository<User>
     {
-        private DataBase db;
+        private readonly DataBase _db;
 
         public UserRepository(DataBase dataBase)
         {
-            db = dataBase;
+            _db = dataBase;
         }
         public void Create(User item)
         {
-            db.Users.Add(item);
+            _db.Users.Add(item);
         }
 
         public void Delete(int id)
         {
-            User toDelete = db.Users.Find(id);
+            var toDelete = _db.Users.Find(id);
             if (toDelete != null)
-                db.Users.Remove(toDelete);
+                _db.Users.Remove(toDelete);
         }
 
         public IEnumerable<User> Find(Func<User, bool> predicate)
         {
-            return db.Users.Include(t => t.Tasks).Where(predicate).ToList();
+            return _db.Users.Include(t => t.Tasks).AsEnumerable().Where(predicate).ToList();
         }
 
         public User Get(int id)
         {
-            return db.Users.Find(id);
+            return _db.Users.Find(id);
         }
 
         public User Get(string userName)
         {
-            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            return _db.Users.FirstOrDefault(u => u.UserName == userName);
         }
 
         public IEnumerable<User> GetAll()
         {
-            return db.Users.Include(t => t.Tasks).ToList();
+            return _db.Users.Include(t => t.Tasks).ToList();
         }
 
         public void Update(User item)
         {
-            var userToUpdate = db.Users.SingleOrDefault(u => u.Id == item.Id);
+            var userToUpdate = _db.Users.SingleOrDefault(u => u.Id == item.Id);
             userToUpdate.FullName = item.FullName;
             userToUpdate.Password = item.Password;
             userToUpdate.UserName = item.UserName;
             userToUpdate.Events = item.Events;
             userToUpdate.Tasks = item.Tasks;
-            db.SaveChanges();
+            _db.SaveChanges();
         }
     }
 }

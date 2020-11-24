@@ -10,7 +10,7 @@ using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    class MainWindowViewModel : INotifyPropertyChanged
+    internal class MainWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand<Window> AddEventCommand { get; private set; }
@@ -24,25 +24,19 @@ namespace ToDoList.ViewModels
 
         private void ShowAddEvent(Window window)
         {
-            AddEvent newWindow = new AddEvent();
+            var newWindow = new AddEvent();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
-            if (window != null)
-            {
-                window.Close();
-            }
+            window?.Close();
 
         }
 
         private void ShowAddTask(Window window)
         {
-            AddTask newWindow = new AddTask();
+            var newWindow = new AddTask();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
-            if (window != null)
-            {
-                window.Close();
-            }
+            window?.Close();
 
         }
     }

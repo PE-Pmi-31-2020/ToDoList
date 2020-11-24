@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
-using ToDoList.Logic.DTO;
+using ToDoList.BLL.DTO;
+using ToDoList.BLL.Interfaces;
+using ToDoList.BLL.Services;
 using ToDoList.Views;
-using ToDoList.Logic.Interfaces;
-using ToDoList.Logic.Services;
 
 namespace ToDoList.ViewModels
 {
-    class AddEventViewModel : INotifyPropertyChanged
+    internal class AddEventViewModel : INotifyPropertyChanged
     {
-        private IEventService _eventService;
+        private readonly IEventService _eventService;
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand<Window> SubmitCommand { get; private set; }
         public AddEventViewModel()
@@ -24,72 +20,72 @@ namespace ToDoList.ViewModels
             _eventService = new EventService();
         }
 
-        private string name;
+        private string _name;
         public string Name {
-            get { return name; }
+            get => _name;
             set
             {
-                if (!string.Equals(this.name, value))
+                if (!string.Equals(this._name, value))
                 {
-                    this.name = value;
+                    this._name = value;
                 }
             }
         }
-        private string description;
+        private string _description;
         public string Description {
-            get { return description; }
+            get => _description;
             set
             {
-                if (!string.Equals(this.description, value))
+                if (!string.Equals(this._description, value))
                 {
-                    this.description = value;
+                    this._description = value;
                 }
             }
         }
-        private TimeSpan fromTime;
+        private TimeSpan _fromTime;
         public TimeSpan FromTime
         {
-            get { return fromTime; }
+            get => _fromTime;
             set
             {
-                if (!string.Equals(this.fromTime, value))
+                if (!string.Equals(this._fromTime, value))
                 {
-                    this.fromTime = value;
+                    this._fromTime = value;
                 }
             }
         }
-        private TimeSpan toTime;
+        private TimeSpan _toTime;
         public TimeSpan ToTime
         {
-            get { return toTime; }
+            get => _toTime;
             set
             {
-                if (!string.Equals(this.toTime, value))
+                if (!string.Equals(this._toTime, value))
                 {
-                    this.toTime = value;
+                    this._toTime = value;
                 }
             }
         }
-        private TimeSpan remindTime;
+        private TimeSpan _remindTime;
         public TimeSpan RemindTime
         {
-            get { return remindTime; }
+            get => _remindTime;
             set
             {
-                if (!string.Equals(this.remindTime, value))
+                if (!string.Equals(this._remindTime, value))
                 {
-                    this.remindTime = value;
+                    this._remindTime = value;
                 }
             }
         }
-        private int userId;
+        private int _userId;
         public int UserId {
-            get { return userId; }
+            get => _userId;
             set
             {
-                if (!string.Equals(this.userId, value))
+                if (!string.Equals(this._userId, value))
                 {
-                    this.userId = value;
+                    this._userId = value;
                 }
             }
         }
@@ -106,14 +102,10 @@ namespace ToDoList.ViewModels
                 RemindTime = this.RemindTime,
                 UserId = this.UserId
             });
-            MainWindow newWindow = new MainWindow();
+            var newWindow = new MainWindow();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
-            if (window != null)
-            {
-                window.Close();
-            }
-
+            window?.Close();
         }
     }
 }
