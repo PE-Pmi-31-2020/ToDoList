@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
-using Microsoft.EntityFrameworkCore;
 using ToDoList.Database.EF;
 using ToDoList.Database.Entities;
 using ToDoList.Database.Interfaces;
+using System.Data.Entity;
 
 namespace ToDoList.Database.Repositories
 {
@@ -33,7 +33,7 @@ namespace ToDoList.Database.Repositories
 
         public IEnumerable<Task> Find(Func<Task, bool> predicate)
         {
-           return db.Tasks.Include(t => t.User).Where(predicate).ToList();
+            return db.Tasks.Include(t => t.User).Where(predicate).ToList();
         }
 
         public Task Get(int id)
@@ -48,7 +48,11 @@ namespace ToDoList.Database.Repositories
 
         public void Update(Task item)
         {
-            db.Tasks.Update(item);
+            var taskToUpdate = db.Tasks.SingleOrDefault(t => t.Id == item.Id);
+            taskToUpdate.Deadline = item.Deadline;
+            taskToUpdate.UserId = item.UserId;
+            taskToUpdate.User = item.User;
+            taskToUpdate.Name = item.Name;
             db.SaveChanges();
         }
     }

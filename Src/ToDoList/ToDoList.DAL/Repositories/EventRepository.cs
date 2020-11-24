@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ToDoList.Database.EF;
 using ToDoList.Database.Entities;
 using ToDoList.Database.Interfaces;
+using System.Data.Entity;
 
 namespace ToDoList.Database.Repositories
 {
@@ -48,7 +48,14 @@ namespace ToDoList.Database.Repositories
 
         public void Update(Event item)
         {
-            db.Events.Update(item);
+            var eventToUpdate = db.Events.SingleOrDefault(e => e.Id == item.Id);
+            eventToUpdate.UserId = item.UserId;
+            eventToUpdate.User = item.User;
+            eventToUpdate.Description = item.Description;
+            eventToUpdate.From = item.From;
+            eventToUpdate.To = item.To;
+            eventToUpdate.Name = item.Name;
+            eventToUpdate.RemindTime = item.RemindTime;
             db.SaveChanges();
         }
     }

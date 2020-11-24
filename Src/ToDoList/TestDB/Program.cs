@@ -10,7 +10,7 @@ namespace TestDB
             var dataBase = new DataBase();
             SeedingDb.Initialize(dataBase);
             SeedingDb.ReadData(dataBase);
-            SeedingDb.DeleteDb(dataBase);
+           //SeedingDb.DeleteDb(dataBase);
         }
     }
 }

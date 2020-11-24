@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using ToDoList.Database.EF;
 using ToDoList.Database.Entities;
 using ToDoList.Database.Interfaces;
@@ -38,6 +38,11 @@ namespace ToDoList.Database.Repositories
             return db.Users.Find(id);
         }
 
+        public User Get(string userName)
+        {
+            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
+        }
+
         public IEnumerable<User> GetAll()
         {
             return db.Users.Include(t => t.Tasks).ToList();
@@ -45,7 +50,13 @@ namespace ToDoList.Database.Repositories
 
         public void Update(User item)
         {
-            db.Entry(item).State = EntityState.Modified;
+            var userToUpdate = db.Users.SingleOrDefault(u => u.Id == item.Id);
+            userToUpdate.FullName = item.FullName;
+            userToUpdate.Password = item.Password;
+            userToUpdate.UserName = item.UserName;
+            userToUpdate.Events = item.Events;
+            userToUpdate.Tasks = item.Tasks;
+            db.SaveChanges();
         }
     }
 }

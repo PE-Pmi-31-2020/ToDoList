@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using ToDoList.Database.EF;
 using ToDoList.Database.Entities;
 using ToDoList.Database.Interfaces;
@@ -50,6 +49,10 @@ namespace ToDoList.Database.Repositories
         public void Save()
         {
             db.SaveChanges();
+        }
+        public async System.Threading.Tasks.Task SaveAsync()
+        {
+           await db.SaveChangesAsync();
         }
         private bool disposed = false;
 
