@@ -13,13 +13,15 @@ namespace ToDoList.ViewModels
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         public RelayCommand<Window> AddEventCommand { get; private set; }
+
         public RelayCommand<Window> AddTaskCommand { get; private set; }
 
         public MainWindowViewModel()
         {
-            AddEventCommand = new RelayCommand<Window>(ShowAddEvent);
-            AddTaskCommand = new RelayCommand<Window>(ShowAddTask);
+            this.AddEventCommand = new RelayCommand<Window>(this.ShowAddEvent);
+            this.AddTaskCommand = new RelayCommand<Window>(this.ShowAddTask);
         }
 
         private void ShowAddEvent(Window window)
@@ -28,7 +30,6 @@ namespace ToDoList.ViewModels
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
             window?.Close();
-
         }
 
         private void ShowAddTask(Window window)
@@ -37,7 +38,6 @@ namespace ToDoList.ViewModels
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
             window?.Close();
-
         }
     }
 }

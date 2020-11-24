@@ -3,13 +3,13 @@
 namespace ToDoList.Views
 {
     /// <summary>
-    /// Interaction logic for SignInWindow.xaml
+    /// Interaction logic for SignInWindow.xaml.
     /// </summary>
     public partial class SignInWindow : Window
     {
         public SignInWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ToDoList.ViewModels
 {
-    class SignInViewModel
+    internal class SignInViewModel
     {
     }
 }
