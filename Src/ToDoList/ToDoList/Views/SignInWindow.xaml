@@ -26,12 +26,12 @@
 
             <TextBlock Text="Login: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
             <TextBlock Text="Password: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="10"/>
-            <PasswordBox Grid.Column="1" Grid.Row="1" Margin="10"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Margin="10" Text="{Binding Login}"/>
+            <PasswordBox Grid.Column="1" Grid.Row="1" Margin="10" Name="PasswordBox"/>
         </Grid>
 
         <Grid Row="1">
-            <Button Width="90" Content="Sign In"></Button>
+            <Button Width="90" Content="Sign In" Command="{Binding SigninCommand}"></Button>
         </Grid>
         
     </Grid>
