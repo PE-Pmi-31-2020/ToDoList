@@ -6,9 +6,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
         mc:Ignorable="d"
-        Title="StartWindow" Height="450" Width="800"
-        Background="{StaticResource MaterialDesignDarkBackground}">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Background="{DynamicResource MaterialDesignDarkBackground}" 
+        Foreground="White" 
+        Title="StartWindow" Height="450" Width="800">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="F:\Навчання\3 курс\Programming Engineering\Project\ToDoList\Docs\computerDesk.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock Text="MakeYourDay" FontSize="80" HorizontalAlignment="Center" Foreground="White"/>
             <Button Content="Sign In" HorizontalAlignment="Center" Margin="5" Width="90" Command="{Binding SignInCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SWindow}"/>

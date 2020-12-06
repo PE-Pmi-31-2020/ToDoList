@@ -5,15 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
         mc:Ignorable="d"
-        Title="WelcomeWindow" Height="150" Width="200"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Background="{DynamicResource MaterialDesignDarkBackground}" 
+        Foreground="White" 
+        Title="WelcomeWindow" Height="300" Width="400"
         WindowStyle="ToolWindow"
-        Background="{DynamicResource MaterialDesignDarkBackground}"
         FontSize="18">
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock Foreground="White" Text="Welcome to ToDoList!" HorizontalAlignment="Center"/>
-            <TextBlock Foreground="White" Text="Account Created!" HorizontalAlignment="Center"/>
-            <Button Content="To the Main" HorizontalAlignment="Center" Margin="5"/>
-        </StackPanel>
+        <Grid.Background>
+            <ImageBrush ImageSource="F:\Навчання\3 курс\Programming Engineering\Project\ToDoList\Docs\background.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid  Grid.Row="0">
+            <TextBlock Foreground="Black" Background="AliceBlue" Opacity="0.7" Text="Welcome to ToDoList!" HorizontalAlignment="Center" Height="17" Margin="34,24,33,48"/>
+            <TextBlock Foreground="Black" Background="AliceBlue" Opacity="0.7"  Text="Account Created!" HorizontalAlignment="Center" Margin="48,51,44,22" Height="17" RenderTransformOrigin="0.495,1"/>
+        </Grid>
+
+        <Grid Row="1" Grid.ColumnSpan="2">
+            <Button Foreground="AliceBlue"
+    Style="{StaticResource MaterialDesignFlatButton}"
+    Click="ButtonBase_OnClick"
+    ToolTip="MaterialDesignFlatButton">
+                To the Main
+            </Button>
+        </Grid>
     </Grid>
 </Window>

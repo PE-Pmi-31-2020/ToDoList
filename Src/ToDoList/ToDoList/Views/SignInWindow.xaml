@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
         mc:Ignorable="d"
-        Title="SignInWindow" Height="180" Width="300"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="SignInWindow" Height="200" Width="300"
         Background="{DynamicResource MaterialDesignDarkBackground}" 
-        Foreground="White">
+        Foreground="White" AllowsTransparency="True" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -20,19 +27,35 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="52*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Login: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBlock Text="Password: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="10"/>
-            <PasswordBox Grid.Column="1" Grid.Row="1" Margin="10"/>
+            <materialDesign:PackIcon Kind="Account" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Foreground="#707070" Height="28" Margin="6,18,0,14" Width="24" RenderTransformOrigin="1.083,0.54"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Margin="14"
+                x:Name="LoginTextBox"
+                    materialDesign:HintAssist.Hint="Login">
+                <TextBox.Text>
+                    <Binding
+                        Path="Name"
+                        UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <materialDesign:PackIcon Kind="Key" VerticalAlignment="Center" Foreground="#707070" Grid.Column="0" Grid.Row="1" Height="28" Width="24" Margin="6,20,0,12"   />
+            <PasswordBox  Grid.Row="1" Grid.Column="1" Margin="14,10,18,12"
+              x:Name="PasswordBox"
+              materialDesign:HintAssist.Hint="Password"
+              materialDesign:TextFieldAssist.HasClearButton="True"
+              materialDesign:HintAssist.HelperText="At least 4 characters"  />
         </Grid>
 
         <Grid Row="1">
-            <Button Width="90" Content="Sign In"></Button>
+            <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                    Width="100"
+                    ToolTip="Resource name: MaterialDesignRaisedButton">
+                _Sign In</Button>
         </Grid>
-        
+
     </Grid>
 </Window>
