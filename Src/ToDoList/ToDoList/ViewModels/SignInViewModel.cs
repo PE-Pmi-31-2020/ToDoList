@@ -1,11 +1,14 @@
 ﻿
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
 using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
+using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
@@ -18,14 +21,19 @@ namespace ToDoList.ViewModels
 
         private string login;
 
-        private string password;
-
-        public RelayCommand<Window> SubmitCommand { get; private set; }
+        public RelayCommand<object> SubmitCommand { get; private set; }
 
         public SignInViewModel()
         {
-            this.SubmitCommand = new RelayCommand<Window>(this.Submit);
+            this.SubmitCommand = new RelayCommand<object>(this.Submit);
             this.userService = new UserService();
+        }
+
+        public SecureString SecurePassword { private get; set; }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            this.SecurePassword = ((PasswordBox)sender).SecurePassword;
         }
 
         public string Login
@@ -40,31 +48,16 @@ namespace ToDoList.ViewModels
             }
         }
 
-        public string Password
+        public void Submit(object parameter)
         {
-            get => this.password;
-            set
-            {
-                if (!value.Equals(this.password))
-                {
-                    this.password = value;
-                }
-            }
-        }
-
-        public void Submit(object param)
-        {
-            try
-            {
-                var passwordBox = param as PasswordBox;
-                var password = passwordBox.Password;
-                User user = this.userService.LoginUser(this.login, this.password);
-                // TODO: Open a new window after login
-            }
-            catch (Exception exception)
-            {
-                // TODO: Show error message
-            }
+            PasswordBox PasswordObj = parameter as PasswordBox;
+            string password = PasswordObj.Password;
+            var user = userService.LoginUser(this.login, password);
+            var newWindow = new MainWindow();
+            
+            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
         }
     }
 }

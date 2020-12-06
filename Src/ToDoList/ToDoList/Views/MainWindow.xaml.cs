@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using ToDoList.DAL.Entities;
+using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
@@ -10,6 +12,7 @@ namespace ToDoList.Views
         public MainWindow()
         {
             this.InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
         }
     }
 }
