@@ -35,7 +35,7 @@
         <Grid Row="1" Grid.ColumnSpan="2">
             <Button Foreground="AliceBlue"
     Style="{StaticResource MaterialDesignFlatButton}"
-    Click="ButtonBase_OnClick"
+    
     ToolTip="MaterialDesignFlatButton">
                 To the Main
             </Button>
