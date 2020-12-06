@@ -10,8 +10,8 @@ namespace ToDoList.Views
     {
         public StartWindow()
         {
-            ////this.InitializeComponent();
-            ////this.DataContext = new StartViewModel();
+            this.InitializeComponent();
+            this.DataContext = new StartViewModel();
         }
     }
 }

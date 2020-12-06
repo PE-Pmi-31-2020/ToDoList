@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace ToDoList.Views
 {
@@ -10,16 +12,15 @@ namespace ToDoList.Views
         public MainWindow()
         {
             this.InitializeComponent();
+            DispatcherTimer LiveTime = new DispatcherTimer();
+            LiveTime.Interval = TimeSpan.FromSeconds(1);
+            LiveTime.Tick += timer_Tick;
+            LiveTime.Start();
         }
 
-        private void ListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        void timer_Tick(object sender, EventArgs e)
         {
-
-        }
-
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
-        {
-
+            LiveTimeLabel.Content = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
         }
     }
 }

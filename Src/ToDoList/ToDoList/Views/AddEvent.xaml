@@ -36,7 +36,7 @@
                 materialDesign:HintAssist.FloatingScale="0.75"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
           
-            <TextBox Grid.Column="1" Grid.Row="1" Margin="10" Text="{Binding Description}" TextChanged="TextBox_TextChanged"
+            <TextBox Grid.Column="1" Grid.Row="1" Margin="10" Text="{Binding Description}"
                 TextWrapping="Wrap"
                 VerticalAlignment="Stretch"
                 MinWidth="280"
@@ -73,7 +73,13 @@
         </Grid>
 
         <Grid Row="2">
-            <Button Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Add"></Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Cancel"></Button>
+
+            <Button Grid.Column="1" Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Add"></Button>
         </Grid>
     </Grid>
 </Window>

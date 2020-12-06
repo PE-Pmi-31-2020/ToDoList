@@ -51,10 +51,24 @@
         </Grid>
 
         <Grid Row="1">
-            <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                    Width="100"
-                    ToolTip="Resource name: MaterialDesignRaisedButton">
-                _Sign In</Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Name="CancelButton"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="MaterialDesignFlatButton" Margin="30,18,36,17" RenderTransformOrigin="0.48,0.562">
+                CANCEL
+            </Button>
+
+            <Button Grid.Column="1" Name="SignInButton"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="MaterialDesignFlatButton" 
+                Margin="30,18,36,17" RenderTransformOrigin="0.48,0.562">
+                SIGN IN
+            </Button>
         </Grid>
 
     </Grid>
