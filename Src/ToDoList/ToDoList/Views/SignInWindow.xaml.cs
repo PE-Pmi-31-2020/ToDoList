@@ -15,5 +15,10 @@ namespace ToDoList.Views
             this.InitializeComponent();
             this.DataContext = new SignInViewModel();
         }
+
+        private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((SignInViewModel) this.DataContext).Password = ((PasswordBox) sender).Password;
+        }
     }
 }

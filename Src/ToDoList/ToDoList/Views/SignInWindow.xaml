@@ -65,13 +65,14 @@
                 Foreground="#707070"
                 Kind="Key" />
             <PasswordBox
-                x:Name="PasswordBox"
+                x:Name="Password"
                 Grid.Row="1"
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.HelperText="At least 4 characters"
                 materialDesign:HintAssist.Hint="Password"
-                materialDesign:TextFieldAssist.HasClearButton="True" />
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                PasswordChanged="PasswordBox_OnPasswordChanged" />
         </Grid>
 
         <Grid Row="1">
@@ -83,6 +84,7 @@
             <Button
                 Name="CancelButton"
                 Grid.Column="0"
+                Command="{Binding CancelCommand}"
                 Content="CANCEL"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="MaterialDesignFlatButton" />
@@ -91,8 +93,7 @@
             <Button
                 Name="SignInButton"
                 Grid.Column="1"
-                Command="{Binding SubmitCommand}"
-                CommandParameter="{Binding ElementName=PasswordBox}"
+                Command="{Binding SignInCommand}"
                 Content="SIGN IN"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="MaterialDesignFlatButton" />

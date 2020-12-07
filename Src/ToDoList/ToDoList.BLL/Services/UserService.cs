@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
+using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
 
 namespace ToDoList.BLL.Services
@@ -11,44 +12,46 @@ namespace ToDoList.BLL.Services
     public class UserService : IUserService
     {
         private const string EncryptionKey = "dsadasdsadas43";
-        private readonly EFUnitOfWork _ef;
+        private readonly IUnitOfWork _ef;
 
         public UserService()
         {
             _ef = new EFUnitOfWork();
         }
 
-        public void CreateUser(string userName, string password, string repeatedPassword)
+        public Errors CreateUser(string userName, string password, string repeatedPassword)
         {
             if (password != repeatedPassword)
             {
-                throw new Exception("PasswordError");
+                return Errors.Password;
             }
             var existingUser = ((UserRepository)_ef.Users).Get(userName);
             if (existingUser != null)
             {
-                throw new Exception("UserExistsError");
+                return Errors.UserExists;
             }
 
             var user = new User { Password = Encrypt(password), UserName = userName };
             ((UserRepository)_ef.Users).Create(user);
             _ef.Save();
+
+            return Errors.Success;
         }
 
 
-        public User LoginUser(string userName, string password)
+        public Errors LoginUser(string userName, string password)
         {
             var user = ((UserRepository)_ef.Users).Get(userName);
             if (user == null)
             {
-                throw new Exception("AuthError");
+                return Errors.Authentification;
             }
             var decryptedPassword = Decrypt(user.Password);
             if (!decryptedPassword.Equals(password))
             {
-                throw new Exception("AuthError");
+                return Errors.Authentification;
             }
-            return user;
+            return Errors.Success;
         }
 
         private static string Encrypt(string clearText)

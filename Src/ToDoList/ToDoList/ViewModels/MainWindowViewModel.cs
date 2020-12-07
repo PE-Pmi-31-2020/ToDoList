@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using ToDoList.BLL.Interfaces;
+using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
-using ToDoList.Logic.Interfaces;
-using ToDoList.Logic.Services;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels

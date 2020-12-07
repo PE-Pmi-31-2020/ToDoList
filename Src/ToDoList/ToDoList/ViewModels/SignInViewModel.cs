@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
-using ToDoList.Logic.Interfaces;
-using ToDoList.Logic.Services;
+using ToDoList.DAL.Entities;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
@@ -15,16 +15,20 @@ namespace ToDoList.ViewModels
     {
         private readonly IUserService userService;
         private readonly INotificationService notificationService;
-        private string userName;
 
-        public RelayCommand<object> SubmitCommand { get; private set; }
+        public RelayCommand SignInCommand { get; private set; }
+
+        public RelayCommand CancelCommand { get; private set; }
 
         public SignInViewModel()
         {
-            this.SubmitCommand = new RelayCommand<object>(this.Submit);
+            this.SignInCommand = new RelayCommand(this.SignIn);
+            this.CancelCommand = new RelayCommand(this.Cancel);
             this.userService = new UserService();
             notificationService = new NotificationService();
         }
+
+        private string userName;
 
         public string UserName
         {
@@ -38,13 +42,48 @@ namespace ToDoList.ViewModels
             }
         }
 
-        public void Submit(object parameter)
+        private string password;
+
+        public string Password
         {
-            PasswordBox PasswordObj = parameter as PasswordBox;
-            string password = PasswordObj.Password;
-            var user = userService.LoginUser(this.userName, password);
-            notificationService.ShowNotification("Ви залогінились блін", NotificationType.Success);
+            get => this.password;
+            set
+            {
+                if (!value.Equals(this.password))
+                {
+                    this.password = value;
+                }
+            }
+        }
+
+        private void SignIn()
+        {
+            var res = this.userService.LoginUser(this.UserName, this.Password);
+            switch (res)
+            {
+                case Errors.Authentification:
+                    notificationService.ShowNotification("Incorrect password or login", NotificationType.Error, "Error");
+                    return;
+                case Errors.Password:
+                    return;
+                case Errors.UserExists:
+                    return;
+                case Errors.Success:
+                    notificationService.ShowNotification("You are logged in", NotificationType.Success, "Success");
+                    break;
+                default:
+                    return;
+            }
+
             var newWindow = new MainWindow();
+            Application.Current.MainWindow?.Close();
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+        }
+
+        private void Cancel()
+        {
+            var newWindow = new StartWindow();
             Application.Current.MainWindow?.Close();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();

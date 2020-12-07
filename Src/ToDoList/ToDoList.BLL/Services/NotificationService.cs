@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using Notifications.Wpf;
+using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Repositories;
-using ToDoList.Logic.Interfaces;
 
-namespace ToDoList.Logic.Services
+namespace ToDoList.BLL.Services
 {
     public class NotificationService: INotificationService
     {
@@ -52,8 +48,6 @@ namespace ToDoList.Logic.Services
                 }
 
             }
-            
-
         }
     }
 }

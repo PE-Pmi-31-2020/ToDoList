@@ -17,12 +17,12 @@ namespace ToDoList.Views
 
         private void CreatePasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((SignUpViewModel) this.DataContext).Password1 = ((PasswordBox) sender).Password;
+            ((SignUpViewModel) this.DataContext).Password = ((PasswordBox) sender).Password;
         }
 
         private void RepeatPasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((SignUpViewModel)this.DataContext).Password2 = ((PasswordBox)sender).Password;
+            ((SignUpViewModel)this.DataContext).RepeatedPassword = ((PasswordBox)sender).Password;
         }
     }
 }
