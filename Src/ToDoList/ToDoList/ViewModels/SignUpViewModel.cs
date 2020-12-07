@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using ToDoList.BLL.Services;
+using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
@@ -18,7 +19,6 @@ namespace ToDoList.ViewModels
         public SignUpViewModel()
         {
             this.userService = new UserService();
-
             this.SubmitCommand = new RelayCommand<Window>(this.RegisterUser);
         }
 
@@ -29,7 +29,6 @@ namespace ToDoList.ViewModels
             get => this.userName;
             set
             {
-                // Implement with property changed handling for INotifyPropertyChanged
                 if (!string.Equals(this.userName, value))
                 {
                     this.userName = value;
@@ -70,8 +69,10 @@ namespace ToDoList.ViewModels
             try
             {
                 this.userService.CreateUser(this.UserName, this.Password1, this.Password2);
-
-                window?.Close();
+                var newWindow = new MainWindow();
+                Application.Current.MainWindow?.Close();
+                Application.Current.MainWindow = newWindow;
+                newWindow.Show();
             }
             catch (Exception e)
             {

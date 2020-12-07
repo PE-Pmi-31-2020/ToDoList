@@ -1,25 +1,21 @@
-﻿
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Security;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
+using Notifications.Wpf;
+using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
-using ToDoList.DAL.Entities;
+using ToDoList.Logic.Interfaces;
+using ToDoList.Logic.Services;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    internal class SignInViewModel: INotifyPropertyChanged
+    internal class SignInViewModel
     {
-
-        private readonly UserService userService;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private string login;
+        private readonly IUserService userService;
+        private readonly INotificationService notificationService;
+        private string userName;
 
         public RelayCommand<object> SubmitCommand { get; private set; }
 
@@ -27,23 +23,17 @@ namespace ToDoList.ViewModels
         {
             this.SubmitCommand = new RelayCommand<object>(this.Submit);
             this.userService = new UserService();
+            notificationService = new NotificationService();
         }
 
-        public SecureString SecurePassword { private get; set; }
-
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        public string UserName
         {
-            this.SecurePassword = ((PasswordBox)sender).SecurePassword;
-        }
-
-        public string Login
-        {
-            get => this.login;
+            get => this.userName;
             set
             {
-                if (!value.Equals(this.login))
+                if (!value.Equals(this.userName))
                 {
-                    this.login = value;
+                    this.userName = value;
                 }
             }
         }
@@ -52,10 +42,10 @@ namespace ToDoList.ViewModels
         {
             PasswordBox PasswordObj = parameter as PasswordBox;
             string password = PasswordObj.Password;
-            var user = userService.LoginUser(this.login, password);
+            var user = userService.LoginUser(this.userName, password);
+            notificationService.ShowNotification("Ви залогінились блін", NotificationType.Success);
             var newWindow = new MainWindow();
-            
-            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow?.Close();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
         }

@@ -19,7 +19,7 @@ namespace ToDoList.Logic.Services
         {
             _database = new EFUnitOfWork();
         }
-        public void ShowNotification(string description, string title = "Notification")
+        public void ShowNotification(string description, NotificationType type, string title = "Notification")
         {
             var notificationManager = new NotificationManager();
 
@@ -27,7 +27,7 @@ namespace ToDoList.Logic.Services
             {
                 Title = title,
                 Message = description,
-                Type = NotificationType.Information
+                Type = type
             });
         }
 
@@ -44,11 +44,11 @@ namespace ToDoList.Logic.Services
                 var tasks = _database.Tasks.GetAll().Where(t => t.Deadline == DateTime.Now.TimeOfDay).ToList();
                 foreach (var e in events)
                 {
-                   ShowNotification($"Deadline of {e.Name} horyt");
+                   ShowNotification($"Deadline of {e.Name} horyt",NotificationType.Warning);
                 }
                 foreach (var t in tasks)
                 {
-                    ShowNotification($"Deadline of {t.Name} horyt");
+                    ShowNotification($"Deadline of {t.Name} horyt", NotificationType.Warning);
                 }
 
             }
