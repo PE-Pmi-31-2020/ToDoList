@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.BLL", "ToDoList.BL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.DAL", "ToDoList.DAL\ToDoList.DAL.csproj", "{5E1D68C0-BF44-4A1D-9267-4F6A68E16F2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoListTests", "ToDoListTests\ToDoListTests.csproj", "{9384C344-17DD-4BDC-B227-40BF886EA69D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5E1D68C0-BF44-4A1D-9267-4F6A68E16F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E1D68C0-BF44-4A1D-9267-4F6A68E16F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E1D68C0-BF44-4A1D-9267-4F6A68E16F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9384C344-17DD-4BDC-B227-40BF886EA69D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9384C344-17DD-4BDC-B227-40BF886EA69D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9384C344-17DD-4BDC-B227-40BF886EA69D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9384C344-17DD-4BDC-B227-40BF886EA69D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
