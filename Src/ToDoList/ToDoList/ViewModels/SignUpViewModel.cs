@@ -11,7 +11,6 @@ namespace ToDoList.ViewModels
     {
         private UserService userService;
 
-        // private INotificationService _notificationService;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public RelayCommand<Window> SubmitCommand { get; private set; }
@@ -20,7 +19,6 @@ namespace ToDoList.ViewModels
         {
             this.userService = new UserService();
 
-            // _notificationService = new NotificationService();
             this.SubmitCommand = new RelayCommand<Window>(this.RegisterUser);
         }
 
@@ -73,7 +71,6 @@ namespace ToDoList.ViewModels
             {
                 this.userService.CreateUser(this.UserName, this.Password1, this.Password2);
 
-                // _notificationService.RunNotificationKernel();
                 window?.Close();
             }
             catch (Exception e)
