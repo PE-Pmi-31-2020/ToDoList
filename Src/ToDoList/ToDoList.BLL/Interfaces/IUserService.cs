@@ -4,7 +4,8 @@ namespace ToDoList.BLL.Interfaces
 {
     public interface IUserService
     {
-        Errors CreateUser(string userName, string password1, string password2);
+        Errors CreateUser(string fullName, string userName, string password, string repeatedPassword);
         Errors LoginUser(string login, string password);
+        string GetUserFullNameById(int? id);
     }
 }

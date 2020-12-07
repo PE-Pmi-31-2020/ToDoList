@@ -24,7 +24,7 @@ namespace ToDoList.BLL.Services
             database = repository;
         }
 
-        public Errors CreateUser(string userName, string password, string repeatedPassword)
+        public Errors CreateUser(string fullName, string userName, string password, string repeatedPassword)
         {
             if (password != repeatedPassword)
             {
@@ -36,9 +36,10 @@ namespace ToDoList.BLL.Services
                 return Errors.UserExists;
             }
 
-            var user = new User { Password = Encrypt(password), UserName = userName };
+            var user = new User { Password = Encrypt(password), UserName = userName, FullName = fullName };
             ((UserRepository)database.Users).Create(user);
             database.Save();
+            AppConfig.UserId = user.Id;
 
             return Errors.Success;
         }
@@ -56,7 +57,13 @@ namespace ToDoList.BLL.Services
             {
                 return Errors.Authentification;
             }
+            AppConfig.UserId = user.Id;
             return Errors.Success;
+        }
+
+        public string GetUserFullNameById(int? id)
+        {
+            return id == null ? string.Empty : database.Users.Get((int)id).FullName;
         }
 
         private static string Encrypt(string clearText)

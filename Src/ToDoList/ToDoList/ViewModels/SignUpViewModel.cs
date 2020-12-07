@@ -85,7 +85,7 @@ namespace ToDoList.ViewModels
 
         private void SignUp()
         {
-            var res = userService.CreateUser(this.UserName, this.Password, this.RepeatedPassword);
+            var res = userService.CreateUser(this.FullName, this.UserName, this.Password, this.RepeatedPassword);
             switch (res)
             {
                 case Errors.Authentification:
