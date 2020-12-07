@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Threading;
+using ToDoList.DAL.Entities;
+using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
@@ -12,6 +14,7 @@ namespace ToDoList.Views
         public MainWindow()
         {
             this.InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
             DispatcherTimer LiveTime = new DispatcherTimer();
             LiveTime.Interval = TimeSpan.FromSeconds(1);
             LiveTime.Tick += timer_Tick;

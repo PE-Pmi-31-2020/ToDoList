@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
@@ -12,6 +13,7 @@ namespace ToDoList.Views
         public SignInWindow()
         {
             this.InitializeComponent();
+            this.DataContext = new SignInViewModel();
         }
     }
 }
