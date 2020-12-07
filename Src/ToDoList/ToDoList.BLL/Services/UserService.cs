@@ -12,11 +12,16 @@ namespace ToDoList.BLL.Services
     public class UserService : IUserService
     {
         private const string EncryptionKey = "dsadasdsadas43";
-        private readonly IUnitOfWork _ef;
+        private readonly IUnitOfWork database;
 
         public UserService()
         {
-            _ef = new EFUnitOfWork();
+            database = new EFUnitOfWork();
+        }
+
+        public UserService(IUnitOfWork repository)
+        {
+            database = repository;
         }
 
         public Errors CreateUser(string userName, string password, string repeatedPassword)
@@ -25,15 +30,15 @@ namespace ToDoList.BLL.Services
             {
                 return Errors.Password;
             }
-            var existingUser = ((UserRepository)_ef.Users).Get(userName);
+            var existingUser = ((UserRepository)database.Users).Get(userName);
             if (existingUser != null)
             {
                 return Errors.UserExists;
             }
 
             var user = new User { Password = Encrypt(password), UserName = userName };
-            ((UserRepository)_ef.Users).Create(user);
-            _ef.Save();
+            ((UserRepository)database.Users).Create(user);
+            database.Save();
 
             return Errors.Success;
         }
@@ -41,7 +46,7 @@ namespace ToDoList.BLL.Services
 
         public Errors LoginUser(string userName, string password)
         {
-            var user = ((UserRepository)_ef.Users).Get(userName);
+            var user = ((UserRepository)database.Users).Get(userName);
             if (user == null)
             {
                 return Errors.Authentification;
