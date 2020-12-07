@@ -17,7 +17,8 @@ namespace ToDoList.ViewModels
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private readonly INotificationService _notificationService;
+
+        private readonly INotificationService notificationService;
 
         public RelayCommand<Window> AddEventCommand { get; private set; }
 
@@ -25,8 +26,8 @@ namespace ToDoList.ViewModels
 
         public MainWindowViewModel()
         {
-            _notificationService = new NotificationService();
-            _notificationService.RunNotificationKernel();
+            this.notificationService = new NotificationService();
+            this.notificationService.RunNotificationKernel();
             this.AddEventCommand = new RelayCommand<Window>(this.ShowAddEvent);
             this.AddTaskCommand = new RelayCommand<Window>(this.ShowAddTask);
         }
