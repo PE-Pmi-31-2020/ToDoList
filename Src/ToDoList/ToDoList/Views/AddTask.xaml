@@ -5,11 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList.Views" xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Background="{StaticResource MaterialDesignDarkBackground}"
-        Foreground="White"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Background="{DynamicResource MaterialDesignDarkBackground}" 
+        Foreground="White" 
         Title="AddTask" Height="330" Width="550">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -17,21 +25,39 @@
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Column="1" Grid.Row="0" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center"  Width="500" Text="{Binding Name}" 
+                materialDesign:HintAssist.Hint="Task name"
+                materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
+                materialDesign:HintAssist.FloatingScale="0.75"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="89"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Name: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBlock Text="Reminder: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="10" Text="{Binding Name}"/>
-            <mah:TimePicker  Grid.Column="1" Grid.Row="1" Margin="35,35,0,35" SelectedDateTime="{Binding RemindTime}" HorizontalAlignment="Left" Width="255" mah:TextBoxHelper.Watermark="Select time"/>
+            <materialDesign:PackIcon Kind="Alarm" Foreground="#707070" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="40"/>
+            <materialDesign:TimePicker Grid.Column="1" Grid.Row="1" Margin="47,11,145,17"
+                Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                materialDesign:HintAssist.Hint="Select a time for a reminder" Height="36" />
         </Grid>
 
-        <Grid Row="1">
-            <Button Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Add"></Button>
+        <Grid Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Cancel"></Button>
+
+            <Button Grid.Column="1" Command="{Binding SubmitCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=signUpWindow}" Width="90" Content="Add"></Button>
         </Grid>
     </Grid>
 </Window>
