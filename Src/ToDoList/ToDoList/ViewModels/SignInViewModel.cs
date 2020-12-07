@@ -40,7 +40,7 @@ namespace ToDoList.ViewModels
             string password = PasswordObj.Password;
             var user = userService.LoginUser(this.userName, password);
             var newWindow = new MainWindow();
-            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow?.Close();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
         }
