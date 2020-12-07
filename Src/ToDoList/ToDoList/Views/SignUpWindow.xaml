@@ -93,6 +93,7 @@
                 materialDesign:HintAssist.HelperText="At least 4 characters"
                 materialDesign:HintAssist.Hint="Create password"
                 materialDesign:TextFieldAssist.HasClearButton="True"
+                PasswordChanged="CreatePasswordBox_OnPasswordChanged"
                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
 
             <materialDesign:PackIcon
@@ -112,6 +113,7 @@
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint="Repeat password"
                 materialDesign:TextFieldAssist.HasClearButton="True"
+                PasswordChanged="RepeatPasswordBox_OnPasswordChanged"
                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
 
         </Grid>
@@ -132,6 +134,8 @@
             <Button
                 Name="SignInButton"
                 Grid.Column="1"
+                Command="{Binding SubmitCommand}"
+                CommandParameter="{Binding ElementName=signUpWindow}"
                 Content="SIGN UP"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="MaterialDesignFlatButton" />

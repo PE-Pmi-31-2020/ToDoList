@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using ToDoList.ViewModels;
 
 namespace ToDoList.Views
@@ -12,6 +13,16 @@ namespace ToDoList.Views
         {
             this.InitializeComponent();
             this.DataContext = new SignUpViewModel();
+        }
+
+        private void CreatePasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((SignUpViewModel) this.DataContext).Password1 = ((PasswordBox) sender).Password;
+        }
+
+        private void RepeatPasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((SignUpViewModel)this.DataContext).Password2 = ((PasswordBox)sender).Password;
         }
     }
 }
