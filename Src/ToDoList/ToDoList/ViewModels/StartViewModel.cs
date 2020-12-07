@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    internal class StartViewModel : INotifyPropertyChanged
+    internal class StartViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public RelayCommand<Window> SignInCommand { get; private set; }
 

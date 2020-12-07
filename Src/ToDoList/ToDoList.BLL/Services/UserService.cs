@@ -2,12 +2,13 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Repositories;
 
 namespace ToDoList.BLL.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private const string EncryptionKey = "dsadasdsadas43";
         private readonly EFUnitOfWork _ef;
@@ -17,9 +18,9 @@ namespace ToDoList.BLL.Services
             _ef = new EFUnitOfWork();
         }
 
-        public void CreateUser(string userName, string password1, string password2)
+        public void CreateUser(string userName, string password, string repeatedPassword)
         {
-            if (password1 != password2)
+            if (password != repeatedPassword)
             {
                 throw new Exception("PasswordError");
             }
@@ -29,17 +30,16 @@ namespace ToDoList.BLL.Services
                 throw new Exception("UserExistsError");
             }
 
-            var user = new User {Password = Encrypt(password1), UserName = userName};
+            var user = new User { Password = Encrypt(password), UserName = userName };
             ((UserRepository)_ef.Users).Create(user);
-            //var l = ef.Users.GetAll().ToList();
             _ef.Save();
         }
 
 
-        public User LoginUser(string login, string password)
+        public User LoginUser(string userName, string password)
         {
-            var user = ((UserRepository)_ef.Users).Get(login);
-            if(user == null)
+            var user = ((UserRepository)_ef.Users).Get(userName);
+            if (user == null)
             {
                 throw new Exception("AuthError");
             }
@@ -49,7 +49,7 @@ namespace ToDoList.BLL.Services
                 throw new Exception("AuthError");
             }
             return user;
-        } 
+        }
 
         private static string Encrypt(string clearText)
         {
@@ -57,9 +57,9 @@ namespace ToDoList.BLL.Services
             using (var encryptor = Aes.Create())
             {
                 var pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                
+
                 if (encryptor == null) return clearText;
-               
+
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
                 using (var ms = new MemoryStream())
@@ -82,7 +82,7 @@ namespace ToDoList.BLL.Services
             using (var encryptor = Aes.Create())
             {
                 var pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                
+
                 if (encryptor == null) return cipherText;
 
                 encryptor.Key = pdb.GetBytes(32);

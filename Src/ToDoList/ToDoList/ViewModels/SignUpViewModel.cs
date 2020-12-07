@@ -11,7 +11,6 @@ namespace ToDoList.ViewModels
     {
         private UserService userService;
 
-        // private INotificationService _notificationService;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public RelayCommand<Window> SubmitCommand { get; private set; }
@@ -19,8 +18,6 @@ namespace ToDoList.ViewModels
         public SignUpViewModel()
         {
             this.userService = new UserService();
-
-            // _notificationService = new NotificationService();
             this.SubmitCommand = new RelayCommand<Window>(this.RegisterUser);
         }
 
@@ -31,7 +28,6 @@ namespace ToDoList.ViewModels
             get => this.userName;
             set
             {
-                // Implement with property changed handling for INotifyPropertyChanged
                 if (!string.Equals(this.userName, value))
                 {
                     this.userName = value;
@@ -72,8 +68,6 @@ namespace ToDoList.ViewModels
             try
             {
                 this.userService.CreateUser(this.UserName, this.Password1, this.Password2);
-
-                // _notificationService.RunNotificationKernel();
                 window?.Close();
             }
             catch (Exception e)

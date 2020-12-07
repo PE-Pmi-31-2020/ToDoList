@@ -1,25 +1,18 @@
-﻿
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Security;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
+using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
-using ToDoList.DAL.Entities;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    internal class SignInViewModel: INotifyPropertyChanged
+    internal class SignInViewModel
     {
+        private readonly IUserService userService;
 
-        private readonly UserService userService;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private string login;
+        private string userName;
 
         public RelayCommand<object> SubmitCommand { get; private set; }
 
@@ -29,21 +22,14 @@ namespace ToDoList.ViewModels
             this.userService = new UserService();
         }
 
-        public SecureString SecurePassword { private get; set; }
-
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        public string UserName
         {
-            this.SecurePassword = ((PasswordBox)sender).SecurePassword;
-        }
-
-        public string Login
-        {
-            get => this.login;
+            get => this.userName;
             set
             {
-                if (!value.Equals(this.login))
+                if (!value.Equals(this.userName))
                 {
-                    this.login = value;
+                    this.userName = value;
                 }
             }
         }
@@ -52,9 +38,8 @@ namespace ToDoList.ViewModels
         {
             PasswordBox PasswordObj = parameter as PasswordBox;
             string password = PasswordObj.Password;
-            var user = userService.LoginUser(this.login, password);
+            var user = userService.LoginUser(this.userName, password);
             var newWindow = new MainWindow();
-            
             Application.Current.MainWindow.Close();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
