@@ -18,7 +18,7 @@
         Title="StartWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="F:\Навчання\3 курс\Programming Engineering\Project\ToDoList\Docs\computerDesk.jpg" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="../Images/computerDesk.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock Text="MakeYourDay" FontSize="80" HorizontalAlignment="Center" Foreground="White"/>
