@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using ToDoList.DAL.Entities;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
