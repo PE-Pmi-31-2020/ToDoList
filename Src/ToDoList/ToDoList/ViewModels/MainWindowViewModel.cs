@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using ToDoList.DAL.Entities;
+using ToDoList.Logic.Interfaces;
+using ToDoList.Logic.Services;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
@@ -15,12 +18,16 @@ namespace ToDoList.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private readonly INotificationService notificationService;
+
         public RelayCommand<Window> AddEventCommand { get; private set; }
 
         public RelayCommand<Window> AddTaskCommand { get; private set; }
 
         public MainWindowViewModel()
         {
+            this.notificationService = new NotificationService();
+            this.notificationService.RunNotificationKernel();
             this.AddEventCommand = new RelayCommand<Window>(this.ShowAddEvent);
             this.AddTaskCommand = new RelayCommand<Window>(this.ShowAddTask);
         }

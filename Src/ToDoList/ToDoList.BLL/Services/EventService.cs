@@ -1,17 +1,22 @@
 ﻿using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
+using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
 
 namespace ToDoList.BLL.Services
 {
     public class EventService: IEventService
     {
-        private readonly EFUnitOfWork _database;
+        private readonly IUnitOfWork _database;
 
         public EventService()
         {
             _database = new EFUnitOfWork();
+        }
+        public EventService(IUnitOfWork _repository)
+        {
+            _database = _repository;
         }
 
         public async System.Threading.Tasks.Task CreateEventAsync(EventDto eventt)
