@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
@@ -22,6 +23,7 @@ namespace ToDoList.Views
         public AddTask()
         {
             this.InitializeComponent();
+            this.DataContext = new AddTaskViewModel(this);
         }
     }
 }

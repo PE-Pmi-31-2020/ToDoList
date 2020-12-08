@@ -1,4 +1,6 @@
-﻿using ToDoList.BLL.DTO;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Repositories;
@@ -45,6 +47,11 @@ namespace ToDoList.BLL.Services
         {
             _database.Tasks.Delete(task.Id);
             await _database.SaveAsync();
+        }
+
+        public IEnumerable<Task> GetTasksByUserId(int? id)
+        {
+            return id == null ? null : _database.Tasks.GetAll().Where(t => t.UserId == id);
         }
     }
 }

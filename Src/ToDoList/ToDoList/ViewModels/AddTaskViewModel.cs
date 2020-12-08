@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
@@ -15,13 +16,20 @@ namespace ToDoList.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RelayCommand<Window> SubmitCommand { get; private set; }
+        public event Action TaskAdded;
 
-        public AddTaskViewModel()
+        public RelayCommand AddCommand { get; private set; }
+
+        public RelayCommand CancelCommand { get; private set; }
+
+        public AddTaskViewModel(Window window)
         {
-            this.SubmitCommand = new RelayCommand<Window>(this.Submit);
+            this.AddCommand = new RelayCommand(this.Add);
+            this.CancelCommand = new RelayCommand(this.Cancel);
             this.taskService = new TaskService();
         }
+
+        private Window window;
 
         private string name;
 
@@ -37,46 +45,32 @@ namespace ToDoList.ViewModels
             }
         }
 
-        private TimeSpan deadline;
+        private DateTime deadline;
 
-        public TimeSpan Deadline
+        public DateTime Deadline
         {
             get => this.deadline;
             set
             {
-                if (!string.Equals(this.deadline, value))
-                {
-                    this.deadline = value;
-                }
+                this.deadline = value;
             }
         }
 
-        private int userId;
-
-        public int UserId
-        {
-            get => this.userId;
-            set
-            {
-                if (!string.Equals(this.userId, value))
-                {
-                    this.userId = value;
-                }
-            }
-        }
-
-        private void Submit(Window window)
+        private void Add()
         {
             this.taskService.CreateTaskAsync(new TaskDto()
             {
                 Name = this.Name,
-                Deadline = this.Deadline,
-                UserId = this.UserId,
+                Deadline = this.Deadline.TimeOfDay,
+                UserId = (int)AppConfig.UserId,
             });
-            var newWindow = new MainWindow();
-            Application.Current.MainWindow = newWindow;
-            newWindow.Show();
-            window?.Close();
+            TaskAdded.Invoke();
+            this.window.Close();
+        }
+
+        private void Cancel()
+        {
+            this.window.Close();
         }
     }
 }
