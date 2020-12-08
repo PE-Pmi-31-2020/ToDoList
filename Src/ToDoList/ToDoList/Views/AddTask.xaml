@@ -76,13 +76,13 @@
             <Button
                 Grid.Column="0"
                 Width="90"
-                Command="{Binding AddCommand}"
+                Command="{Binding CancelCommand}"
                 Content="Cancel" />
 
             <Button
                 Grid.Column="1"
                 Width="90"
-                Command="{Binding CancelCommand, Mode=OneWay}"
+                Command="{Binding AddCommand}"
                 Content="Add" />
         </Grid>
     </Grid>

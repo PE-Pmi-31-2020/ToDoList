@@ -27,6 +27,7 @@ namespace ToDoList.ViewModels
             this.AddCommand = new RelayCommand(this.Add);
             this.CancelCommand = new RelayCommand(this.Cancel);
             this.taskService = new TaskService();
+            this.window = window;
         }
 
         private Window window;
