@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Notifications.Wpf;
+using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
 using ToDoList.Logic.Interfaces;
 
@@ -13,16 +14,21 @@ namespace ToDoList.Logic.Services
 {
     public class NotificationService: INotificationService
     {
-        private EFUnitOfWork _database;
+        private IUnitOfWork _database;
+        private INotificationManager notificationManager;
 
         public NotificationService()
         {
-            _database = new EFUnitOfWork();
+            _database = new EFUnitOfWork(); 
+            notificationManager = new NotificationManager();
+        }
+        public NotificationService(IUnitOfWork database, INotificationManager notification)
+        {
+            _database = database;
+            notificationManager = notification;
         }
         public void ShowNotification(string description, NotificationType type, string title = "Notification")
         {
-            var notificationManager = new NotificationManager();
-
             notificationManager.Show(new NotificationContent
             {
                 Title = title,
