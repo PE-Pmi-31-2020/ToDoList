@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using Notifications.Wpf;
 using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
@@ -18,6 +20,8 @@ namespace ToDoList.ViewModels
 
         public event Action TaskAdded;
 
+        private readonly INotificationService _notificationService;
+
         public RelayCommand AddCommand { get; private set; }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -28,6 +32,7 @@ namespace ToDoList.ViewModels
             this.CancelCommand = new RelayCommand(this.Cancel);
             this.taskService = new TaskService();
             this.window = window;
+            _notificationService = new NotificationService();
         }
 
         private Window window;
@@ -66,6 +71,7 @@ namespace ToDoList.ViewModels
                 UserId = (int)AppConfig.UserId,
             });
             TaskAdded.Invoke();
+            this._notificationService.ShowNotification($"Task {Name} is successfully added!", NotificationType.Information, "Information");
             this.window.Close();
         }
 
