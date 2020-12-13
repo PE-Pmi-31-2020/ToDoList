@@ -5,7 +5,7 @@ using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Interfaces;
 
-namespace ToDoListTests
+namespace ToDoListTests.Services
 {
     public class CryptServiceTests
     {

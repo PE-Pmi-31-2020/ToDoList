@@ -8,7 +8,7 @@ using ToDoList.DAL.Interfaces;
 
 namespace ToDoList.DAL.Repositories
 {
-    public class EventRepository : IRepository<Event>
+    public class EventRepository : IRepository<Event,int>
     {
         private readonly DataBase _db;
         public EventRepository(DataBase dataBase)

@@ -8,7 +8,7 @@ using ToDoList.DAL.Interfaces;
 
 namespace ToDoList.DAL.Repositories
 {
-    public class UserRepository:IRepository<User>
+    public class UserRepository:IRepository<User,string>
     {
         private readonly DataBase _db;
 
@@ -35,7 +35,7 @@ namespace ToDoList.DAL.Repositories
 
         public User Get(int id)
         {
-            return _db.Users.Find(id);
+            return _db.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public User Get(string userName)

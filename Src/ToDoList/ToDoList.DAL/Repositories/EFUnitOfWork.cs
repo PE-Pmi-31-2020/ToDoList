@@ -16,11 +16,11 @@ namespace ToDoList.DAL.Repositories
             _db = new DataBase();
         }
 
-        public IRepository<Task> Tasks => _taskRepository ?? (_taskRepository = new TaskRepository(_db));
+        public IRepository<Task, int> Tasks => (IRepository<Task, int>)(_taskRepository ?? (_taskRepository = new TaskRepository(_db)));
 
-        public IRepository<User> Users => _userRepository ?? (_userRepository = new UserRepository(_db));
+        public IRepository<User,string> Users => (IRepository<User, string>)(_userRepository ?? (_userRepository = new UserRepository(_db)));
 
-        public IRepository<Event> Events => _eventRepository ?? (_eventRepository = new EventRepository(_db));
+        public IRepository<Event,int> Events => (IRepository<Event, int>)(_eventRepository ?? (_eventRepository = new EventRepository(_db)));
 
         public void Save()
         {

@@ -8,7 +8,7 @@ using ToDoList.DAL.Interfaces;
 
 namespace ToDoList.DAL.Repositories
 {
-    public class TaskRepository : IRepository<Task>
+    public class TaskRepository : IRepository<Task,int>
     {
         private readonly DataBase _db;
 
