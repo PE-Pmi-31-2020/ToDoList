@@ -25,5 +25,10 @@ namespace ToDoList.Views
             LiveTimeLabel.Content = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
         }
 
+        private void OnWindowClose(object sender, EventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
+        }
+
     }
 }
