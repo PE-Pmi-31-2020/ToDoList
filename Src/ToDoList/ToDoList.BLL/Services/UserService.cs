@@ -20,9 +20,10 @@ namespace ToDoList.BLL.Services
             cryptService = new CryptService();
         }
 
-        public UserService(IUnitOfWork repository)
+        public UserService(IUnitOfWork repository, ICryptService cryptService)
         {
             database = repository;
+            this.cryptService = cryptService;
         }
 
         public Errors CreateUser(string fullName, string userName, string password, string repeatedPassword)
@@ -38,7 +39,7 @@ namespace ToDoList.BLL.Services
             }
 
             var user = new User { Password = cryptService.Encrypt(password), UserName = userName, FullName = fullName };
-            ((UserRepository)database.Users).Create(user);
+            database.Users.Create(user);
             database.Save();
             AppConfig.UserId = user.Id;
 

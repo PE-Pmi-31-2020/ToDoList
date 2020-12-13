@@ -6,6 +6,7 @@ using System.Text;
 using Moq;
 using NUnit.Framework;
 using ToDoList.BLL.DTO;
+using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Interfaces;
@@ -16,12 +17,14 @@ namespace ToDoListTests.Services
     {
         private UserService _userService;
         private static Mock<IUnitOfWork> _repository;
+        private static Mock<ICryptService> cryptServiceMock;
         [SetUp]
         public void Setup()
         {
             _repository = new Mock<IUnitOfWork>();
+            cryptServiceMock = new Mock<ICryptService>();
             _repository.Setup(rep => rep.Save());
-            _userService = new UserService(_repository.Object);
+            _userService = new UserService(_repository.Object, cryptServiceMock.Object);
         }
 
         [TestCase("user1", "user1","pas1","pas2")]
@@ -53,10 +56,12 @@ namespace ToDoListTests.Services
         {
             _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns((User)null);
             _repository.Setup(rep => rep.Users.Create(It.IsAny<User>()));
+            cryptServiceMock.Setup(s => s.Encrypt(It.IsAny<string>())).Returns(password);
 
            var result = _userService.CreateUser(fullName, userName, password, repeatedPassword);
 
             _repository.Verify();
+            cryptServiceMock.Verify();
             Assert.AreEqual(result,Errors.Success);
             
         }
@@ -66,10 +71,12 @@ namespace ToDoListTests.Services
         [TestCase("user3", "pas1")]
         public void LoginUser_DifferentPasswordsException_Test(string userName, string password)
         {
-            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User(){Password = Encrypt(password+userName) });
+            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User(){Password = password });
+            cryptServiceMock.Setup(s => s.Decrypt(It.IsAny<string>())).Returns(password+1);
 
             var result = _userService.LoginUser(userName, password);
 
+            cryptServiceMock.Verify();
             Assert.AreEqual(result, Errors.Authentification);
         }
 
@@ -90,38 +97,14 @@ namespace ToDoListTests.Services
         [TestCase("user3", "pas1")]
         public void LoginUser_Successful_Test(string userName, string password)
         {
-            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User() { Password = Encrypt(password) });
+            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User() { Password = password });
+            cryptServiceMock.Setup(s => s.Decrypt(It.IsAny<string>())).Returns(password);
 
             var result = _userService.LoginUser(userName, password);
 
             _repository.Verify();
             Assert.AreEqual(result, Errors.Success);
 
-        }
-        private static string Encrypt(string clearText)
-        {
-            string EncryptionKey = "dsadasdsadas43";
-            var clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (var encryptor = Aes.Create())
-            {
-                var pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-
-                if (encryptor == null) return clearText;
-
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (var ms = new MemoryStream())
-                {
-                    using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-
-                    clearText = Convert.ToBase64String(ms.ToArray());
-                }
-            }
-            return clearText;
         }
     }
 }
