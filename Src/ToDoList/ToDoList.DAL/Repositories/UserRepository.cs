@@ -8,7 +8,7 @@ using ToDoList.DAL.Interfaces;
 
 namespace ToDoList.DAL.Repositories
 {
-    public class UserRepository:IRepository<User>
+    public class UserRepository:IRepository<User,string>
     {
         private readonly DataBase _db;
 
@@ -31,11 +31,6 @@ namespace ToDoList.DAL.Repositories
         public IEnumerable<User> Find(Func<User, bool> predicate)
         {
             return _db.Users.Include(t => t.Tasks).AsEnumerable().Where(predicate).ToList();
-        }
-
-        public User Get(int id)
-        {
-            return _db.Users.Find(id);
         }
 
         public User Get(string userName)

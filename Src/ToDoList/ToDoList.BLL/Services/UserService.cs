@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
+using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
 
 namespace ToDoList.BLL.Services
@@ -11,11 +12,15 @@ namespace ToDoList.BLL.Services
     public class UserService : IUserService
     {
         private const string EncryptionKey = "dsadasdsadas43";
-        private readonly EFUnitOfWork _ef;
+        private readonly IUnitOfWork _ef;
 
         public UserService()
         {
             _ef = new EFUnitOfWork();
+        }
+        public UserService(IUnitOfWork database)
+        {
+            _ef = database;
         }
 
         public void CreateUser(string userName, string password, string repeatedPassword)
@@ -24,21 +29,21 @@ namespace ToDoList.BLL.Services
             {
                 throw new Exception("PasswordError");
             }
-            var existingUser = ((UserRepository)_ef.Users).Get(userName);
+            var existingUser = _ef.Users.Get(userName);
             if (existingUser != null)
             {
                 throw new Exception("UserExistsError");
             }
 
             var user = new User { Password = Encrypt(password), UserName = userName };
-            ((UserRepository)_ef.Users).Create(user);
+            _ef.Users.Create(user);
             _ef.Save();
         }
 
 
         public User LoginUser(string userName, string password)
         {
-            var user = ((UserRepository)_ef.Users).Get(userName);
+            var user = _ef.Users.Get(userName);
             if (user == null)
             {
                 throw new Exception("AuthError");
@@ -46,7 +51,7 @@ namespace ToDoList.BLL.Services
             var decryptedPassword = Decrypt(user.Password);
             if (!decryptedPassword.Equals(password))
             {
-                throw new Exception("AuthError");
+                throw new Exception("IncorrectPasswordError");
             }
             return user;
         }
