@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoList.BLL.Interfaces
 {
-    interface ICryptService
+    public interface ICryptService
     {
         string Encrypt(string clearText);
         string Decrypt(string cipherText);

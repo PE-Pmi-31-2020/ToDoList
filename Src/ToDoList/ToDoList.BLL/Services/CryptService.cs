@@ -6,7 +6,7 @@ using ToDoList.BLL.Interfaces;
 
 namespace ToDoList.BLL.Services
 {
-    class CryptService: ICryptService
+    public class CryptService: ICryptService
     {
         private const string EncryptionKey = "dsadasdsadas43";
 
