@@ -40,6 +40,7 @@ namespace ToDoList.BLL.Services
 
             var user = new User { Password = cryptService.Encrypt(password), UserName = userName, FullName = fullName };
             database.Users.Create(user);
+>>>>>>>>> Temporary merge branch 2
             database.Save();
             AppConfig.UserId = user.Id;
 
