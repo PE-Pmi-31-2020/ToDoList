@@ -15,6 +15,7 @@ namespace ToDoList.ViewModels
     {
         private readonly IUserService userService;
         private readonly INotificationService notificationService;
+        private readonly LoggerService loggerService;
 
         public RelayCommand SignInCommand { get; private set; }
 
@@ -26,6 +27,7 @@ namespace ToDoList.ViewModels
             this.CancelCommand = new RelayCommand(this.Cancel);
             this.userService = new UserService();
             notificationService = new NotificationService();
+            loggerService = new LoggerService();
         }
 
         private string userName;
@@ -63,6 +65,7 @@ namespace ToDoList.ViewModels
             {
                 case Errors.Authentification:
                     notificationService.ShowNotification("Incorrect password or login", NotificationType.Error, "Error");
+                    loggerService.LogError($"Incorrect password or login was entered");
                     return;
                 case Errors.Password:
                     return;
@@ -70,6 +73,7 @@ namespace ToDoList.ViewModels
                     return;
                 case Errors.Success:
                     notificationService.ShowNotification("You are logged in", NotificationType.Success, "Success");
+                    loggerService.LogInfo($"{this.UserName} logged in");
                     break;
                 default:
                     return;

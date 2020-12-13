@@ -21,6 +21,9 @@ namespace ToDoList.ViewModels
         public event Action EventAdded;
 
         private readonly INotificationService _notificationService;
+
+        private readonly LoggerService loggerService;
+
         public RelayCommand AddCommand { get; private set; }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -32,6 +35,7 @@ namespace ToDoList.ViewModels
             this.CancelCommand = new RelayCommand(this.Cancel);
             this.eventService = new EventService();
             this._notificationService = new NotificationService();
+            loggerService = new LoggerService();
         }
 
         private Window window;
@@ -110,6 +114,7 @@ namespace ToDoList.ViewModels
             });
             EventAdded.Invoke();
             this._notificationService.ShowNotification($"Event {Name} is successfully added!", NotificationType.Information, "Information");
+            loggerService.LogInfo($"A new event {Name} was added");
             this.window.Close();
         }
 
