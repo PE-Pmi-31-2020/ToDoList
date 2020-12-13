@@ -30,7 +30,10 @@ namespace ToDoList.BLL.Services
 
         public void RunNotificationKernel()
         {
-            Task task = Task.Run(Check);
+            //Task task = Task.Run(Check);
+            Thread thread = new Thread(Check);
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         private void Check()
