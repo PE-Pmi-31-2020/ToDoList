@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Moq;
 using Notifications.Wpf;
 using NUnit.Framework;
+using ToDoList.BLL.Interfaces;
+using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Interfaces;
-using ToDoList.Logic.Interfaces;
-using ToDoList.Logic.Services;
 
 namespace ToDoListTests.Services
 {

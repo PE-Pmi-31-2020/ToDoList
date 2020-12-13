@@ -33,6 +33,11 @@ namespace ToDoList.DAL.Repositories
             return _db.Users.Include(t => t.Tasks).AsEnumerable().Where(predicate).ToList();
         }
 
+        public User Get(int id)
+        {
+            return _db.Users.FirstOrDefault(u => u.Id == id);
+        }
+
         public User Get(string userName)
         {
             return _db.Users.FirstOrDefault(u => u.UserName == userName);

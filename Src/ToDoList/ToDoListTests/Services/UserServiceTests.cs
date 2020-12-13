@@ -24,41 +24,40 @@ namespace ToDoListTests.Services
             _userService = new UserService(_repository.Object);
         }
 
-        [TestCase("user1","pas1","pas2")]
-        [TestCase("user2", "pas1", "pas2")]
-        [TestCase("user3", "pas1", "pas2")]
-        public void CreateUser_DifferentPasswordsException_Test(string userName, string password, string repeatedPassword)
+        [TestCase("user1", "user1","pas1","pas2")]
+        [TestCase("user2", "user2", "pas1", "pas2")]
+        [TestCase("user3", "user3", "pas1", "pas2")]
+        public void CreateUser_DifferentPasswordsException_Test(string fullName, string userName, string password, string repeatedPassword)
         {
-            Exception exception = Assert.Throws(typeof(Exception),
-               () => _userService.CreateUser(userName, password, repeatedPassword));
+            var result = _userService.CreateUser(fullName, userName, password, repeatedPassword);
 
-            Assert.AreEqual("PasswordError", exception.Message);
+            Assert.AreEqual(result, Errors.Password);
         }
 
-        [TestCase("user1", "pas1", "pas1")]
-        [TestCase("user2", "pas1", "pas1")]
-        [TestCase("user3", "pas1", "pas1")]
-        public void CreateUser_UserIsExistsException_Test(string userName, string password, string repeatedPassword)
+        [TestCase("user1", "user1", "pas1", "pas1")]
+        [TestCase("user2", "user2", "pas1", "pas1")]
+        [TestCase("user3", "user3", "pas1", "pas1")]
+        public void CreateUser_UserIsExistsException_Test(string fullName, string userName, string password, string repeatedPassword)
         {
             _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User());
 
-            Exception exception = Assert.Throws(typeof(Exception),
-                () => _userService.CreateUser(userName, password, repeatedPassword));
+            var result = _userService.CreateUser(fullName, userName, password, repeatedPassword);
 
-            Assert.AreEqual("UserExistsError", exception.Message);
+            Assert.AreEqual(result, Errors.UserExists);
         }
 
-        [TestCase("user1", "pas1", "pas1")]
-        [TestCase("user2", "pas1", "pas1")]
-        [TestCase("user3", "pas1", "pas1")]
-        public void CreateUser_Successful_Test(string userName, string password, string repeatedPassword)
+        [TestCase("user1", "user1", "pas1", "pas1")]
+        [TestCase("user2", "user2", "pas1", "pas1")]
+        [TestCase("user3", "user3", "pas1", "pas1")]
+        public void CreateUser_Successful_Test(string fullName, string userName, string password, string repeatedPassword)
         {
             _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns((User)null);
             _repository.Setup(rep => rep.Users.Create(It.IsAny<User>()));
 
-            _userService.CreateUser(userName, password, repeatedPassword);
+           var result = _userService.CreateUser(fullName, userName, password, repeatedPassword);
 
             _repository.Verify();
+            Assert.AreEqual(result,Errors.Success);
             
         }
 
@@ -68,11 +67,10 @@ namespace ToDoListTests.Services
         public void LoginUser_DifferentPasswordsException_Test(string userName, string password)
         {
             _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User(){Password = Encrypt(password+userName) });
-            
-            Exception exception = Assert.Throws(typeof(Exception),
-                () => _userService.LoginUser(userName, password));
 
-            Assert.AreEqual("IncorrectPasswordError", exception.Message);
+            var result = _userService.LoginUser(userName, password);
+
+            Assert.AreEqual(result, Errors.Authentification);
         }
 
         [TestCase("user1", "pas1")]
@@ -82,10 +80,9 @@ namespace ToDoListTests.Services
         {
             _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns((User)null);
 
-            Exception exception = Assert.Throws(typeof(Exception),
-                () => _userService.LoginUser(userName, password));
+            var result = _userService.LoginUser(userName, password);
 
-            Assert.AreEqual("AuthError", exception.Message);
+            Assert.AreEqual(result, Errors.Authentification);
         }
 
         [TestCase("user1", "pas1")]
@@ -98,7 +95,7 @@ namespace ToDoListTests.Services
             var result = _userService.LoginUser(userName, password);
 
             _repository.Verify();
-            Assert.IsInstanceOf<User>(result);
+            Assert.AreEqual(result, Errors.Success);
 
         }
         private static string Encrypt(string clearText)
