@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using Notifications.Wpf;
 using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
@@ -17,8 +18,9 @@ namespace ToDoList.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event Action EventAdded; 
+        public event Action EventAdded;
 
+        private readonly INotificationService _notificationService;
         public RelayCommand AddCommand { get; private set; }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -29,6 +31,7 @@ namespace ToDoList.ViewModels
             this.AddCommand = new RelayCommand(this.Add);
             this.CancelCommand = new RelayCommand(this.Cancel);
             this.eventService = new EventService();
+            this._notificationService = new NotificationService();
         }
 
         private Window window;
@@ -106,6 +109,7 @@ namespace ToDoList.ViewModels
                 UserId = (int)AppConfig.UserId,
             });
             EventAdded.Invoke();
+            this._notificationService.ShowNotification($"Event {Name} is successfully added!", NotificationType.Information, "Information");
             this.window.Close();
         }
 

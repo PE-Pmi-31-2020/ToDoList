@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Notifications.Wpf;
 using ToDoList.BLL.Interfaces;
@@ -29,24 +30,35 @@ namespace ToDoList.BLL.Services
 
         public void RunNotificationKernel()
         {
-            Task task = Task.Run(Check);
+            Thread thread = new Thread(Check);
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         private void Check()
         {
+            TimeSpan currentTime;
+            TimeSpan prevTime = new TimeSpan();
             while (true)
             {
-                var events = _database.Events.GetAll().Where(t => t.RemindTime == DateTime.Now.TimeOfDay).ToList();
-                var tasks = _database.Tasks.GetAll().Where(t => t.Deadline == DateTime.Now.TimeOfDay).ToList();
-                foreach (var e in events)
+                currentTime = DateTime.Now.TimeOfDay;
+                if (currentTime.Minutes != prevTime.Minutes)
                 {
-                   ShowNotification($"Deadline of {e.Name} horyt",NotificationType.Warning);
-                }
-                foreach (var t in tasks)
-                {
-                    ShowNotification($"Deadline of {t.Name} horyt", NotificationType.Warning);
-                }
+                    var events = _database.Events.GetAll()
+                        .Where(t => t.RemindTime.Minutes == DateTime.Now.TimeOfDay.Minutes).ToList();
+                    var tasks = _database.Tasks.GetAll()
+                        .Where(t => t.Deadline.Minutes == DateTime.Now.TimeOfDay.Minutes).ToList();
+                    foreach (var e in events)
+                    {
+                        ShowNotification($"Deadline of {e.Name} horyt", NotificationType.Warning);
+                    }
 
+                    foreach (var t in tasks)
+                    {
+                        ShowNotification($"Deadline of {t.Name} horyt", NotificationType.Warning);
+                    }
+                }
+                prevTime = currentTime;
             }
         }
     }

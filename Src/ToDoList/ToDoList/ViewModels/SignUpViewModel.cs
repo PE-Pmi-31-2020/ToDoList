@@ -25,6 +25,7 @@ namespace ToDoList.ViewModels
             this.userService = new UserService();
             this.SignUpCommand = new RelayCommand(this.SignUp);
             this.CancelCommand = new RelayCommand(this.Cancel);
+            notificationService = new NotificationService();
         }
 
         private string fullName;
