@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Notifications.Wpf;
+﻿using Notifications.Wpf;
 
-namespace ToDoList.Logic.Interfaces
+namespace ToDoList.BLL.Interfaces
 {
     public interface INotificationService
     {

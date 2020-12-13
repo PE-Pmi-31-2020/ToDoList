@@ -1,4 +1,6 @@
-﻿using ToDoList.BLL.DTO;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Interfaces;
@@ -52,6 +54,11 @@ namespace ToDoList.BLL.Services
         {
             _database.Events.Delete(eventt.Id);
             await _database.SaveAsync();
+        }
+
+        public IEnumerable<Event> GetEventsByUserId(int? id)
+        {
+            return id == null ? null : _database.Events.GetAll().Where(e => e.UserId == id);
         }
     }
 }

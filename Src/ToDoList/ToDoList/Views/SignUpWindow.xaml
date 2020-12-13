@@ -6,10 +6,12 @@
     xmlns:local="clr-namespace:ToDoList"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:ToDoList.ViewModels"
     x:Name="signUpWindow"
     Title="SignUpWindow"
     Width="300"
     Height="300"
+    d:DataContext="{d:DesignInstance viewModels:SignUpViewModel}"
     Background="{DynamicResource MaterialDesignDarkBackground}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Foreground="White"
@@ -127,6 +129,7 @@
             <Button
                 Name="CancelButton"
                 Grid.Column="0"
+                Command="{Binding CancelCommand}"
                 Content="CANCEL"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="MaterialDesignFlatButton" />
@@ -134,8 +137,7 @@
             <Button
                 Name="SignInButton"
                 Grid.Column="1"
-                Command="{Binding SubmitCommand}"
-                CommandParameter="{Binding ElementName=signUpWindow}"
+                Command="{Binding SignUpCommand}"
                 Content="SIGN UP"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="MaterialDesignFlatButton" />

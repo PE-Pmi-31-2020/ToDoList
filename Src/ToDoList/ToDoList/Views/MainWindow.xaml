@@ -6,10 +6,12 @@
     xmlns:local="clr-namespace:ToDoList"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:ToDoList.ViewModels"
     x:Name="MWindow"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="1000"
+    Height="550"
+    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     Background="{StaticResource MaterialDesignDarkBackground}"
     Foreground="White"
     mc:Ignorable="d">
@@ -33,7 +35,24 @@
                 Content="Tasks "
                 FontSize="28"
                 Foreground="White" />
-            <ListView Grid.Row="1" />
+            <DataGrid
+                Grid.Row="1"
+                Margin="5"
+                materialDesign:ThemeAssist.Theme="Dark"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding Tasks}">
+
+                <DataGrid.Columns>
+                    <materialDesign:DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <materialDesign:DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Deadline}"
+                        Header="Deadline" />
+                </DataGrid.Columns>
+            </DataGrid>
 
         </Grid>
 
@@ -50,7 +69,31 @@
                 Content="Events "
                 FontSize="28"
                 Foreground="White" />
-            <ListView Grid.Row="1" />
+            <DataGrid
+                Grid.Row="1"
+                Margin="5"
+                materialDesign:ThemeAssist.Theme="Dark"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding Events}">
+                <DataGrid.Columns>
+                    <materialDesign:DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <materialDesign:DataGridTextColumn
+                        Width="3*"
+                        Binding="{Binding Description}"
+                        Header="Description" />
+                    <materialDesign:DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding From}"
+                        Header="From" />
+                    <materialDesign:DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding To}"
+                        Header="To" />
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
 
         <Grid Grid.Column="2">
@@ -76,11 +119,11 @@
                     Kind="AccountCircle" />
                 <TextBlock
                     Grid.Column="1"
-                    Width="89"
                     Margin="5"
                     VerticalAlignment="Center"
-                    FontSize="20"
-                    Text="Username" />
+                    FontSize="14"
+                    Text="{Binding UserFullName, Mode=TwoWay}"
+                    TextWrapping="Wrap" />
             </Grid>
 
 
@@ -105,14 +148,12 @@
                     Margin="5"
                     VerticalAlignment="Bottom"
                     Command="{Binding AddEventCommand, Mode=OneWay}"
-                    CommandParameter="{Binding ElementName=MWindow}"
                     Content="AddEvent" />
                 <Button
                     Grid.Row="3"
                     Margin="5"
                     VerticalAlignment="Bottom"
                     Command="{Binding AddTaskCommand, Mode=OneWay}"
-                    CommandParameter="{Binding ElementName=MWindow}"
                     Content="AddTask" />
             </StackPanel>
 

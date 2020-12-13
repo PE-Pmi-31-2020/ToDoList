@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
+using ToDoList.DAL.Entities;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
@@ -15,13 +17,21 @@ namespace ToDoList.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RelayCommand<Window> SubmitCommand { get; private set; }
+        public event Action EventAdded; 
 
-        public AddEventViewModel()
+        public RelayCommand AddCommand { get; private set; }
+
+        public RelayCommand CancelCommand { get; private set; }
+
+        public AddEventViewModel(Window window)
         {
-            this.SubmitCommand = new RelayCommand<Window>(this.Submit);
+            this.window = window;
+            this.AddCommand = new RelayCommand(this.Add);
+            this.CancelCommand = new RelayCommand(this.Cancel);
             this.eventService = new EventService();
         }
+
+        private Window window;
 
         private string name;
 
@@ -51,77 +61,57 @@ namespace ToDoList.ViewModels
             }
         }
 
-        private TimeSpan fromTime;
+        private DateTime fromTime;
 
-        public TimeSpan FromTime
+        public DateTime FromTime
         {
             get => this.fromTime;
             set
             {
-                if (!string.Equals(this.fromTime, value))
-                {
-                    this.fromTime = value;
-                }
+                this.fromTime = value;
             }
         }
 
-        private TimeSpan toTime;
+        private DateTime toTime;
 
-        public TimeSpan ToTime
+        public DateTime ToTime
         {
             get => this.toTime;
             set
             {
-                if (!string.Equals(this.toTime, value))
-                {
-                    this.toTime = value;
-                }
+                this.toTime = value;
             }
         }
 
-        private TimeSpan remindTime;
+        private DateTime remindTime;
 
-        public TimeSpan RemindTime
+        public DateTime RemindTime
         {
             get => this.remindTime;
             set
             {
-                if (!string.Equals(this.remindTime, value))
-                {
-                    this.remindTime = value;
-                }
+                this.remindTime = value;
             }
         }
 
-        private int userId;
-
-        public int UserId
-        {
-            get => this.userId;
-            set
-            {
-                if (!string.Equals(this.userId, value))
-                {
-                    this.userId = value;
-                }
-            }
-        }
-
-        private void Submit(Window window)
+        private void Add()
         {
             this.eventService.CreateEventAsync(new EventDto()
             {
                 Name = this.Name,
                 Description = this.Description,
-                From = this.FromTime,
-                To = this.ToTime,
-                RemindTime = this.RemindTime,
-                UserId = this.UserId,
+                From = this.FromTime.TimeOfDay,
+                To = this.ToTime.TimeOfDay,
+                RemindTime = this.RemindTime.TimeOfDay,
+                UserId = (int)AppConfig.UserId,
             });
-            var newWindow = new MainWindow();
-            Application.Current.MainWindow = newWindow;
-            newWindow.Show();
-            window?.Close();
+            EventAdded.Invoke();
+            this.window.Close();
+        }
+
+        private void Cancel()
+        {
+            this.window.Close();
         }
     }
 }

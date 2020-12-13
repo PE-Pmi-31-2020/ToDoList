@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\DataBase.cs" />
+    <Compile Include="Entities\Error.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="Entities\User.cs" />

@@ -12,48 +12,58 @@ namespace ToDoList.BLL.Services
     public class UserService : IUserService
     {
         private const string EncryptionKey = "dsadasdsadas43";
-        private readonly IUnitOfWork _ef;
+        private readonly IUnitOfWork database;
 
         public UserService()
         {
-            _ef = new EFUnitOfWork();
-        }
-        public UserService(IUnitOfWork database)
-        {
-            _ef = database;
+            database = new EFUnitOfWork();
         }
 
-        public void CreateUser(string userName, string password, string repeatedPassword)
+        public UserService(IUnitOfWork repository)
+        {
+            database = repository;
+        }
+
+        public Errors CreateUser(string fullName, string userName, string password, string repeatedPassword)
         {
             if (password != repeatedPassword)
             {
-                throw new Exception("PasswordError");
+                return Errors.Password;
             }
-            var existingUser = _ef.Users.Get(userName);
+            var existingUser = ((UserRepository)database.Users).Get(userName);
             if (existingUser != null)
             {
-                throw new Exception("UserExistsError");
+                return Errors.UserExists;
             }
 
-            var user = new User { Password = Encrypt(password), UserName = userName };
-            _ef.Users.Create(user);
-            _ef.Save();
+            var user = new User { Password = Encrypt(password), UserName = userName, FullName = fullName };
+            ((UserRepository)database.Users).Create(user);
+            database.Save();
+            AppConfig.UserId = user.Id;
+
+            return Errors.Success;
         }
 
 
-        public User LoginUser(string userName, string password)
+        public Errors LoginUser(string userName, string password)
         {
-            var user = _ef.Users.Get(userName);
+            var user = ((UserRepository)database.Users).Get(userName);
             if (user == null)
             {
-                throw new Exception("AuthError");
+                return Errors.Authentification;
             }
             var decryptedPassword = Decrypt(user.Password);
             if (!decryptedPassword.Equals(password))
             {
-                throw new Exception("IncorrectPasswordError");
+                return Errors.Authentification;
             }
-            return user;
+            AppConfig.UserId = user.Id;
+            return Errors.Success;
+        }
+
+        public string GetUserFullNameById(int? id)
+        {
+            return id == null ? string.Empty : database.Users.Get((int)id).FullName;
         }
 
         private static string Encrypt(string clearText)

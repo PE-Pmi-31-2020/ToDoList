@@ -1,7 +1,6 @@
 using System;
 using System.Windows;
 using System.Windows.Threading;
-using ToDoList.DAL.Entities;
 using ToDoList.ViewModels;
 
 namespace ToDoList.Views
@@ -25,5 +24,6 @@ namespace ToDoList.Views
         {
             LiveTimeLabel.Content = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
         }
+
     }
 }

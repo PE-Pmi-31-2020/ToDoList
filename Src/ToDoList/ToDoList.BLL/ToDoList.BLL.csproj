@@ -49,6 +49,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfig.cs" />
     <Compile Include="DTO\EventDto.cs" />
     <Compile Include="DTO\TaskDto.cs" />
     <Compile Include="DTO\UserDto.cs" />

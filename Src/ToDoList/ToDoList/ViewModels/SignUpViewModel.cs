@@ -3,23 +3,42 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using Notifications.Wpf;
+using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
+using ToDoList.DAL.Entities;
 using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    internal class SignUpViewModel : INotifyPropertyChanged
+    internal class SignUpViewModel
     {
-        private UserService userService;
+        private readonly IUserService userService;
+        private readonly INotificationService notificationService;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public RelayCommand SignUpCommand { get; private set; }
 
-        public RelayCommand<Window> SubmitCommand { get; private set; }
+        public RelayCommand CancelCommand { get; private set; }
 
         public SignUpViewModel()
         {
             this.userService = new UserService();
-            this.SubmitCommand = new RelayCommand<Window>(this.RegisterUser);
+            this.SignUpCommand = new RelayCommand(this.SignUp);
+            this.CancelCommand = new RelayCommand(this.Cancel);
+        }
+
+        private string fullName;
+
+        public string FullName
+        {
+            get => this.fullName;
+            set
+            {
+                if (!string.Equals(this.fullName, value))
+                {
+                    this.fullName = value;
+                }
+            }
         }
 
         private string userName;
@@ -36,57 +55,66 @@ namespace ToDoList.ViewModels
             }
         }
 
-        private string password1;
+        private string password;
 
-        public string Password1
+        public string Password
         {
-            get => this.password1;
+            get => this.password;
             set
             {
-                if (!string.Equals(this.password1, value))
+                if (!string.Equals(this.password, value))
                 {
-                    this.password1 = value;
+                    this.password = value;
                 }
             }
         }
 
-        private string password2;
+        private string repeatedPassword;
 
-        public string Password2
+        public string RepeatedPassword
         {
-            get => this.password2;
+            get => this.repeatedPassword;
             set
             {
-                if (!string.Equals(this.password2, value))
+                if (!string.Equals(this.repeatedPassword, value))
                 {
-                    this.password2 = value;
+                    this.repeatedPassword = value;
                 }
             }
         }
 
-        private void RegisterUser(Window window)
+        private void SignUp()
         {
-            try
+            var res = userService.CreateUser(this.FullName, this.UserName, this.Password, this.RepeatedPassword);
+            switch (res)
             {
-                this.userService.CreateUser(this.UserName, this.Password1, this.Password2);
-                var newWindow = new MainWindow();
-                Application.Current.MainWindow?.Close();
-                Application.Current.MainWindow = newWindow;
-                newWindow.Show();
+                case Errors.Authentification:
+                    return;
+                case Errors.Password:
+                    notificationService.ShowNotification("Password mismatch", NotificationType.Error, "Error");
+                    return;
+                case Errors.UserExists:
+                    notificationService.ShowNotification("User is already exists", NotificationType.Error, "Error");
+                    return;
+                case Errors.Success:
+                    notificationService.ShowNotification("User created", NotificationType.Success, "Success");
+                    break;
+                default:
+                    return;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                switch (e.Message)
-                {
-                    case "UserExistsError":
-                        Debug.WriteLine("User with username exists");
-                        break;
-                    case "PasswordsError":
-                        Debug.WriteLine("Passwords do not match");
-                        break;
-                }
-            }
+
+            var newWindow = new MainWindow();
+            Application.Current.MainWindow?.Close();
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+        }
+
+        private void Cancel()
+        {
+            var newWindow = new StartWindow();
+            Application.Current.MainWindow?.Close();
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
         }
     }
 }
