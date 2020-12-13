@@ -8,7 +8,7 @@ namespace ToDoList.BLL.Services
 {
     class CryptService: ICryptService
     {
-        public static string EncryptionKey { get; private set; }
+        private const string EncryptionKey = "dsadasdsadas43";
 
         public string Encrypt(string clearText)
         {

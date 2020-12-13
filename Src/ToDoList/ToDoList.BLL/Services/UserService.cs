@@ -11,7 +11,6 @@ namespace ToDoList.BLL.Services
 {
     public class UserService : IUserService
     {
-        private const string EncryptionKey = "dsadasdsadas43";
         private readonly IUnitOfWork database;
         private readonly ICryptService cryptService;
 
