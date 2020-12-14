@@ -52,6 +52,7 @@ namespace ToDoList.DAL.Repositories
             taskToUpdate.UserId = item.UserId;
             taskToUpdate.User = item.User;
             taskToUpdate.Name = item.Name;
+            taskToUpdate.IsDone = item.IsDone;
             _db.SaveChanges();
         }
     }
