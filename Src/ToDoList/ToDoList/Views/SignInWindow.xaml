@@ -14,6 +14,7 @@
     Height="200"
     d:DataContext="{d:DesignInstance viewModels:SignInViewModel}"
     Background="{DynamicResource MaterialDesignDarkBackground}"
+    Closed="OnWindowClose"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Foreground="White"
     TextElement.FontSize="13"

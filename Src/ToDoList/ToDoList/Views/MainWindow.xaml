@@ -95,6 +95,18 @@
                         Width="*"
                         Binding="{Binding To}"
                         Header="To" />
+                    <DataGridTemplateColumn Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Width="Auto"
+                                    MaxWidth="40"
+                                    MaxHeight="20"
+                                    Content="X"
+                                    FontSize="8" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

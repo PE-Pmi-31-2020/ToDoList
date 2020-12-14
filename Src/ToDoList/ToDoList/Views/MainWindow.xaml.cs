@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using Notifications.Wpf;
 using ToDoList.ViewModels;
 
 namespace ToDoList.Views
@@ -27,7 +29,7 @@ namespace ToDoList.Views
 
         private void OnWindowClose(object sender, EventArgs e)
         {
-            if (Application.Current.Windows.Count <= 2)
+            if (Application.Current.Windows.Cast<Window>().All(x => (x is NotificationsOverlayWindow)))
             {
                 Environment.Exit(Environment.ExitCode);
             }
