@@ -25,14 +25,5 @@ namespace ToDoList.Views
         {
             ((SignUpViewModel)this.DataContext).RepeatedPassword = ((PasswordBox)sender).Password;
         }
-
-        private void OnWindowClose(object sender, EventArgs e)
-        {
-            if (Application.Current.Windows.Count <= 2)
-            {
-                Environment.Exit(Environment.ExitCode);
-            }
-        }
-
     }
 }
