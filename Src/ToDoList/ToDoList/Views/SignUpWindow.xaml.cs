@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ToDoList.ViewModels;
 
@@ -24,5 +25,14 @@ namespace ToDoList.Views
         {
             ((SignUpViewModel)this.DataContext).RepeatedPassword = ((PasswordBox)sender).Password;
         }
+
+        private void OnWindowClose(object sender, EventArgs e)
+        {
+            if (Application.Current.Windows.Count <= 2)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
+        }
+
     }
 }

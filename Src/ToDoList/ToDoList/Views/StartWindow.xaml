@@ -12,6 +12,7 @@
     Height="450"
     d:DataContext="{d:DesignInstance viewModels:StartViewModel}"
     Background="{DynamicResource MaterialDesignDarkBackground}"
+    Closed="OnWindowClose"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Foreground="White"
     TextElement.FontSize="13"

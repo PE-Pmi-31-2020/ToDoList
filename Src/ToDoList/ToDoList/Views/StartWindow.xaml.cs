@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ToDoList.ViewModels;
 
 namespace ToDoList.Views
@@ -13,5 +14,14 @@ namespace ToDoList.Views
             this.InitializeComponent();
             this.DataContext = new StartViewModel();
         }
+
+        private void OnWindowClose(object sender, EventArgs e)
+        {
+            if (Application.Current.Windows.Count <= 2)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
+        }
+
     }
 }

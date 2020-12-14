@@ -13,9 +13,9 @@
     Height="550"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     Background="{StaticResource MaterialDesignDarkBackground}"
+    Closed="OnWindowClose"
     Foreground="White"
-    mc:Ignorable="d"
-    Closed="OnWindowClose">
+    mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -41,6 +41,7 @@
                 Margin="5"
                 materialDesign:ThemeAssist.Theme="Dark"
                 AutoGenerateColumns="False"
+                IsReadOnly="True"
                 ItemsSource="{Binding Tasks}">
 
                 <DataGrid.Columns>
@@ -75,6 +76,7 @@
                 Margin="5"
                 materialDesign:ThemeAssist.Theme="Dark"
                 AutoGenerateColumns="False"
+                IsReadOnly="True"
                 ItemsSource="{Binding Events}">
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn
@@ -99,6 +101,7 @@
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -140,18 +143,22 @@
                 FontWeight="Bold"
                 Foreground="DarkGreen" />
 
-            <StackPanel
+            <Button
                 Grid.Row="2"
+                Margin="5"
+                Command="{Binding LogoutCommand}"
+                Content="Logout" />
+
+            <StackPanel
+                Grid.Row="3"
                 VerticalAlignment="Bottom"
                 Orientation="Vertical">
                 <Button
-                    Grid.Row="2"
                     Margin="5"
                     VerticalAlignment="Bottom"
                     Command="{Binding AddEventCommand, Mode=OneWay}"
                     Content="AddEvent" />
                 <Button
-                    Grid.Row="3"
                     Margin="5"
                     VerticalAlignment="Bottom"
                     Command="{Binding AddTaskCommand, Mode=OneWay}"

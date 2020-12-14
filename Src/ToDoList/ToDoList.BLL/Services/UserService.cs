@@ -68,7 +68,9 @@ namespace ToDoList.BLL.Services
             return id == null ? string.Empty : ((UserRepository)database.Users).Get((int)id).FullName;
         }
 
-        
-
+        public string GetUserNameById(int? id)
+        {
+            return id == null ? string.Empty : ((UserRepository)database.Users).Get((int)id).UserName;
+        }
     }
 }

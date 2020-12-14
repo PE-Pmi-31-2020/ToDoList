@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,5 +21,14 @@ namespace ToDoList.Views
         {
             ((SignInViewModel) this.DataContext).Password = ((PasswordBox) sender).Password;
         }
+
+        private void OnWindowClose(object sender, EventArgs e)
+        {
+            if (Application.Current.Windows.Count <= 2)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
+        }
+
     }
 }

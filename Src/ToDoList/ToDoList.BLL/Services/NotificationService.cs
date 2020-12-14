@@ -51,9 +51,13 @@ namespace ToDoList.BLL.Services
                 if (currentTime.Minutes != prevTime.Minutes)
                 {
                     var events = _database.Events.GetAll()
-                        .Where(t => t.RemindTime.Minutes == DateTime.Now.TimeOfDay.Minutes).ToList();
+                        .Where(t => t.RemindTime.Minutes == DateTime.Now.TimeOfDay.Minutes &&
+                                        t.RemindTime.Hours == DateTime.Now.TimeOfDay.Hours &&
+                                        t.UserId == AppConfig.UserId).ToList();
                     var tasks = _database.Tasks.GetAll()
-                        .Where(t => t.Deadline.Minutes == DateTime.Now.TimeOfDay.Minutes).ToList();
+                        .Where(t => t.Deadline.Minutes == DateTime.Now.TimeOfDay.Minutes &&
+                                    t.Deadline.Hours == DateTime.Now.TimeOfDay.Hours &&
+                                    t.UserId == AppConfig.UserId).ToList();
                     foreach (var e in events)
                     {
                         ShowNotification($"Deadline of {e.Name} horyt", NotificationType.Warning);

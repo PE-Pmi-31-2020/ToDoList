@@ -27,7 +27,10 @@ namespace ToDoList.Views
 
         private void OnWindowClose(object sender, EventArgs e)
         {
-            Environment.Exit(Environment.ExitCode);
+            if (Application.Current.Windows.Count <= 2)
+            {
+                Environment.Exit(Environment.ExitCode);
+            }
         }
 
     }

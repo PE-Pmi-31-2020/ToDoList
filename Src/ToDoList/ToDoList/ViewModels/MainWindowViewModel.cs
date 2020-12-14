@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using Notifications.Wpf;
 using ToDoList.Annotations;
 using ToDoList.BLL;
 using ToDoList.BLL.Interfaces;
@@ -19,22 +21,40 @@ namespace ToDoList.ViewModels
         private readonly IUserService userService;
         private readonly ITaskService taskService;
         private readonly IEventService eventService;
+        private readonly LoggerService loggerService;
 
         public RelayCommand AddEventCommand { get; private set; }
 
         public RelayCommand AddTaskCommand { get; private set; }
 
-        private string userFulName;
+        public RelayCommand LogoutCommand { get; private set; }
+
+        private string userFullName;
 
         public string UserFullName
         {
-            get => userFulName;
+            get => userFullName;
             set
             {
-                if (!value.Equals(this.userFulName))
+                if (!value.Equals(this.userFullName))
                 {
-                    this.userFulName = value;
+                    this.userFullName = value;
                     this.OnPropertyChanged(nameof(UserFullName));
+                }
+            }
+        }
+
+        private string userName;
+
+        public string UserName
+        {
+            get => userName;
+            set
+            {
+                if (!value.Equals(this.userName))
+                {
+                    this.userName = value;
+                    this.OnPropertyChanged(nameof(UserName));
                 }
             }
         }
@@ -50,11 +70,14 @@ namespace ToDoList.ViewModels
             this.userService = new UserService();
             this.taskService = new TaskService();
             this.eventService = new EventService();
+            this.loggerService = new LoggerService();
 
             this.AddEventCommand = new RelayCommand(this.ShowAddEvent);
             this.AddTaskCommand = new RelayCommand(this.ShowAddTask);
+            this.LogoutCommand = new RelayCommand(this.Logout);
 
-            this.userFulName = this.userService.GetUserFullNameById(AppConfig.UserId);
+            this.userFullName = this.userService.GetUserFullNameById(AppConfig.UserId);
+            this.userName = this.userService.GetUserFullNameById(AppConfig.UserId);
             this.Events = new ObservableCollection<Event>(this.eventService.GetEventsByUserId(AppConfig.UserId));
             this.Tasks = new ObservableCollection<Task>(this.taskService.GetTasksByUserId(AppConfig.UserId));
         }
@@ -89,6 +112,17 @@ namespace ToDoList.ViewModels
                 }
             };
             addTaskWindow.ShowDialog();
+        }
+
+        private void Logout()
+        {
+            AppConfig.UserId = null;
+            var newWindow = new StartWindow();
+            Application.Current.MainWindow?.Close();
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+            notificationService.ShowNotification("You are logged out", NotificationType.Success, "Success");
+            loggerService.LogInfo($"{this.UserName} logged out");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
