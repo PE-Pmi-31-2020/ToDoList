@@ -9,6 +9,7 @@ namespace ToDoList.BLL.Interfaces
         System.Threading.Tasks.Task CreateEventAsync(EventDto eventt);
         System.Threading.Tasks.Task EditEventAsync(EventDto eventt);
         System.Threading.Tasks.Task DeleteEventAsync(EventDto eventt);
+        System.Threading.Tasks.Task DeleteEventAsync(int id);
         IEnumerable<Event> GetEventsByUserId(int? id);
     }
 }

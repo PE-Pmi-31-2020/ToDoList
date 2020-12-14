@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.Annotations;
 using ToDoList.BLL;
+using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
@@ -28,6 +29,8 @@ namespace ToDoList.ViewModels
         public RelayCommand AddTaskCommand { get; private set; }
 
         public RelayCommand LogoutCommand { get; private set; }
+
+        public RelayCommand RemoveEventCommand { get; private set; }
 
         private string userFullName;
 
@@ -59,6 +62,18 @@ namespace ToDoList.ViewModels
             }
         }
 
+        private Event selectedEvent;
+
+        public Event SelectedEvent
+        {
+            get => selectedEvent;
+            set
+            {
+                this.selectedEvent = value;
+                this.OnPropertyChanged(nameof(SelectedEvent));
+            }
+        }
+
         public ObservableCollection<Task> Tasks { get; set; }
 
         public ObservableCollection<Event> Events { get; set; }
@@ -75,6 +90,7 @@ namespace ToDoList.ViewModels
             this.AddEventCommand = new RelayCommand(this.ShowAddEvent);
             this.AddTaskCommand = new RelayCommand(this.ShowAddTask);
             this.LogoutCommand = new RelayCommand(this.Logout);
+            this.RemoveEventCommand = new RelayCommand(this.RemoveEvent);
 
             this.userFullName = this.userService.GetUserFullNameById(AppConfig.UserId);
             this.userName = this.userService.GetUserFullNameById(AppConfig.UserId);
@@ -123,6 +139,12 @@ namespace ToDoList.ViewModels
             newWindow.Show();
             notificationService.ShowNotification("You are logged out", NotificationType.Success, "Success");
             loggerService.LogInfo($"{this.UserName} logged out");
+        }
+
+        private void RemoveEvent()
+        {
+            eventService.DeleteEventAsync(SelectedEvent.Id);
+            Events.Remove(SelectedEvent);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

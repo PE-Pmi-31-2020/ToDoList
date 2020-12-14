@@ -77,14 +77,15 @@
                 materialDesign:ThemeAssist.Theme="Dark"
                 AutoGenerateColumns="False"
                 IsReadOnly="True"
-                ItemsSource="{Binding Events}">
+                ItemsSource="{Binding Events}"
+                SelectedItem="{Binding SelectedEvent, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn
                         Width="*"
                         Binding="{Binding Name}"
                         Header="Name" />
                     <materialDesign:DataGridTextColumn
-                        Width="3*"
+                        Width="2*"
                         Binding="{Binding Description}"
                         Header="Description" />
                     <materialDesign:DataGridTextColumn
@@ -102,6 +103,7 @@
                                     Width="Auto"
                                     MaxWidth="40"
                                     MaxHeight="20"
+                                    Command="{Binding ElementName=MWindow, Path=DataContext.RemoveEventCommand}"
                                     Content="X"
                                     FontSize="8" />
                             </DataTemplate>

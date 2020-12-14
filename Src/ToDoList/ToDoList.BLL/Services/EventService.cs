@@ -56,6 +56,12 @@ namespace ToDoList.BLL.Services
             await _database.SaveAsync();
         }
 
+        public async System.Threading.Tasks.Task DeleteEventAsync(int id)
+        {
+            _database.Events.Delete(id);
+            await _database.SaveAsync();
+        }
+
         public IEnumerable<Event> GetEventsByUserId(int? id)
         {
             return id == null ? null : _database.Events.GetAll().Where(e => e.UserId == id);
