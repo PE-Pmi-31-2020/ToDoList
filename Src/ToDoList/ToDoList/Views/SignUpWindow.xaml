@@ -14,10 +14,10 @@
     d:DataContext="{d:DesignInstance viewModels:SignUpViewModel}"
     Background="{DynamicResource MaterialDesignDarkBackground}"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    Foreground="White"
+    Foreground="WhiteSmoke"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.Foreground="WhiteSmoke"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     mc:Ignorable="d">

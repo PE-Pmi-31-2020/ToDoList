@@ -15,6 +15,8 @@ namespace ToDoList.ViewModels
     {
         private readonly IUserService userService;
         private readonly INotificationService notificationService;
+        private readonly LoggerService loggerService;
+
 
         public RelayCommand SignUpCommand { get; private set; }
 
@@ -26,6 +28,7 @@ namespace ToDoList.ViewModels
             this.SignUpCommand = new RelayCommand(this.SignUp);
             this.CancelCommand = new RelayCommand(this.Cancel);
             notificationService = new NotificationService();
+            loggerService = new LoggerService();
         }
 
         private string fullName;
@@ -93,12 +96,15 @@ namespace ToDoList.ViewModels
                     return;
                 case Errors.Password:
                     notificationService.ShowNotification("Password mismatch", NotificationType.Error, "Error");
+                    loggerService.LogError("Password mismatch");
                     return;
                 case Errors.UserExists:
-                    notificationService.ShowNotification("User is already exists", NotificationType.Error, "Error");
+                    notificationService.ShowNotification("User already exists", NotificationType.Error, "Error");
+                    loggerService.LogError($"User {this.userName} already exists");
                     return;
                 case Errors.Success:
                     notificationService.ShowNotification("User created", NotificationType.Success, "Success");
+                    loggerService.LogInfo($"{this.UserName} signed up");
                     break;
                 default:
                     return;

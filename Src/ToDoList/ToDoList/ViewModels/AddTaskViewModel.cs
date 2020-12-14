@@ -22,6 +22,9 @@ namespace ToDoList.ViewModels
 
         private readonly INotificationService _notificationService;
 
+        private readonly LoggerService loggerService;
+
+
         public RelayCommand AddCommand { get; private set; }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -33,6 +36,7 @@ namespace ToDoList.ViewModels
             this.taskService = new TaskService();
             this.window = window;
             _notificationService = new NotificationService();
+            loggerService = new LoggerService();
         }
 
         private Window window;
@@ -72,6 +76,7 @@ namespace ToDoList.ViewModels
             });
             TaskAdded.Invoke();
             this._notificationService.ShowNotification($"Task {Name} is successfully added!", NotificationType.Information, "Information");
+            loggerService.LogInfo($"A new task {Name} was added");
             this.window.Close();
         }
 
