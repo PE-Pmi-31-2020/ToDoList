@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.Annotations;
-using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
@@ -18,14 +14,14 @@ namespace ToDoList.ViewModels
 {
     public class EditTaskViewModel : INotifyPropertyChanged
     {
-        private readonly ITaskService taskService;
+        private readonly ITaskService _taskService;
 
 
         public event EventHandler<Task> TaskUpdated;
 
         private readonly INotificationService _notificationService;
 
-        private readonly LoggerService loggerService;
+        private readonly LoggerService _loggerService;
 
 
         public RelayCommand SaveCommand { get; private set; }
@@ -34,63 +30,63 @@ namespace ToDoList.ViewModels
 
         public EditTaskViewModel(Window window, Task task)
         {
-            this.SaveCommand = new RelayCommand(this.Save);
-            this.CancelCommand = new RelayCommand(this.Cancel);
-            this.taskService = new TaskService();
-            this.window = window;
+            SaveCommand = new RelayCommand(Save);
+            CancelCommand = new RelayCommand(Cancel);
+            _taskService = new TaskService();
+            this._window = window;
             _notificationService = new NotificationService();
-            loggerService = new LoggerService();
+            _loggerService = new LoggerService();
 
             Task = task;
             Name = Task.Name;
             Deadline = Convert.ToDateTime(Task.Deadline.ToString());
         }
 
-        private Window window;
+        private Window _window;
 
         private Task Task { get; set; }
 
-        private string name;
+        private string _name;
 
         public string Name
         {
-            get => this.name;
+            get => _name;
             set
             {
-                if (!string.Equals(this.name, value))
+                if (!string.Equals(_name, value))
                 {
-                    this.name = value;
+                    _name = value;
                     Task.Name = value;
-                    this.OnPropertyChanged(nameof(Name));
+                    OnPropertyChanged(nameof(Name));
                 }
             }
         }
 
-        private DateTime deadline;
+        private DateTime _deadline;
 
         public DateTime Deadline
         {
-            get => this.deadline;
+            get => _deadline;
             set
             {
-                this.deadline = value;
+                _deadline = value;
                 Task.Deadline = value.TimeOfDay;
-                this.OnPropertyChanged(nameof(Deadline));
+                OnPropertyChanged(nameof(Deadline));
             }
         }
 
         private void Save()
         {
-            this.taskService.EditTaskAsync(new TaskDto() {Deadline = Task.Deadline, Id = Task.Id, Name = Task.Name});
-            TaskUpdated.Invoke(this, Task);
-            this._notificationService.ShowNotification($"Task {Name} is successfully updated!", NotificationType.Information, "Information");
-            loggerService.LogInfo($"A new task {Name} was updated");
-            this.window.Close();
+            _taskService.EditTaskAsync(new TaskDto {Deadline = Task.Deadline, Id = Task.Id, Name = Task.Name});
+            TaskUpdated?.Invoke(this, Task);
+            _notificationService.ShowNotification($"Task {Name} is successfully updated!", NotificationType.Information, "Information");
+            _loggerService.LogInfo($"A new task {Name} was updated");
+            _window.Close();
         }
 
         private void Cancel()
         {
-            this.window.Close();
+            _window.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

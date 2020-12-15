@@ -12,8 +12,8 @@ namespace ToDoList.ViewModels
 
         public StartViewModel()
         {
-            this.SignInCommand = new RelayCommand(this.ShowSignIn);
-            this.SignUpCommand = new RelayCommand(this.ShowSignUp);
+            SignInCommand = new RelayCommand(ShowSignIn);
+            SignUpCommand = new RelayCommand(ShowSignUp);
         }
 
         private void ShowSignIn()

@@ -1,17 +1,16 @@
-﻿using System.Windows;
-using ToDoList.ViewModels;
+﻿using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
     /// <summary>
     /// Interaction logic for AddEvent.xaml.
     /// </summary>
-    public partial class AddEvent : Window
+    public partial class AddEvent
     {
         public AddEvent()
         {
-            this.InitializeComponent();
-            this.DataContext = new AddEventViewModel(this);
+            InitializeComponent();
+            DataContext = new AddEventViewModel(this);
         }
     }
 }

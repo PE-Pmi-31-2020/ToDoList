@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.BLL.Interfaces;
@@ -13,9 +10,9 @@ namespace ToDoList.ViewModels
 {
     internal class SignInViewModel
     {
-        private readonly IUserService userService;
-        private readonly INotificationService notificationService;
-        private readonly LoggerService loggerService;
+        private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
+        private readonly LoggerService _loggerService;
 
         public RelayCommand SignInCommand { get; private set; }
 
@@ -23,57 +20,57 @@ namespace ToDoList.ViewModels
 
         public SignInViewModel()
         {
-            this.SignInCommand = new RelayCommand(this.SignIn);
-            this.CancelCommand = new RelayCommand(this.Cancel);
-            this.userService = new UserService();
-            notificationService = new NotificationService();
-            loggerService = new LoggerService();
+            SignInCommand = new RelayCommand(SignIn);
+            CancelCommand = new RelayCommand(Cancel);
+            _userService = new UserService();
+            _notificationService = new NotificationService();
+            _loggerService = new LoggerService();
         }
 
-        private string userName;
+        private string _userName;
 
         public string UserName
         {
-            get => this.userName;
+            get => _userName;
             set
             {
-                if (!value.Equals(this.userName))
+                if (!value.Equals(_userName))
                 {
-                    this.userName = value;
+                    _userName = value;
                 }
             }
         }
 
-        private string password;
+        private string _password;
 
         public string Password
         {
-            get => this.password;
+            get => _password;
             set
             {
-                if (!value.Equals(this.password))
+                if (!value.Equals(_password))
                 {
-                    this.password = value;
+                    _password = value;
                 }
             }
         }
 
         private void SignIn()
         {
-            var res = this.userService.LoginUser(this.UserName, this.Password);
+            var res = _userService.LoginUser(UserName, Password);
             switch (res)
             {
                 case Errors.Authentification:
-                    notificationService.ShowNotification("Incorrect password or login", NotificationType.Error, "Error");
-                    loggerService.LogError($"Incorrect password or login was entered");
+                    _notificationService.ShowNotification("Incorrect password or login", NotificationType.Error, "Error");
+                    _loggerService.LogError("Incorrect password or login was entered");
                     return;
                 case Errors.Password:
                     return;
                 case Errors.UserExists:
                     return;
                 case Errors.Success:
-                    notificationService.ShowNotification("You are logged in", NotificationType.Success, "Success");
-                    loggerService.LogInfo($"{this.UserName} logged in");
+                    _notificationService.ShowNotification("You are logged in", NotificationType.Success, "Success");
+                    _loggerService.LogInfo($"{UserName} logged in");
                     break;
                 default:
                     return;

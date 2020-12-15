@@ -1,29 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ToDoList.ViewModels;
+﻿using ToDoList.ViewModels;
 
 namespace ToDoList.Views
 {
     /// <summary>
     /// Interaction logic for AddTask.xaml.
     /// </summary>
-    public partial class AddTask : Window
+    public partial class AddTask
     {
         public AddTask()
         {
-            this.InitializeComponent();
-            this.DataContext = new AddTaskViewModel(this);
+            InitializeComponent();
+            DataContext = new AddTaskViewModel(this);
         }
     }
 }

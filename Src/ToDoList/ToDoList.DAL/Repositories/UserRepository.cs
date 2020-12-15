@@ -51,6 +51,10 @@ namespace ToDoList.DAL.Repositories
         public void Update(User item)
         {
             var userToUpdate = _db.Users.SingleOrDefault(u => u.Id == item.Id);
+            if (userToUpdate == null)
+            {
+                return;
+            }
             userToUpdate.FullName = item.FullName;
             userToUpdate.Password = item.Password;
             userToUpdate.UserName = item.UserName;

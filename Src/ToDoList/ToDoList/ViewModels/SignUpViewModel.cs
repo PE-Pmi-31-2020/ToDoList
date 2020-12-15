@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.BLL.Interfaces;
@@ -13,9 +10,9 @@ namespace ToDoList.ViewModels
 {
     internal class SignUpViewModel
     {
-        private readonly IUserService userService;
-        private readonly INotificationService notificationService;
-        private readonly LoggerService loggerService;
+        private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
+        private readonly LoggerService _loggerService;
 
 
         public RelayCommand SignUpCommand { get; private set; }
@@ -24,87 +21,87 @@ namespace ToDoList.ViewModels
 
         public SignUpViewModel()
         {
-            this.userService = new UserService();
-            this.SignUpCommand = new RelayCommand(this.SignUp);
-            this.CancelCommand = new RelayCommand(this.Cancel);
-            notificationService = new NotificationService();
-            loggerService = new LoggerService();
+            _userService = new UserService();
+            SignUpCommand = new RelayCommand(SignUp);
+            CancelCommand = new RelayCommand(Cancel);
+            _notificationService = new NotificationService();
+            _loggerService = new LoggerService();
         }
 
-        private string fullName;
+        private string _fullName;
 
         public string FullName
         {
-            get => this.fullName;
+            get => _fullName;
             set
             {
-                if (!string.Equals(this.fullName, value))
+                if (!string.Equals(_fullName, value))
                 {
-                    this.fullName = value;
+                    _fullName = value;
                 }
             }
         }
 
-        private string userName;
+        private string _userName;
 
         public string UserName
         {
-            get => this.userName;
+            get => _userName;
             set
             {
-                if (!string.Equals(this.userName, value))
+                if (!string.Equals(_userName, value))
                 {
-                    this.userName = value;
+                    _userName = value;
                 }
             }
         }
 
-        private string password;
+        private string _password;
 
         public string Password
         {
-            get => this.password;
+            get => _password;
             set
             {
-                if (!string.Equals(this.password, value))
+                if (!string.Equals(_password, value))
                 {
-                    this.password = value;
+                    _password = value;
                 }
             }
         }
 
-        private string repeatedPassword;
+        private string _repeatedPassword;
 
         public string RepeatedPassword
         {
-            get => this.repeatedPassword;
+            get => _repeatedPassword;
             set
             {
-                if (!string.Equals(this.repeatedPassword, value))
+                if (!string.Equals(_repeatedPassword, value))
                 {
-                    this.repeatedPassword = value;
+                    _repeatedPassword = value;
                 }
             }
         }
 
         private void SignUp()
         {
-            var res = userService.CreateUser(this.FullName, this.UserName, this.Password, this.RepeatedPassword);
+            var res = _userService.CreateUser(FullName, UserName, Password, RepeatedPassword);
             switch (res)
             {
                 case Errors.Authentification:
                     return;
                 case Errors.Password:
-                    notificationService.ShowNotification("Password mismatch", NotificationType.Error, "Error");
-                    loggerService.LogError("Password mismatch");
+                    _notificationService.ShowNotification("Password mismatch", NotificationType.Error, "Error");
+                    _loggerService.LogError("Password mismatch");
                     return;
                 case Errors.UserExists:
-                    notificationService.ShowNotification("User already exists", NotificationType.Error, "Error");
-                    loggerService.LogError($"User {this.userName} already exists");
+                    _notificationService.ShowNotification("User already exists", NotificationType.Error, "Error");
+                    _loggerService.LogError($"User {_userName} already exists");
                     return;
                 case Errors.Success:
-                    notificationService.ShowNotification("User created", NotificationType.Success, "Success");
-                    loggerService.LogInfo($"{this.UserName} signed up");
+                    _notificationService.ShowNotification("User created", NotificationType.Success, "Success");
+                    _loggerService.LogInfo($"{UserName} signed up");
                     break;
                 default:
                     return;

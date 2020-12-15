@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Notifications.Wpf;
-using ToDoList.DAL.Interfaces;
 using ToDoList.BLL.Interfaces;
+using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
 
 namespace ToDoList.BLL.Services
@@ -12,21 +11,21 @@ namespace ToDoList.BLL.Services
     public class NotificationService: INotificationService
     {
         private IUnitOfWork _database;
-        private INotificationManager notificationManager;
+        private INotificationManager _notificationManager;
 
         public NotificationService()
         {
-            _database = new EFUnitOfWork(); 
-            notificationManager = new NotificationManager();
+            _database = new EfUnitOfWork(); 
+            _notificationManager = new NotificationManager();
         }
         public NotificationService(IUnitOfWork database, INotificationManager notification)
         {
             _database = database;
-            notificationManager = notification;
+            _notificationManager = notification;
         }
         public void ShowNotification(string description, NotificationType type, string title = "Notification")
         {
-            notificationManager.Show(new NotificationContent
+            _notificationManager.Show(new NotificationContent
             {
                 Title = title,
                 Message = description,

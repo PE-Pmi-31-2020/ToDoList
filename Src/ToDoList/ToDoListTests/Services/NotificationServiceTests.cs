@@ -46,20 +46,20 @@ namespace ToDoListTests.Services
 
         private IEnumerable<Task> GetTestTasks()
         {
-            return new List<Task>()
+            return new List<Task>
             {
-                new Task(){Id = 1, Deadline = new TimeSpan(1),Name = "Name1",User = new User(),UserId = 1},
-                new Task(){Id = 2, Deadline = new TimeSpan(2),Name = "Name2",User = new User(),UserId = 2},
-                new Task(){Id = 3, Deadline = new TimeSpan(3),Name = "Name3",User = new User(),UserId = 3},
+                new Task {Id = 1, Deadline = new TimeSpan(1),Name = "Name1",User = new User(),UserId = 1},
+                new Task {Id = 2, Deadline = new TimeSpan(2),Name = "Name2",User = new User(),UserId = 2},
+                new Task {Id = 3, Deadline = new TimeSpan(3),Name = "Name3",User = new User(),UserId = 3},
             };
         }
         private IEnumerable<Event> GetTestEvents()
         {
-            return new List<Event>()
+            return new List<Event>
             {
-                new Event(){Id = 1, RemindTime = new TimeSpan(1),To = new TimeSpan(4) , Description = "d1", Name = "Name1",User = new User(),UserId = 1},
-                new Event(){Id = 2, RemindTime = new TimeSpan(2),To = new TimeSpan(5) , Description = "d2",Name = "Name2",User = new User(),UserId = 2},
-                new Event(){Id = 3, RemindTime = new TimeSpan(3),To = new TimeSpan(6) , Description = "d3",Name = "Name3",User = new User(),UserId = 3},
+                new Event {Id = 1, RemindTime = new TimeSpan(1),To = new TimeSpan(4) , Description = "d1", Name = "Name1",User = new User(),UserId = 1},
+                new Event {Id = 2, RemindTime = new TimeSpan(2),To = new TimeSpan(5) , Description = "d2",Name = "Name2",User = new User(),UserId = 2},
+                new Event {Id = 3, RemindTime = new TimeSpan(3),To = new TimeSpan(6) , Description = "d3",Name = "Name3",User = new User(),UserId = 3},
             };
         }
 

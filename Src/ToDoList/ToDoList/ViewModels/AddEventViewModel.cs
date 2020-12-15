@@ -7,14 +7,12 @@ using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
-using ToDoList.DAL.Entities;
-using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
     internal class AddEventViewModel : INotifyPropertyChanged
     {
-        private readonly IEventService eventService;
+        private readonly IEventService _eventService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -22,7 +20,7 @@ namespace ToDoList.ViewModels
 
         private readonly INotificationService _notificationService;
 
-        private readonly LoggerService loggerService;
+        private readonly LoggerService _loggerService;
 
         public RelayCommand AddCommand { get; private set; }
 
@@ -30,97 +28,97 @@ namespace ToDoList.ViewModels
 
         public AddEventViewModel(Window window)
         {
-            this.window = window;
-            this.AddCommand = new RelayCommand(this.Add);
-            this.CancelCommand = new RelayCommand(this.Cancel);
-            this.eventService = new EventService();
-            this._notificationService = new NotificationService();
-            loggerService = new LoggerService();
+            _window = window;
+            AddCommand = new RelayCommand(Add);
+            CancelCommand = new RelayCommand(Cancel);
+            _eventService = new EventService();
+            _notificationService = new NotificationService();
+            _loggerService = new LoggerService();
         }
 
-        private Window window;
+        private readonly Window _window;
 
-        private string name;
+        private string _name;
 
         public string Name
         {
-            get => this.name;
+            get => _name;
             set
             {
-                if (!string.Equals(this.name, value))
+                if (!string.Equals(_name, value))
                 {
-                    this.name = value;
+                    _name = value;
                 }
             }
         }
 
-        private string description;
+        private string _description;
 
         public string Description
         {
-            get => this.description;
+            get => _description;
             set
             {
-                if (!string.Equals(this.description, value))
+                if (!string.Equals(_description, value))
                 {
-                    this.description = value;
+                    _description = value;
                 }
             }
         }
 
-        private DateTime fromTime;
+        private DateTime _fromTime;
 
         public DateTime FromTime
         {
-            get => this.fromTime;
+            get => _fromTime;
             set
             {
-                this.fromTime = value;
+                _fromTime = value;
             }
         }
 
-        private DateTime toTime;
+        private DateTime _toTime;
 
         public DateTime ToTime
         {
-            get => this.toTime;
+            get => _toTime;
             set
             {
-                this.toTime = value;
+                _toTime = value;
             }
         }
 
-        private DateTime remindTime;
+        private DateTime _remindTime;
 
         public DateTime RemindTime
         {
-            get => this.remindTime;
+            get => _remindTime;
             set
             {
-                this.remindTime = value;
+                _remindTime = value;
             }
         }
 
         private void Add()
         {
-            this.eventService.CreateEventAsync(new EventDto()
+            _eventService.CreateEventAsync(new EventDto
             {
-                Name = this.Name,
-                Description = this.Description,
-                From = this.FromTime.TimeOfDay,
-                To = this.ToTime.TimeOfDay,
-                RemindTime = this.RemindTime.TimeOfDay,
+                Name = Name,
+                Description = Description,
+                From = FromTime.TimeOfDay,
+                To = ToTime.TimeOfDay,
+                RemindTime = RemindTime.TimeOfDay,
                 UserId = (int)AppConfig.UserId,
             });
-            EventAdded.Invoke();
-            this._notificationService.ShowNotification($"Event {Name} is successfully added!", NotificationType.Information, "Information");
-            loggerService.LogInfo($"A new event {Name} was added");
-            this.window.Close();
+            EventAdded?.Invoke();
+            _notificationService.ShowNotification($"Event {Name} is successfully added!", NotificationType.Information, "Information");
+            _loggerService.LogInfo($"A new event {Name} was added");
+            _window.Close();
         }
 
         private void Cancel()
         {
-            this.window.Close();
+            _window.Close();
         }
     }
 }

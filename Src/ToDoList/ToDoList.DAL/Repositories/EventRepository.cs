@@ -48,6 +48,10 @@ namespace ToDoList.DAL.Repositories
         public void Update(Event item)
         {
             var eventToUpdate = _db.Events.SingleOrDefault(e => e.Id == item.Id);
+            if (eventToUpdate == null)
+            {
+                return;
+            }
             eventToUpdate.UserId = item.UserId;
             eventToUpdate.User = item.User;
             eventToUpdate.Description = item.Description;

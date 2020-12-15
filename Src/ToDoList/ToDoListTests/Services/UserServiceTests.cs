@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
-using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
@@ -17,14 +11,14 @@ namespace ToDoListTests.Services
     {
         private UserService _userService;
         private static Mock<IUnitOfWork> _repository;
-        private static Mock<ICryptService> cryptServiceMock;
+        private static Mock<ICryptService> _cryptServiceMock;
         [SetUp]
         public void Setup()
         {
             _repository = new Mock<IUnitOfWork>();
-            cryptServiceMock = new Mock<ICryptService>();
+            _cryptServiceMock = new Mock<ICryptService>();
             _repository.Setup(rep => rep.Save());
-            _userService = new UserService(_repository.Object, cryptServiceMock.Object);
+            _userService = new UserService(_repository.Object, _cryptServiceMock.Object);
         }
 
         [TestCase("user1", "user1","pas1","pas2")]
@@ -56,12 +50,12 @@ namespace ToDoListTests.Services
         {
             _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns((User)null);
             _repository.Setup(rep => rep.Users.Create(It.IsAny<User>()));
-            cryptServiceMock.Setup(s => s.Encrypt(It.IsAny<string>())).Returns(password);
+            _cryptServiceMock.Setup(s => s.Encrypt(It.IsAny<string>())).Returns(password);
 
            var result = _userService.CreateUser(fullName, userName, password, repeatedPassword);
 
             _repository.Verify();
-            cryptServiceMock.Verify();
+            _cryptServiceMock.Verify();
             Assert.AreEqual(result,Errors.Success);
             
         }
@@ -71,12 +65,12 @@ namespace ToDoListTests.Services
         [TestCase("user3", "pas1")]
         public void LoginUser_DifferentPasswordsException_Test(string userName, string password)
         {
-            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User(){Password = password });
-            cryptServiceMock.Setup(s => s.Decrypt(It.IsAny<string>())).Returns(password+1);
+            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User {Password = password });
+            _cryptServiceMock.Setup(s => s.Decrypt(It.IsAny<string>())).Returns(password+1);
 
             var result = _userService.LoginUser(userName, password);
 
-            cryptServiceMock.Verify();
+            _cryptServiceMock.Verify();
             Assert.AreEqual(result, Errors.Authentification);
         }
 
@@ -97,8 +91,8 @@ namespace ToDoListTests.Services
         [TestCase("user3", "pas1")]
         public void LoginUser_Successful_Test(string userName, string password)
         {
-            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User() { Password = password });
-            cryptServiceMock.Setup(s => s.Decrypt(It.IsAny<string>())).Returns(password);
+            _repository.Setup(rep => rep.Users.Get(It.IsAny<string>())).Returns(new User { Password = password });
+            _cryptServiceMock.Setup(s => s.Decrypt(It.IsAny<string>())).Returns(password);
 
             var result = _userService.LoginUser(userName, password);
 

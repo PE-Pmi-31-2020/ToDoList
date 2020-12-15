@@ -7,22 +7,19 @@ using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.Annotations;
 using ToDoList.BLL;
-using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
 using ToDoList.DAL.Entities;
 using ToDoList.Views;
-using Task = ToDoList.DAL.Entities.Task;
 
 namespace ToDoList.ViewModels
 {
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly INotificationService notificationService;
-        private readonly IUserService userService;
-        private readonly ITaskService taskService;
-        private readonly IEventService eventService;
-        private readonly LoggerService loggerService;
+        private readonly INotificationService _notificationService;
+        private readonly ITaskService _taskService;
+        private readonly IEventService _eventService;
+        private readonly LoggerService _loggerService;
 
         public RelayCommand AddEventCommand { get; private set; }
 
@@ -32,57 +29,57 @@ namespace ToDoList.ViewModels
 
         public RelayCommand RemoveEventCommand { get; private set; }
 
-        private string userFullName;
+        private string _userFullName;
 
         public string UserFullName
         {
-            get => userFullName;
+            get => _userFullName;
             set
             {
-                if (!value.Equals(this.userFullName))
+                if (!value.Equals(_userFullName))
                 {
-                    this.userFullName = value;
-                    this.OnPropertyChanged(nameof(UserFullName));
+                    _userFullName = value;
+                    OnPropertyChanged(nameof(UserFullName));
                 }
             }
         }
 
-        private string userName;
+        private string _userName;
 
         public string UserName
         {
-            get => userName;
+            get => _userName;
             set
             {
-                if (!value.Equals(this.userName))
+                if (!value.Equals(_userName))
                 {
-                    this.userName = value;
-                    this.OnPropertyChanged(nameof(UserName));
+                    _userName = value;
+                    OnPropertyChanged(nameof(UserName));
                 }
             }
         }
 
-        private Event selectedEvent;
+        private Event _selectedEvent;
 
         public Event SelectedEvent
         {
-            get => selectedEvent;
+            get => _selectedEvent;
             set
             {
-                this.selectedEvent = value;
-                this.OnPropertyChanged(nameof(SelectedEvent));
+                _selectedEvent = value;
+                OnPropertyChanged(nameof(SelectedEvent));
             }
         }
 
-        private Task selectedTask;
+        private Task _selectedTask;
 
         public Task SelectedTask
         {
-            get => selectedTask;
+            get => _selectedTask;
             set
             {
-                this.selectedTask = value;
-                this.OnPropertyChanged(nameof(SelectedTask));
+                _selectedTask = value;
+                OnPropertyChanged(nameof(SelectedTask));
             }
         }
 
@@ -92,22 +89,22 @@ namespace ToDoList.ViewModels
 
         public MainWindowViewModel()
         {
-            this.notificationService = new NotificationService();
-            this.notificationService.RunNotificationKernel();
-            this.userService = new UserService();
-            this.taskService = new TaskService();
-            this.eventService = new EventService();
-            this.loggerService = new LoggerService();
+            _notificationService = new NotificationService();
+            _notificationService.RunNotificationKernel();
+            IUserService userService = new UserService();
+            _taskService = new TaskService();
+            _eventService = new EventService();
+            _loggerService = new LoggerService();
 
-            this.AddEventCommand = new RelayCommand(this.ShowAddEvent);
-            this.AddTaskCommand = new RelayCommand(this.ShowAddTask);
-            this.LogoutCommand = new RelayCommand(this.Logout);
-            this.RemoveEventCommand = new RelayCommand(this.RemoveEvent);
+            AddEventCommand = new RelayCommand(ShowAddEvent);
+            AddTaskCommand = new RelayCommand(ShowAddTask);
+            LogoutCommand = new RelayCommand(Logout);
+            RemoveEventCommand = new RelayCommand(RemoveEvent);
 
-            this.userFullName = this.userService.GetUserFullNameById(AppConfig.UserId);
-            this.userName = this.userService.GetUserFullNameById(AppConfig.UserId);
-            this.Events = new ObservableCollection<Event>(this.eventService.GetEventsByUserId(AppConfig.UserId));
-            this.Tasks = new ObservableCollection<Task>(this.taskService.GetTasksByUserId(AppConfig.UserId));
+            _userFullName = userService.GetUserFullNameById(AppConfig.UserId);
+            _userName = userService.GetUserFullNameById(AppConfig.UserId);
+            Events = new ObservableCollection<Event>(_eventService.GetEventsByUserId(AppConfig.UserId));
+            Tasks = new ObservableCollection<Task>(_taskService.GetTasksByUserId(AppConfig.UserId));
         }
 
         public void EditTask()
@@ -143,11 +140,11 @@ namespace ToDoList.ViewModels
             var addEventWindow = new AddEvent();
             ((AddEventViewModel)addEventWindow.DataContext).EventAdded += () =>
             {
-                foreach (var el in this.eventService.GetEventsByUserId(AppConfig.UserId))
+                foreach (var el in _eventService.GetEventsByUserId(AppConfig.UserId))
                 {
-                    if (!this.Events.Select(e => e.Id).Contains(el.Id))
+                    if (!Events.Select(e => e.Id).Contains(el.Id))
                     {
-                        this.Events.Add(el);
+                        Events.Add(el);
                     }
                 }
             };
@@ -159,11 +156,11 @@ namespace ToDoList.ViewModels
             var addTaskWindow = new AddTask();
             ((AddTaskViewModel)addTaskWindow.DataContext).TaskAdded += () =>
             {
-                foreach (var el in this.taskService.GetTasksByUserId(AppConfig.UserId))
+                foreach (var el in _taskService.GetTasksByUserId(AppConfig.UserId))
                 {
-                    if (!this.Tasks.Select(t => t.Id).Contains(el.Id))
+                    if (!Tasks.Select(t => t.Id).Contains(el.Id))
                     {
-                        this.Tasks.Add(el);
+                        Tasks.Add(el);
                     }
                 }
             };
@@ -177,13 +174,13 @@ namespace ToDoList.ViewModels
             Application.Current.MainWindow?.Close();
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
-            notificationService.ShowNotification("You are logged out", NotificationType.Success, "Success");
-            loggerService.LogInfo($"{this.UserName} logged out");
+            _notificationService.ShowNotification("You are logged out", NotificationType.Success, "Success");
+            _loggerService.LogInfo($"{UserName} logged out");
         }
 
         private void RemoveEvent()
         {
-            eventService.DeleteEventAsync(SelectedEvent.Id);
+            _eventService.DeleteEventAsync(SelectedEvent.Id);
             Events.Remove(SelectedEvent);
         }
 

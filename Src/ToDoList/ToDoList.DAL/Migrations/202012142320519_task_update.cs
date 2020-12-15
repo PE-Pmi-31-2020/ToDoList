@@ -1,9 +1,8 @@
-﻿namespace ToDoList.DAL.Migrations
+﻿using System.Data.Entity.Migrations;
+
+namespace ToDoList.DAL.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
-    public partial class task_update : DbMigration
+    public partial class TaskUpdate : DbMigration
     {
         public override void Up()
         {

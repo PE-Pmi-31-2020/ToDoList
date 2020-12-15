@@ -48,6 +48,10 @@ namespace ToDoList.DAL.Repositories
         public void Update(Task item)
         {
             var taskToUpdate = _db.Tasks.SingleOrDefault(t => t.Id == item.Id);
+            if (taskToUpdate == null)
+            {
+                return;
+            }
             taskToUpdate.Deadline = item.Deadline;
             taskToUpdate.UserId = item.UserId;
             taskToUpdate.User = item.User;

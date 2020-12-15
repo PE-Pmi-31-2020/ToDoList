@@ -10,22 +10,22 @@ namespace ToDoList.Views
     /// <summary>
     /// Interaction logic for SignUpWindow.xaml.
     /// </summary>
-    public partial class SignUpWindow : Window
+    public partial class SignUpWindow
     {
         public SignUpWindow()
         {
-            this.InitializeComponent();
-            this.DataContext = new SignUpViewModel();
+            InitializeComponent();
+            DataContext = new SignUpViewModel();
         }
 
         private void CreatePasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((SignUpViewModel) this.DataContext).Password = ((PasswordBox) sender).Password;
+            ((SignUpViewModel) DataContext).Password = ((PasswordBox) sender).Password;
         }
 
         private void RepeatPasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((SignUpViewModel)this.DataContext).RepeatedPassword = ((PasswordBox)sender).Password;
+            ((SignUpViewModel)DataContext).RepeatedPassword = ((PasswordBox)sender).Password;
         }
 
         private void OnWindowClose(object sender, EventArgs e)

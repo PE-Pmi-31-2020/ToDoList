@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,17 +10,17 @@ namespace ToDoList.Views
     /// <summary>
     /// Interaction logic for SignInWindow.xaml.
     /// </summary>
-    public partial class SignInWindow : Window
+    public partial class SignInWindow
     {
         public SignInWindow()
         {
-            this.InitializeComponent();
-            this.DataContext = new SignInViewModel();
+            InitializeComponent();
+            DataContext = new SignInViewModel();
         }
 
         private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((SignInViewModel) this.DataContext).Password = ((PasswordBox) sender).Password;
+            ((SignInViewModel) DataContext).Password = ((PasswordBox) sender).Password;
         }
 
         private void OnWindowClose(object sender, EventArgs e)

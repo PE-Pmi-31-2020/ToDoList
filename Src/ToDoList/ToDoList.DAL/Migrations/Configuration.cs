@@ -1,18 +1,16 @@
-﻿namespace ToDoList.DAL.Migrations
-{
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+﻿using System.Data.Entity.Migrations;
+using ToDoList.DAL.EF;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ToDoList.DAL.EF.DataBase>
+namespace ToDoList.DAL.Migrations
+{
+    internal sealed class Configuration : DbMigrationsConfiguration<DataBase>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(ToDoList.DAL.EF.DataBase context)
+        protected override void Seed(DataBase context)
         {
             //  This method will be called after migrating to the latest version.
 

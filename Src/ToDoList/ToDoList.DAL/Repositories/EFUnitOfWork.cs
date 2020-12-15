@@ -5,22 +5,22 @@ using ToDoList.DAL.Interfaces;
 
 namespace ToDoList.DAL.Repositories
 {
-    public class EFUnitOfWork : IUnitOfWork
+    public class EfUnitOfWork : IUnitOfWork
     {
         private readonly DataBase _db;
         private TaskRepository _taskRepository;
         private UserRepository _userRepository;
         private EventRepository _eventRepository;
-        public EFUnitOfWork()
+        public EfUnitOfWork()
         {
             _db = new DataBase();
         }
 
-        public IRepository<Task, int> Tasks => (IRepository<Task, int>)(_taskRepository ?? (_taskRepository = new TaskRepository(_db)));
+        public IRepository<Task, int> Tasks => _taskRepository ?? (_taskRepository = new TaskRepository(_db));
 
-        public IRepository<User,string> Users => (IRepository<User, string>)(_userRepository ?? (_userRepository = new UserRepository(_db)));
+        public IRepository<User,string> Users => _userRepository ?? (_userRepository = new UserRepository(_db));
 
-        public IRepository<Event,int> Events => (IRepository<Event, int>)(_eventRepository ?? (_eventRepository = new EventRepository(_db)));
+        public IRepository<Event,int> Events => _eventRepository ?? (_eventRepository = new EventRepository(_db));
 
         public void Save()
         {
@@ -34,13 +34,13 @@ namespace ToDoList.DAL.Repositories
 
         public virtual void Dispose(bool disposing)
         {
-            if (this._disposed) return;
+            if (_disposed) return;
 
             if (disposing)
             {
                 _db.Dispose();
             }
-            this._disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

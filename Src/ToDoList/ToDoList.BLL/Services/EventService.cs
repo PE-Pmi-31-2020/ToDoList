@@ -5,6 +5,7 @@ using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
+using Task = System.Threading.Tasks.Task;
 
 namespace ToDoList.BLL.Services
 {
@@ -14,16 +15,16 @@ namespace ToDoList.BLL.Services
 
         public EventService()
         {
-            _database = new EFUnitOfWork();
+            _database = new EfUnitOfWork();
         }
-        public EventService(IUnitOfWork _repository)
+        public EventService(IUnitOfWork repository)
         {
-            _database = _repository;
+            _database = repository;
         }
 
-        public async System.Threading.Tasks.Task CreateEventAsync(EventDto eventt)
+        public async Task CreateEventAsync(EventDto eventt)
         {
-            _database.Events.Create(new Event()
+            _database.Events.Create(new Event
             {
                 Description = eventt.Description,
                 Id = eventt.Id,
@@ -36,9 +37,9 @@ namespace ToDoList.BLL.Services
             await _database.SaveAsync();
         }
 
-        public async System.Threading.Tasks.Task EditEventAsync(EventDto eventt)
+        public async Task EditEventAsync(EventDto eventt)
         {
-            _database.Events.Update(new Event()
+            _database.Events.Update(new Event
             {
                 Description = eventt.Description,
                 Id = eventt.Id,
@@ -50,13 +51,13 @@ namespace ToDoList.BLL.Services
             });
             await _database.SaveAsync();
         }
-        public async System.Threading.Tasks.Task DeleteEventAsync(EventDto eventt)
+        public async Task DeleteEventAsync(EventDto eventt)
         {
             _database.Events.Delete(eventt.Id);
             await _database.SaveAsync();
         }
 
-        public async System.Threading.Tasks.Task DeleteEventAsync(int id)
+        public async Task DeleteEventAsync(int id)
         {
             _database.Events.Delete(id);
             await _database.SaveAsync();

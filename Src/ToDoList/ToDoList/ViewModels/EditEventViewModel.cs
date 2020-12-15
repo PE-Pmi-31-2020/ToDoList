@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
 using ToDoList.Annotations;
-using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
@@ -19,13 +14,13 @@ namespace ToDoList.ViewModels
 {
     class EditEventViewModel: INotifyPropertyChanged
     {
-        private readonly IEventService eventService;
+        private readonly IEventService _eventService;
 
         public event EventHandler<Event> EventUpdated;
 
         private readonly INotificationService _notificationService;
 
-        private readonly LoggerService loggerService;
+        private readonly LoggerService _loggerService;
 
         public RelayCommand SaveCommand { get; private set; }
 
@@ -33,12 +28,12 @@ namespace ToDoList.ViewModels
 
         public EditEventViewModel(Window window, Event event1)
         {
-            this.window = window;
-            this.SaveCommand = new RelayCommand(this.Save);
-            this.CancelCommand = new RelayCommand(this.Cancel);
-            this.eventService = new EventService();
-            this._notificationService = new NotificationService();
-            loggerService = new LoggerService();
+            this._window = window;
+            SaveCommand = new RelayCommand(Save);
+            CancelCommand = new RelayCommand(Cancel);
+            _eventService = new EventService();
+            _notificationService = new NotificationService();
+            _loggerService = new LoggerService();
 
             Event = event1;
             Name = Event.Name;
@@ -50,99 +45,99 @@ namespace ToDoList.ViewModels
 
         private Event Event { get; set; }
 
-        private Window window;
+        private Window _window;
 
-        private string name;
+        private string _name;
 
         public string Name
         {
-            get => this.name;
+            get => _name;
             set
             {
-                if (!string.Equals(this.name, value))
+                if (!string.Equals(_name, value))
                 {
-                    this.name = value;
-                    this.Event.Name = value;
-                    this.OnPropertyChanged(nameof(Name));
+                    _name = value;
+                    Event.Name = value;
+                    OnPropertyChanged(nameof(Name));
                 }
             }
         }
 
-        private string description;
+        private string _description;
 
         public string Description
         {
-            get => this.description;
+            get => _description;
             set
             {
-                if (!string.Equals(this.description, value))
+                if (!string.Equals(_description, value))
                 {
-                    this.description = value;
-                    this.Event.Description = value;
-                    this.OnPropertyChanged(nameof(Description));
+                    _description = value;
+                    Event.Description = value;
+                    OnPropertyChanged(nameof(Description));
                 }
             }
         }
 
-        private DateTime fromTime;
+        private DateTime _fromTime;
 
         public DateTime FromTime
         {
-            get => this.fromTime;
+            get => _fromTime;
             set
             {
-                this.fromTime = value;
-                this.Event.From = value.TimeOfDay;
-                this.OnPropertyChanged(nameof(FromTime));
+                _fromTime = value;
+                Event.From = value.TimeOfDay;
+                OnPropertyChanged(nameof(FromTime));
             }
         }
 
-        private DateTime toTime;
+        private DateTime _toTime;
 
         public DateTime ToTime
         {
-            get => this.toTime;
+            get => _toTime;
             set
             {
-                this.toTime = value;
-                this.Event.To = value.TimeOfDay;
-                this.OnPropertyChanged(nameof(ToTime));
+                _toTime = value;
+                Event.To = value.TimeOfDay;
+                OnPropertyChanged(nameof(ToTime));
             }
         }
 
-        private DateTime remindTime;
+        private DateTime _remindTime;
 
         public DateTime RemindTime
         {
-            get => this.remindTime;
+            get => _remindTime;
             set
             {
-                this.remindTime = value;
-                this.Event.RemindTime = value.TimeOfDay;
-                this.OnPropertyChanged(nameof(RemindTime));
+                _remindTime = value;
+                Event.RemindTime = value.TimeOfDay;
+                OnPropertyChanged(nameof(RemindTime));
             }
         }
 
         private void Save()
         {
-            this.eventService.EditEventAsync(new EventDto()
+            _eventService.EditEventAsync(new EventDto
             {
-                Description = this.Event.Description,
-                From = this.Event.From,
-                Id = this.Event.Id,
-                To = this.Event.To,
-                Name = this.Event.Name,
-                RemindTime = this.Event.RemindTime
+                Description = Event.Description,
+                From = Event.From,
+                Id = Event.Id,
+                To = Event.To,
+                Name = Event.Name,
+                RemindTime = Event.RemindTime
             });
-            EventUpdated.Invoke(this, Event);
-            this._notificationService.ShowNotification($"Event {Name} is successfully updated!", NotificationType.Information, "Information");
-            loggerService.LogInfo($"A new event {Name} was updated");
-            this.window.Close();
+            EventUpdated?.Invoke(this, Event);
+            _notificationService.ShowNotification($"Event {Name} is successfully updated!", NotificationType.Information, "Information");
+            _loggerService.LogInfo($"A new event {Name} was updated");
+            _window.Close();
         }
 
         private void Cancel()
         {
-            this.window.Close();
+            _window.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

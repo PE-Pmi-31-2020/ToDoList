@@ -11,16 +11,16 @@ namespace ToDoList.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
-            this.InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
-            DispatcherTimer LiveTime = new DispatcherTimer();
-            LiveTime.Interval = TimeSpan.FromSeconds(1);
-            LiveTime.Tick += timer_Tick;
-            LiveTime.Start();
+            InitializeComponent();
+            DataContext = new MainWindowViewModel();
+            DispatcherTimer liveTime = new DispatcherTimer();
+            liveTime.Interval = TimeSpan.FromSeconds(1);
+            liveTime.Tick += timer_Tick;
+            liveTime.Start();
         }
 
         void timer_Tick(object sender, EventArgs e)

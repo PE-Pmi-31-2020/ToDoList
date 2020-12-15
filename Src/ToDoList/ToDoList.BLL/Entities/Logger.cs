@@ -5,12 +5,12 @@ namespace ToDoList.BLL.Entities
 {
     public static class Logger
     {
-        private static ILog log = LogManager.GetLogger("LOGGER");
+        private static ILog _log = LogManager.GetLogger("LOGGER");
 
 
         public static ILog Log
         {
-            get { return log; }
+            get { return _log; }
         }
 
         public static void InitLogger()

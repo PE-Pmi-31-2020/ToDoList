@@ -1,9 +1,6 @@
-﻿using Moq;
+﻿using System.Diagnostics;
 using NUnit.Framework;
-using System.Diagnostics;
 using ToDoList.BLL.Services;
-using ToDoList.DAL.Entities;
-using ToDoList.DAL.Interfaces;
 
 namespace ToDoListTests.Services
 {

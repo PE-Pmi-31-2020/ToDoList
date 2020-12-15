@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using Notifications.Wpf;
@@ -8,13 +7,12 @@ using ToDoList.BLL;
 using ToDoList.BLL.DTO;
 using ToDoList.BLL.Interfaces;
 using ToDoList.BLL.Services;
-using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
     internal class AddTaskViewModel : INotifyPropertyChanged
     {
-        private readonly ITaskService taskService;
+        private readonly ITaskService _taskService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -22,7 +20,7 @@ namespace ToDoList.ViewModels
 
         private readonly INotificationService _notificationService;
 
-        private readonly LoggerService loggerService;
+        private readonly LoggerService _loggerService;
 
 
         public RelayCommand AddCommand { get; private set; }
@@ -31,58 +29,58 @@ namespace ToDoList.ViewModels
 
         public AddTaskViewModel(Window window)
         {
-            this.AddCommand = new RelayCommand(this.Add);
-            this.CancelCommand = new RelayCommand(this.Cancel);
-            this.taskService = new TaskService();
-            this.window = window;
+            AddCommand = new RelayCommand(Add);
+            CancelCommand = new RelayCommand(Cancel);
+            _taskService = new TaskService();
+            this._window = window;
             _notificationService = new NotificationService();
-            loggerService = new LoggerService();
+            _loggerService = new LoggerService();
         }
 
-        private Window window;
+        private Window _window;
 
-        private string name;
+        private string _name;
 
         public string Name
         {
-            get => this.name;
+            get => _name;
             set
             {
-                if (!string.Equals(this.name, value))
+                if (!string.Equals(_name, value))
                 {
-                    this.name = value;
+                    _name = value;
                 }
             }
         }
 
-        private DateTime deadline;
+        private DateTime _deadline;
 
         public DateTime Deadline
         {
-            get => this.deadline;
+            get => _deadline;
             set
             {
-                this.deadline = value;
+                _deadline = value;
             }
         }
 
         private void Add()
         {
-            this.taskService.CreateTaskAsync(new TaskDto()
+            _taskService.CreateTaskAsync(new TaskDto
             {
-                Name = this.Name,
-                Deadline = this.Deadline.TimeOfDay,
+                Name = Name,
+                Deadline = Deadline.TimeOfDay,
                 UserId = (int)AppConfig.UserId,
             });
-            TaskAdded.Invoke();
-            this._notificationService.ShowNotification($"Task {Name} is successfully added!", NotificationType.Information, "Information");
-            loggerService.LogInfo($"A new task {Name} was added");
-            this.window.Close();
+            TaskAdded?.Invoke();
+            _notificationService.ShowNotification($"Task {Name} is successfully added!", NotificationType.Information, "Information");
+            _loggerService.LogInfo($"A new task {Name} was added");
+            _window.Close();
         }
 
         private void Cancel()
         {
-            this.window.Close();
+            _window.Close();
         }
     }
 }

@@ -9,12 +9,12 @@ namespace ToDoList.Views
     /// <summary>
     /// Interaction logic for StartWindow.xaml.
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class StartWindow
     {
         public StartWindow()
         {
-            this.InitializeComponent();
-            this.DataContext = new StartViewModel();
+            InitializeComponent();
+            DataContext = new StartViewModel();
         }
 
         private void OnWindowClose(object sender, EventArgs e)

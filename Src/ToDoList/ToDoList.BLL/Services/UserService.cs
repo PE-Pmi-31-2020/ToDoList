@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using ToDoList.BLL.Interfaces;
+﻿using ToDoList.BLL.Interfaces;
 using ToDoList.DAL.Entities;
 using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
@@ -11,19 +7,19 @@ namespace ToDoList.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUnitOfWork database;
-        private readonly ICryptService cryptService;
+        private readonly IUnitOfWork _database;
+        private readonly ICryptService _cryptService;
 
         public UserService()
         {
-            database = new EFUnitOfWork();
-            cryptService = new CryptService();
+            _database = new EfUnitOfWork();
+            _cryptService = new CryptService();
         }
 
         public UserService(IUnitOfWork repository, ICryptService cryptService)
         {
-            database = repository;
-            this.cryptService = cryptService;
+            _database = repository;
+            this._cryptService = cryptService;
         }
 
         public Errors CreateUser(string fullName, string userName, string password, string repeatedPassword)
@@ -32,15 +28,15 @@ namespace ToDoList.BLL.Services
             {
                 return Errors.Password;
             }
-            var existingUser = database.Users.Get(userName);
+            var existingUser = _database.Users.Get(userName);
             if (existingUser != null)
             {
                 return Errors.UserExists;
             }
 
-            var user = new User { Password = cryptService.Encrypt(password), UserName = userName, FullName = fullName };
-            database.Users.Create(user);
-            database.Save();
+            var user = new User { Password = _cryptService.Encrypt(password), UserName = userName, FullName = fullName };
+            _database.Users.Create(user);
+            _database.Save();
             AppConfig.UserId = user.Id;
 
             return Errors.Success;
@@ -49,12 +45,12 @@ namespace ToDoList.BLL.Services
 
         public Errors LoginUser(string userName, string password)
         {
-            var user = database.Users.Get(userName);
+            var user = _database.Users.Get(userName);
             if (user == null)
             {
                 return Errors.Authentification;
             }
-            var decryptedPassword = cryptService.Decrypt(user.Password);
+            var decryptedPassword = _cryptService.Decrypt(user.Password);
             if (!decryptedPassword.Equals(password))
             {
                 return Errors.Authentification;
@@ -65,12 +61,12 @@ namespace ToDoList.BLL.Services
 
         public string GetUserFullNameById(int? id)
         {
-            return id == null ? string.Empty : ((UserRepository)database.Users).Get((int)id).FullName;
+            return id == null ? string.Empty : ((UserRepository)_database.Users).Get((int)id).FullName;
         }
 
         public string GetUserNameById(int? id)
         {
-            return id == null ? string.Empty : ((UserRepository)database.Users).Get((int)id).UserName;
+            return id == null ? string.Empty : ((UserRepository)_database.Users).Get((int)id).UserName;
         }
     }
 }
