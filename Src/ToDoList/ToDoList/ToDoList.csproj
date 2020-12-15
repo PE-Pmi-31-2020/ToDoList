@@ -127,6 +127,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EditTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +154,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\AddEventViewModel.cs" />
     <Compile Include="ViewModels\AddTaskViewModel.cs" />
+    <Compile Include="ViewModels\EditTaskViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
@@ -159,6 +164,9 @@
     </Compile>
     <Compile Include="Views\AddTask.xaml.cs">
       <DependentUpon>AddTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditTask.xaml.cs">
+      <DependentUpon>EditTask.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

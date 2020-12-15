@@ -53,5 +53,10 @@ namespace ToDoList.BLL.Services
         {
             return id == null ? null : _database.Tasks.GetAll().Where(t => t.UserId == id);
         }
+
+        public Task GetTaskById(int? id)
+        {
+            return id == null ? null : _database.Tasks.Get((int)id);
+        }
     }
 }

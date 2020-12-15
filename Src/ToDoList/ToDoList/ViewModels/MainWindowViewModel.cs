@@ -74,6 +74,18 @@ namespace ToDoList.ViewModels
             }
         }
 
+        private Task selectedTask;
+
+        public Task SelectedTask
+        {
+            get => selectedTask;
+            set
+            {
+                this.selectedTask = value;
+                this.OnPropertyChanged(nameof(SelectedTask));
+            }
+        }
+
         public ObservableCollection<Task> Tasks { get; set; }
 
         public ObservableCollection<Event> Events { get; set; }
@@ -96,6 +108,20 @@ namespace ToDoList.ViewModels
             this.userName = this.userService.GetUserFullNameById(AppConfig.UserId);
             this.Events = new ObservableCollection<Event>(this.eventService.GetEventsByUserId(AppConfig.UserId));
             this.Tasks = new ObservableCollection<Task>(this.taskService.GetTasksByUserId(AppConfig.UserId));
+        }
+
+        public void EditTask()
+        {
+            var editTaskwindow = new EditTask();
+            var viewModel = new EditTaskViewModel(editTaskwindow, SelectedTask);
+            viewModel.TaskUpdated += (sender, x) =>
+            {
+                var taskToUpdate = Tasks.Where(t => t.Id == x.Id).FirstOrDefault();
+                Tasks.Remove(taskToUpdate);
+                Tasks.Add(x);
+            };
+            editTaskwindow.DataContext = viewModel;
+            editTaskwindow.ShowDialog();
         }
 
         private void ShowAddEvent()

@@ -10,6 +10,7 @@ namespace ToDoList.BLL.Interfaces
         System.Threading.Tasks.Task EditTaskAsync(TaskDto task);
         System.Threading.Tasks.Task DeleteTaskAsync(TaskDto task);
         IEnumerable<Task> GetTasksByUserId(int? id);
+        Task GetTaskById(int? id);
     }
 }
 

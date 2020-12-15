@@ -42,7 +42,9 @@
                 materialDesign:ThemeAssist.Theme="Dark"
                 AutoGenerateColumns="False"
                 IsReadOnly="True"
-                ItemsSource="{Binding Tasks}">
+                ItemsSource="{Binding Tasks}"
+                MouseDoubleClick="Control_OnMouseDoubleClick"
+                SelectedItem="{Binding SelectedTask}">
 
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn
@@ -53,6 +55,10 @@
                         Width="*"
                         Binding="{Binding Deadline}"
                         Header="Deadline" />
+                    <DataGridCheckBoxColumn
+                        Width="0.5*"
+                        Binding="{Binding IsDone, Mode=TwoWay}"
+                        IsReadOnly="False" />
                 </DataGrid.Columns>
             </DataGrid>
 

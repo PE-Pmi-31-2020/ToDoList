@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Notifications.Wpf;
 using ToDoList.ViewModels;
@@ -35,5 +36,10 @@ namespace ToDoList.Views
             }
         }
 
+        private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((MainWindowViewModel) DataContext).EditTask();
+
+        }
     }
 }
