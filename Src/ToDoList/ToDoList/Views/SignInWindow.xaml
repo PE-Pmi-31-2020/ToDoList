@@ -15,11 +15,13 @@
     Closed="OnWindowClose"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Foreground="White"
+    ResizeMode="NoResize"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="WhiteSmoke"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
+    WindowStyle="None"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
