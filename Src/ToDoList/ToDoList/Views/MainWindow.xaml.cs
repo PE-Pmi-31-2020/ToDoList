@@ -41,5 +41,10 @@ namespace ToDoList.Views
             ((MainWindowViewModel) DataContext).EditTask();
 
         }
+
+        private void Control_OnMouseDoubleClick2(object sender, MouseButtonEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).EditEvent();
+        }
     }
 }

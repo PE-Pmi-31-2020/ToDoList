@@ -84,6 +84,7 @@
                 AutoGenerateColumns="False"
                 IsReadOnly="True"
                 ItemsSource="{Binding Events}"
+                MouseDoubleClick="Control_OnMouseDoubleClick2"
                 SelectedItem="{Binding SelectedEvent, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn

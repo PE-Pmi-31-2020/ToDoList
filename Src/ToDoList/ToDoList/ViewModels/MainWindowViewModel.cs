@@ -124,6 +124,20 @@ namespace ToDoList.ViewModels
             editTaskwindow.ShowDialog();
         }
 
+        public void EditEvent()
+        {
+            var editEventwindow = new EditEvent();
+            var viewModel = new EditEventViewModel(editEventwindow, SelectedEvent);
+            viewModel.EventUpdated += (sender, x) =>
+            {
+                var eventToUpdate = Events.Where(e => e.Id == x.Id).FirstOrDefault();
+                Events.Remove(eventToUpdate);
+                Events.Add(x);
+            };
+            editEventwindow.DataContext = viewModel;
+            editEventwindow.ShowDialog();
+        }
+
         private void ShowAddEvent()
         {
             var addEventWindow = new AddEvent();
