@@ -109,6 +109,10 @@ namespace ToDoList.ViewModels
 
         public void EditTask()
         {
+            if (SelectedTask == null)
+            {
+                return;
+            }
             var editTaskwindow = new EditTask();
             var viewModel = new EditTaskViewModel(editTaskwindow, SelectedTask);
             viewModel.TaskUpdated += (sender, x) =>
@@ -123,6 +127,10 @@ namespace ToDoList.ViewModels
 
         public void EditEvent()
         {
+            if (SelectedEvent == null)
+            {
+                return;
+            }
             var editEventwindow = new EditEvent();
             var viewModel = new EditEventViewModel(editEventwindow, SelectedEvent);
             viewModel.EventUpdated += (sender, x) =>

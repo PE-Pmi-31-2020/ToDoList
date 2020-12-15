@@ -55,7 +55,7 @@ namespace ToDoList.BLL.Services
                                         t.UserId == AppConfig.UserId).ToList();
                     var tasks = _database.Tasks.GetAll()
                         .Where(t => t.Deadline.Minutes == DateTime.Now.TimeOfDay.Minutes &&
-                                    t.Deadline.Hours == DateTime.Now.TimeOfDay.Hours &&
+                                    t.Deadline.Hours == DateTime.Now.TimeOfDay.Hours && !t.IsDone &&
                                     t.UserId == AppConfig.UserId).ToList();
                     foreach (var e in events)
                     {
