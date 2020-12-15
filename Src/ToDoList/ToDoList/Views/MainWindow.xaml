@@ -103,7 +103,7 @@
                         Width="*"
                         Binding="{Binding To}"
                         Header="To" />
-                    <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn Width="0.8*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
@@ -112,7 +112,7 @@
                                     MaxHeight="20"
                                     Command="{Binding ElementName=MWindow, Path=DataContext.RemoveEventCommand}"
                                     Content="X"
-                                    FontSize="8" />
+                                    FontSize="10" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
